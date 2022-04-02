@@ -1,0 +1,25 @@
+spring:
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/fridayboot?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai
+    username: fridayboot
+    password: fridayboot
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  #    dynamic:
+  #      primary: master
+  #      strict: false
+  #      datasource:
+  #        master:
+  #          url: jdbc:mysql://127.0.0.1:3306/fridayboot
+  #          username: fridayboot
+  #          password: fridayboot
+  #          driver-class-name: com.mysql.cj.jdbc.Driver
+  #        slave_1:
+  #          url: jdbc:mysql://127.0.0.1:3306/fridayboot
+  #          username: fridayboot
+  #          password: fridayboot
+  #          driver-class-name: com.mysql.cj.jdbc.Driver
+  #        slave_2:
+  #          url: jdbc:mysql://127.0.0.1:3306/fridayboot
+  #          username: fridayboot
+  #          password: fridayboot
+  #          driver-class-name: com.mysql.cj.jdbc.Driver
