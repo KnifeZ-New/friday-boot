@@ -1,5 +1,6 @@
 package com.knifez.fridayboot.util;
 
+import cn.hutool.http.HttpUtil;
 import com.alibaba.fastjson.JSONObject;
 import com.knifez.fridayboot.model.HttpResult;
 import org.springframework.web.context.request.RequestContextHolder;

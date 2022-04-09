@@ -3,7 +3,6 @@ package com.knifez.fridayboot.security;
 import com.knifez.fridayboot.entity.AppUser;
 import com.knifez.fridayboot.service.IAppUserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

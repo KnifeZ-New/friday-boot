@@ -11,6 +11,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.security.PermitAll;
@@ -22,6 +23,7 @@ import java.io.IOException;
  */
 @Api(tags = "登录")
 @RestController
+@RequestMapping("/api/login")
 @RequiredArgsConstructor
 public class LoginController {
     private final AuthenticationManager authenticationManager;

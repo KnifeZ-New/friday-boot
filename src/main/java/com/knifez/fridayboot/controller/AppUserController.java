@@ -19,7 +19,7 @@ import javax.annotation.security.PermitAll;
  */
 @Api(tags = "用户管理")
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/api/user")
 @RequiredArgsConstructor
 public class AppUserController {
 
