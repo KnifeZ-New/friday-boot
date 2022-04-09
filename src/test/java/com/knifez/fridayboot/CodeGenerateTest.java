@@ -20,7 +20,6 @@ public class CodeGenerateTest {
                 // 全局配置
                 .globalConfig((builder) -> builder.author("KnifeZ")
                         .enableSwagger()
-                        .fileOverride()
                         .outputDir(path + "/src/main/java"))
                 // 包配置
                 .packageConfig((scanner, builder) -> builder.parent("com.knifez.fridayboot"))
