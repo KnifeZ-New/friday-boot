@@ -1,6 +1,6 @@
 package com.knifez.fridayboot.util;
 
-import com.alibaba.fastjson.JSONObject;
+import cn.hutool.json.JSONUtil;
 import com.knifez.fridayboot.model.HttpResult;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -17,6 +17,7 @@ public class HttpUtils {
 
     /**
      * 获取HttpServletRequest对象
+     *
      * @return request
      */
     public static HttpServletRequest getHttpServletRequest() {
@@ -25,14 +26,15 @@ public class HttpUtils {
 
     /**
      * 输出信息到浏览器
+     *
      * @param response response
-     * @param data 参数
+     * @param data     参数
      * @throws IOException exception
      */
     public static void write(HttpServletResponse response, Object data) throws IOException {
         response.setContentType("application/json; charset=utf-8");
         HttpResult result = HttpResult.ok(data);
-        String json = JSONObject.toJSONString(result);
+        String json = JSONUtil.toJsonStr(result);
         response.getWriter().print(json);
         response.getWriter().flush();
         response.getWriter().close();

@@ -1,7 +1,7 @@
 package com.knifez.fridayboot.security;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
+import cn.hutool.json.JSONObject;
+import cn.hutool.json.JSONUtil;
 import com.knifez.fridayboot.util.HttpUtils;
 import com.knifez.fridayboot.util.JwtTokenUtils;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -48,9 +48,10 @@ public class JwtLoginFilter extends UsernamePasswordAuthenticationFilter {
         // 用户名密码的读取逻辑修改为到流中读取request.getInputStream()
 
         String body = getBody(request);
-        JSONObject jsonObject = JSON.parseObject(body);
-        String username = jsonObject.getString("username");
-        String password = jsonObject.getString("password");
+
+        JSONObject jsonObject = JSONUtil.parseObj(body);
+        String username = jsonObject.getStr("username");
+        String password = jsonObject.getStr("password");
 
         if (username == null) {
             username = "";
