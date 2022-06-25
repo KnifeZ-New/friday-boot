@@ -32,12 +32,15 @@ public class HttpResult {
 
     public static HttpResult ok(String msg) {
         HttpResult r = new HttpResult();
+        r.setCode(200);
         r.setMsg(msg);
         return r;
     }
 
     public static HttpResult ok(Object data) {
         HttpResult r = new HttpResult();
+        r.setCode(200);
+        r.setMsg("success");
         r.setData(data);
         return r;
     }
