@@ -1,18 +1,19 @@
 package com.knifez.fridayboot.mapper;
 
-import com.knifez.fridayboot.entity.AppUser;
+import com.knifez.fridayboot.entity.AppUserRole;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
  * <p>
- * 用户表 Mapper 接口
+ *  Mapper 接口
  * </p>
  *
  * @author KnifeZ
- * @since 2022-04-01
+ * @since 2022-07-07
  */
+
 @Mapper
-public interface AppUserMapper extends BaseMapper<AppUser> {
+public interface AppUserRoleMapper extends BaseMapper<AppUserRole> {
 
 }

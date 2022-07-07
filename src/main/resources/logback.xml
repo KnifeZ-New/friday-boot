@@ -6,9 +6,9 @@ debug：当此属性设置为true时，将打印出logback内部日志信息，�
 -->
 <configuration scan="false" scanPeriod="60 seconds" debug="false">
     <!-- 定义日志的根目录 -->
-    <property name="LOG_HOME" value="./log"/>
+    <property name="LOG_HOME" value="./logs"/>
     <!-- 定义日志文件名称 -->
-    <property name="appName" value="friday-boot-logging"/>
+    <property name="appName" value="friday-boot-log"/>
     <!-- ch.qos.logback.core.ConsoleAppender 表示控制台输出 -->
     <appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
         <!--
@@ -21,7 +21,7 @@ debug：当此属性设置为true时，将打印出logback内部日志信息，�
    %n是换行符
         -->
         <layout class="ch.qos.logback.classic.PatternLayout">
-            <pattern>%d{yyyy-MM-dd HH:mm:ss} [%-5level] [%thread] %logger{50} - %msg%n</pattern>
+            <pattern>%d{HH:mm:ss} [%highlight(%-5level)] [%magenta(%thread)] %cyan(%-50logger{50}) : %green(%msg%n)</pattern>
         </layout>
     </appender>
 

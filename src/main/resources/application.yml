@@ -1,13 +1,7 @@
 spring:
-  devtools:
-    restart:
-      enabled: true
   mvc:
     path match:
       matching-strategy: ant_path_matcher
-  security:
-    user:
-      password: user
   profiles:
     active: dev
 server:

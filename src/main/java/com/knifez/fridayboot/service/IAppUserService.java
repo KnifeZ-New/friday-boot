@@ -3,8 +3,6 @@ package com.knifez.fridayboot.service;
 import com.knifez.fridayboot.entity.AppUser;
 import com.baomidou.mybatisplus.extension.service.IService;
 
-import java.util.Set;
-
 /**
  * <p>
  * 用户表 服务类
@@ -20,12 +18,5 @@ public interface IAppUserService extends IService<AppUser> {
      * @param account 账户
      * @return User
      */
-    AppUser getByAccount(String account);
-
-    /**
-     * 查找用户权限
-     * @param username 账户
-     * @return 权限列表
-     */
-    Set<String> findPermissions(String username);
+    AppUser findByAccount(String account);
 }
