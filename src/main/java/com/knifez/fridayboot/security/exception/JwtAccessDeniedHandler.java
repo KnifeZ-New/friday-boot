@@ -14,7 +14,6 @@ public class JwtAccessDeniedHandler implements AccessDeniedHandler {
 
     @Override
     public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException accessDeniedException) throws IOException {
-        accessDeniedException = new AccessDeniedException("Sorry,you do not have enough permissions to access it!");
-        response.sendError(HttpServletResponse.SC_FORBIDDEN, accessDeniedException.getMessage());
+        response.sendError(HttpServletResponse.SC_FORBIDDEN, "Sorry,you do not have enough permissions to access it!");
     }
 }

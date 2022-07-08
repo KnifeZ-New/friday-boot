@@ -2,12 +2,10 @@ package com.knifez.fridayboot.domain.dto;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.knifez.fridayboot.domain.entity.BaseAuditEntity;
-import com.knifez.fridayboot.entity.AppRole;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.List;
 import java.util.Objects;
 
 /**
@@ -36,7 +34,7 @@ public class AppUserResponse extends BaseAuditEntity {
     private Boolean locked;
 
     @ApiModelProperty("角色")
-    private List<AppRole> roles;
+    private String roles;
 
 
     @Override

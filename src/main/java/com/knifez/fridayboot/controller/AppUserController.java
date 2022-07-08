@@ -5,6 +5,8 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.knifez.fridayboot.domain.dto.AppUserResponse;
 import com.knifez.fridayboot.domain.dto.FridayResponse;
+import com.knifez.fridayboot.domain.dto.PagedQueryRequest;
+import com.knifez.fridayboot.domain.dto.PagedResult;
 import com.knifez.fridayboot.entity.AppUser;
 import com.knifez.fridayboot.service.IAppUserService;
 import io.swagger.annotations.Api;
@@ -33,15 +35,14 @@ public class AppUserController {
 
     @ApiOperation("分页列表")
     @PostMapping("paged-list")
-    public FridayResponse<IPage<AppUserResponse>> pagedList(@RequestBody IPage<AppUserResponse> page) {
-        IPage<AppUser> userPage = new Page<>();
-        BeanUtils.copyProperties(page,userPage);
-
+    public FridayResponse<PagedResult<AppUser>> pagedList(@RequestBody PagedQueryRequest<AppUserResponse> queryRequest) {
         QueryWrapper<AppUser> queryWrapper=new QueryWrapper<>();
-        userPage = appUserService.page(userPage,queryWrapper);
-
-        BeanUtils.copyProperties(userPage,page);
-        return FridayResponse.success(page);
+        IPage<AppUser> page =new Page<>();
+        page.setCurrent(queryRequest.getCurrent());
+        page.setSize(queryRequest.getSize());
+        page=appUserService.page(page,queryWrapper);
+        PagedResult<AppUser> result=new PagedResult<>(page);
+        return FridayResponse.success(result);
     }
 
     @ApiOperation("根据账号获取用户")
