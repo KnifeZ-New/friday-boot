@@ -14,12 +14,15 @@ import javax.xml.bind.DatatypeConverter;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * @author zhang
  */
 public class JwtTokenUtils {
+
+    private JwtTokenUtils() {
+        throw new IllegalStateException("Utility class");
+    }
     /**
      * 生成足够的安全随机密钥，以适合符合规范的签名
      */
@@ -40,7 +43,7 @@ public class JwtTokenUtils {
                 .setSubject(username)
                 .setExpiration(expirationDate)
                 .compact();
-        // 添加 token 前缀 "Bearer ";
+
         String token = SecurityConstants.TOKEN_PREFIX + tokenPrefix;
         return new Token(token, expiration, "", 0L);
     }
@@ -61,7 +64,7 @@ public class JwtTokenUtils {
         String role = (String) claims.get(SecurityConstants.ROLE_CLAIMS);
         return Arrays.stream(role.split(","))
                 .map(SimpleGrantedAuthority::new)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     private static Claims getClaims(String token) {

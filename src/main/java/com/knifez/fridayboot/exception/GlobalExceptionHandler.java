@@ -18,8 +18,8 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(value = Exception.class)
     public ResponseEntity<FridayResponse<Void>> exceptionHandler(Exception e) {
         FridayResponse<Void> errorResponse;
-        if (e instanceof ResponseStatusException) {
-            errorResponse=FridayResponse.fail(((ResponseStatusException) e).getRawStatusCode(),((ResponseStatusException) e).getReason());
+        if (e instanceof ResponseStatusException exp) {
+            errorResponse=FridayResponse.fail(exp.getRawStatusCode(),exp.getReason());
         }else {
             errorResponse=FridayResponse.fail(500,e.getLocalizedMessage());
         }

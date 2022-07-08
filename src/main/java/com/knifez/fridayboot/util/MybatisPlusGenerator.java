@@ -16,7 +16,7 @@ public class MybatisPlusGenerator {
         var path = System.getProperty("user.dir");
         Console.log(path);
         FastAutoGenerator.create("jdbc:mysql://127.0.0.1:3306/fridayboot", "fridayboot", "fridayboot")
-                .globalConfig((builder) -> builder.author("KnifeZ")
+                .globalConfig(builder -> builder.author("KnifeZ")
                         .enableSwagger()
                         .outputDir(path + "/src/main/java"))
                 .packageConfig((scanner, builder) -> builder.parent("com.knifez.fridayboot"))

@@ -15,7 +15,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * @author zhang
@@ -39,9 +38,9 @@ public class AuthService {
         List<String> authorities = jwtUser.getAuthorities()
                 .stream()
                 .map(GrantedAuthority::getAuthority)
-                .collect(Collectors.toList());
+                .toList();
         Token token = JwtTokenUtils.createToken(user.getAccount(), user.getId().toString(), authorities, loginRequest.getRememberMe());
-        stringRedisTemplate.opsForValue().set(user.getId().toString(), token.accessToken);
+        stringRedisTemplate.opsForValue().set(user.getId().toString(), token.getAccessToken());
         return token;
     }
 

@@ -4,13 +4,10 @@ import com.knifez.fridayboot.security.common.SecurityConstants;
 import com.knifez.fridayboot.security.exception.JwtAccessDeniedHandler;
 import com.knifez.fridayboot.security.exception.JwtAuthenticationEntryPoint;
 import com.knifez.fridayboot.security.filter.JwtAuthorizationFilter;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.http.HttpMethod;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.Customizer;
-import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -32,17 +29,12 @@ import static java.util.Collections.singletonList;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfiguration {
 
-    @Autowired
-    private AuthenticationConfiguration authenticationConfiguration;
     private final StringRedisTemplate stringRedisTemplate;
 
     public SecurityConfiguration(StringRedisTemplate stringRedisTemplate) {
         this.stringRedisTemplate = stringRedisTemplate;
     }
-    @Bean
-    public AuthenticationManager authenticationManager() throws Exception {
-        return authenticationConfiguration.getAuthenticationManager();
-    }
+
     /**
      * 密码编码器
      */
@@ -50,6 +42,7 @@ public class SecurityConfiguration {
     public BCryptPasswordEncoder bCryptPasswordEncoder() {
         return new BCryptPasswordEncoder();
     }
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.cors(Customizer.withDefaults())
@@ -60,7 +53,7 @@ public class SecurityConfiguration {
                 .antMatchers(SecurityConstants.SYSTEM_WHITELIST).permitAll()
                 .anyRequest().authenticated()
                 .and()
-                .addFilter(new JwtAuthorizationFilter(authenticationManager(), stringRedisTemplate))
+                .addFilter(new JwtAuthorizationFilter(authentication -> authentication, stringRedisTemplate))
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .exceptionHandling().authenticationEntryPoint(new JwtAuthenticationEntryPoint())

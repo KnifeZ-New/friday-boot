@@ -1,33 +1,41 @@
 package com.knifez.fridayboot.security.dto;
 
-import lombok.Data;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * @author zhang
  */
-@Data
+@Getter
+@Setter
 public class Token {
     /**
      * 访问令牌
      */
-    public String accessToken;
+    @ApiModelProperty("访问令牌")
+    private String accessToken;
     /**
-     * token过期时间
+     * 令牌过期时间
      */
-    public Long expires;
+    @ApiModelProperty("令牌过期时间")
+    private Long expires;
     /**
-     * 刷新token
+     * 刷新令牌
      */
-    public String refreshToken;
+    @ApiModelProperty("刷新令牌")
+    private String refreshToken;
     /**
-     * 刷新token时效
+     * 刷新令牌时效
      */
-    public Long refreshTokenExpires;
+    @ApiModelProperty("刷新令牌时效")
+    private Long refreshTokenExpires;
 
     /**
      * 作用域
      */
-    public String scope;
+    @ApiModelProperty("作用域")
+    private String scope;
 
     public Token(String accessToken, Long expires, String refreshToken, Long refreshTokenExpires) {
         this.accessToken = accessToken;

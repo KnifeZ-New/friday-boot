@@ -24,9 +24,9 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 
     private final StringRedisTemplate stringRedisTemplate;
 
-    public JwtAuthorizationFilter(AuthenticationManager authenticationManager, StringRedisTemplate redisTemplate) {
+    public JwtAuthorizationFilter(AuthenticationManager authenticationManager, StringRedisTemplate stringRedisTemplate) {
         super(authenticationManager);
-        stringRedisTemplate = redisTemplate;
+        this.stringRedisTemplate = stringRedisTemplate;
     }
 
     @Override
