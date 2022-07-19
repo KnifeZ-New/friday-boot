@@ -1,5 +1,6 @@
-package com.knifez.fridayboot.security.controller;
+package com.knifez.fridayboot.controller;
 
+import com.knifez.fridayboot.annotation.ApiRestController;
 import com.knifez.fridayboot.domain.dto.FridayResponse;
 import com.knifez.fridayboot.security.dto.LoginRequest;
 import com.knifez.fridayboot.security.dto.Token;
@@ -9,13 +10,12 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 /**
  * @author zhang
  */
 @Api(tags = "认证")
-@RestController
+@ApiRestController
 @RequestMapping("/auth")
 public class AuthController {
     private final AuthService authService;

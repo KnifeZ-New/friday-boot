@@ -3,6 +3,7 @@ package com.knifez.fridayboot.controller;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.knifez.fridayboot.annotation.ApiRestController;
 import com.knifez.fridayboot.domain.dto.AppUserResponse;
 import com.knifez.fridayboot.domain.dto.FridayResponse;
 import com.knifez.fridayboot.domain.dto.PagedQueryRequest;
@@ -23,8 +24,8 @@ import org.springframework.web.bind.annotation.*;
  * @since 2022-04-01
  */
 @Api(tags = "用户管理")
-@RestController
-@RequestMapping("/api/user")
+@ApiRestController
+@RequestMapping("/user")
 public class AppUserController {
     private final IAppUserService appUserService;
 

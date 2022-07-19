@@ -1,8 +1,8 @@
 package com.knifez.fridayboot.controller;
 
+import com.knifez.fridayboot.annotation.ApiRestController;
 import io.swagger.annotations.Api;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 /**
  * <p>
@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RestController;
  * @since 2022-07-06
  */
 @Api(tags = "角色管理")
-@RestController
-@RequestMapping("/api/role")
+@ApiRestController
+@RequestMapping("/role")
 public class AppRoleController {
 
 }

@@ -1462,3 +1462,85 @@ java.lang.IllegalArgumentException: A granted authority textual representation i
                 HikariPool-1 - Starting...
 2022-07-08 11:23:58 [ INFO  ] [ http-nio-5051-exec-1 ] [ com.zaxxer.hikari.HikariDataSource : 123 ] -
                 HikariPool-1 - Start completed.
+2022-07-19 18:22:28 [ INFO  ] [ main ] [ com.knifez.fridayboot.FridayBootApplicationTests : 55 ] -
+                Starting FridayBootApplicationTests using Java 17.0.3 on archlinux with PID 82309 (started by zhang in /home/zhang/IdeaProjects/fridayboot)
+2022-07-19 18:22:28 [ INFO  ] [ main ] [ com.knifez.fridayboot.FridayBootApplicationTests : 640 ] -
+                The following 1 profile is active: "dev"
+2022-07-19 18:22:31 [ INFO  ] [ main ] [ com.knifez.fridayboot.FridayBootApplicationTests : 61 ] -
+                Started FridayBootApplicationTests in 3.005 seconds (JVM running for 3.673)
+2022-07-19 18:22:31 [ INFO  ] [ main ] [ com.knifez.fridayboot.FridayBootApplicationTests : 15 ] -
+                Junit5 test is ok
+2022-07-19 18:22:31 [ INFO  ] [ main ] [ com.knifez.fridayboot.FridayBootApplicationTests : 18 ] -
+                $2a$10$vjP/uPZYuguHhX0tewoMvO5Yvy6VxBiRLAUBl8aR/.JPP5mte0Et.
+2022-07-19 18:22:48 [ INFO  ] [ main ] [ com.knifez.fridayboot.FridayBootApplication : 55 ] -
+                Starting FridayBootApplication using Java 17.0.3 on archlinux with PID 82417 (/home/zhang/IdeaProjects/fridayboot/target/classes started by zhang in /home/zhang/IdeaProjects/fridayboot)
+2022-07-19 18:22:48 [ INFO  ] [ main ] [ com.knifez.fridayboot.FridayBootApplication : 640 ] -
+                The following 1 profile is active: "dev"
+2022-07-19 18:22:49 [ INFO  ] [ main ] [ org.apache.coyote.http11.Http11NioProtocol : 173 ] -
+                Initializing ProtocolHandler ["http-nio-5051"]
+2022-07-19 18:22:49 [ INFO  ] [ main ] [ org.apache.catalina.core.StandardService : 173 ] -
+                Starting service [Tomcat]
+2022-07-19 18:22:49 [ INFO  ] [ main ] [ org.apache.catalina.core.StandardEngine : 173 ] -
+                Starting Servlet engine: [Apache Tomcat/9.0.64]
+2022-07-19 18:22:49 [ INFO  ] [ main ] [ o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] : 173 ] -
+                Initializing Spring embedded WebApplicationContext
+2022-07-19 18:22:50 [ INFO  ] [ main ] [ org.apache.coyote.http11.Http11NioProtocol : 173 ] -
+                Starting ProtocolHandler ["http-nio-5051"]
+2022-07-19 18:22:51 [ INFO  ] [ main ] [ com.knifez.fridayboot.FridayBootApplication : 61 ] -
+                Started FridayBootApplication in 2.773 seconds (JVM running for 3.433)
+2022-07-19 18:23:01 [ INFO  ] [ http-nio-5051-exec-1 ] [ o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] : 173 ] -
+                Initializing Spring DispatcherServlet 'dispatcherServlet'
+2022-07-19 18:27:18 [ INFO  ] [ main ] [ com.knifez.fridayboot.FridayBootApplication : 55 ] -
+                Starting FridayBootApplication using Java 17.0.3 on archlinux with PID 83049 (/home/zhang/IdeaProjects/fridayboot/target/classes started by zhang in /home/zhang/IdeaProjects/fridayboot)
+2022-07-19 18:27:18 [ INFO  ] [ main ] [ com.knifez.fridayboot.FridayBootApplication : 640 ] -
+                The following 1 profile is active: "dev"
+2022-07-19 18:27:19 [ INFO  ] [ main ] [ org.apache.coyote.http11.Http11NioProtocol : 173 ] -
+                Initializing ProtocolHandler ["http-nio-5051"]
+2022-07-19 18:27:19 [ INFO  ] [ main ] [ org.apache.catalina.core.StandardService : 173 ] -
+                Starting service [Tomcat]
+2022-07-19 18:27:19 [ INFO  ] [ main ] [ org.apache.catalina.core.StandardEngine : 173 ] -
+                Starting Servlet engine: [Apache Tomcat/9.0.64]
+2022-07-19 18:27:19 [ INFO  ] [ main ] [ o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] : 173 ] -
+                Initializing Spring embedded WebApplicationContext
+2022-07-19 18:27:20 [ INFO  ] [ main ] [ org.apache.coyote.http11.Http11NioProtocol : 173 ] -
+                Starting ProtocolHandler ["http-nio-5051"]
+2022-07-19 18:27:20 [ INFO  ] [ main ] [ com.knifez.fridayboot.FridayBootApplication : 61 ] -
+                Started FridayBootApplication in 2.683 seconds (JVM running for 3.326)
+2022-07-19 18:27:24 [ INFO  ] [ http-nio-5051-exec-1 ] [ o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] : 173 ] -
+                Initializing Spring DispatcherServlet 'dispatcherServlet'
+2022-07-19 18:28:06 [ INFO  ] [ main ] [ com.knifez.fridayboot.FridayBootApplication : 55 ] -
+                Starting FridayBootApplication using Java 17.0.3 on archlinux with PID 83205 (/home/zhang/IdeaProjects/fridayboot/target/classes started by zhang in /home/zhang/IdeaProjects/fridayboot)
+2022-07-19 18:28:06 [ INFO  ] [ main ] [ com.knifez.fridayboot.FridayBootApplication : 640 ] -
+                The following 1 profile is active: "dev"
+2022-07-19 18:28:07 [ INFO  ] [ main ] [ org.apache.coyote.http11.Http11NioProtocol : 173 ] -
+                Initializing ProtocolHandler ["http-nio-5051"]
+2022-07-19 18:28:07 [ INFO  ] [ main ] [ org.apache.catalina.core.StandardService : 173 ] -
+                Starting service [Tomcat]
+2022-07-19 18:28:07 [ INFO  ] [ main ] [ org.apache.catalina.core.StandardEngine : 173 ] -
+                Starting Servlet engine: [Apache Tomcat/9.0.64]
+2022-07-19 18:28:07 [ INFO  ] [ main ] [ o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] : 173 ] -
+                Initializing Spring embedded WebApplicationContext
+2022-07-19 18:28:08 [ INFO  ] [ main ] [ org.apache.coyote.http11.Http11NioProtocol : 173 ] -
+                Starting ProtocolHandler ["http-nio-5051"]
+2022-07-19 18:28:08 [ INFO  ] [ main ] [ com.knifez.fridayboot.FridayBootApplication : 61 ] -
+                Started FridayBootApplication in 2.911 seconds (JVM running for 3.515)
+2022-07-19 18:28:10 [ INFO  ] [ http-nio-5051-exec-1 ] [ o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] : 173 ] -
+                Initializing Spring DispatcherServlet 'dispatcherServlet'
+2022-07-19 18:28:46 [ INFO  ] [ main ] [ com.knifez.fridayboot.FridayBootApplication : 55 ] -
+                Starting FridayBootApplication using Java 17.0.3 on archlinux with PID 83353 (/home/zhang/IdeaProjects/fridayboot/target/classes started by zhang in /home/zhang/IdeaProjects/fridayboot)
+2022-07-19 18:28:46 [ INFO  ] [ main ] [ com.knifez.fridayboot.FridayBootApplication : 640 ] -
+                The following 1 profile is active: "dev"
+2022-07-19 18:28:47 [ INFO  ] [ main ] [ org.apache.coyote.http11.Http11NioProtocol : 173 ] -
+                Initializing ProtocolHandler ["http-nio-5051"]
+2022-07-19 18:28:47 [ INFO  ] [ main ] [ org.apache.catalina.core.StandardService : 173 ] -
+                Starting service [Tomcat]
+2022-07-19 18:28:47 [ INFO  ] [ main ] [ org.apache.catalina.core.StandardEngine : 173 ] -
+                Starting Servlet engine: [Apache Tomcat/9.0.64]
+2022-07-19 18:28:47 [ INFO  ] [ main ] [ o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] : 173 ] -
+                Initializing Spring embedded WebApplicationContext
+2022-07-19 18:28:48 [ INFO  ] [ main ] [ org.apache.coyote.http11.Http11NioProtocol : 173 ] -
+                Starting ProtocolHandler ["http-nio-5051"]
+2022-07-19 18:28:49 [ INFO  ] [ main ] [ com.knifez.fridayboot.FridayBootApplication : 61 ] -
+                Started FridayBootApplication in 2.611 seconds (JVM running for 3.209)
+2022-07-19 18:28:52 [ INFO  ] [ http-nio-5051-exec-1 ] [ o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] : 173 ] -
+                Initializing Spring DispatcherServlet 'dispatcherServlet'
