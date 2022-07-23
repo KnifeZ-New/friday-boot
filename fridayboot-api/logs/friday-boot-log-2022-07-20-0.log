@@ -1,0 +1,124 @@
+2022-07-20 15:50:35 [ INFO  ] [ main ] [ c.k.fridaybootapi.FridaybootApiApplicationTests : 55 ] -
+                Starting FridaybootApiApplicationTests using Java 17.0.3 on archlinux with PID 117861 (started by zhang in /home/zhang/IdeaProjects/fridayboot/fridayboot-api)
+2022-07-20 15:50:35 [ INFO  ] [ main ] [ c.k.fridaybootapi.FridaybootApiApplicationTests : 640 ] -
+                The following 1 profile is active: "dev"
+2022-07-20 15:50:36 [ WARN  ] [ main ] [ org.mybatis.spring.mapper.ClassPathMapperScanner : 44 ] -
+                No MyBatis mapper was found in '[com.knifez.fridaybootapi]' package. Please check your configuration.
+2022-07-20 15:52:03 [ INFO  ] [ main ] [ c.k.fridaybootapi.FridaybootApiApplicationTests : 55 ] -
+                Starting FridaybootApiApplicationTests using Java 17.0.3 on archlinux with PID 118127 (started by zhang in /home/zhang/IdeaProjects/fridayboot/fridayboot-api)
+2022-07-20 15:52:03 [ INFO  ] [ main ] [ c.k.fridaybootapi.FridaybootApiApplicationTests : 640 ] -
+                The following 1 profile is active: "dev"
+2022-07-20 15:52:04 [ WARN  ] [ main ] [ org.mybatis.spring.mapper.ClassPathMapperScanner : 44 ] -
+                No MyBatis mapper was found in '[com.knifez.fridaybootapi]' package. Please check your configuration.
+2022-07-20 15:58:39 [ INFO  ] [ main ] [ c.k.fridaybootapi.FridaybootApiApplicationTests : 55 ] -
+                Starting FridaybootApiApplicationTests using Java 17.0.3 on archlinux with PID 118474 (started by zhang in /home/zhang/IdeaProjects/fridayboot/fridayboot-api)
+2022-07-20 15:58:39 [ INFO  ] [ main ] [ c.k.fridaybootapi.FridaybootApiApplicationTests : 640 ] -
+                The following 1 profile is active: "dev"
+2022-07-20 16:00:31 [ INFO  ] [ main ] [ c.k.fridaybootapi.FridaybootApiApplicationTests : 55 ] -
+                Starting FridaybootApiApplicationTests using Java 17.0.3 on archlinux with PID 118840 (started by zhang in /home/zhang/IdeaProjects/fridayboot/fridayboot-api)
+2022-07-20 16:00:31 [ INFO  ] [ main ] [ c.k.fridaybootapi.FridaybootApiApplicationTests : 640 ] -
+                The following 1 profile is active: "dev"
+2022-07-20 16:13:40 [ INFO  ] [ main ] [ c.k.fridaybootapi.FridaybootApiApplicationTests : 55 ] -
+                Starting FridaybootApiApplicationTests using Java 17.0.3 on archlinux with PID 120154 (started by zhang in /home/zhang/IdeaProjects/fridayboot/fridayboot-api)
+2022-07-20 16:13:40 [ INFO  ] [ main ] [ c.k.fridaybootapi.FridaybootApiApplicationTests : 640 ] -
+                The following 1 profile is active: "dev"
+2022-07-20 16:16:14 [ INFO  ] [ main ] [ c.k.fridaybootapi.FridaybootApiApplicationTests : 55 ] -
+                Starting FridaybootApiApplicationTests using Java 17.0.3 on archlinux with PID 120558 (started by zhang in /home/zhang/IdeaProjects/fridayboot/fridayboot-api)
+2022-07-20 16:16:14 [ INFO  ] [ main ] [ c.k.fridaybootapi.FridaybootApiApplicationTests : 640 ] -
+                The following 1 profile is active: "dev"
+2022-07-20 16:29:51 [ INFO  ] [ main ] [ c.k.fridaybootapi.FridaybootApiApplicationTests : 55 ] -
+                Starting FridaybootApiApplicationTests using Java 17.0.3 on archlinux with PID 122029 (started by zhang in /home/zhang/IdeaProjects/fridayboot/fridayboot-api)
+2022-07-20 16:29:51 [ INFO  ] [ main ] [ c.k.fridaybootapi.FridaybootApiApplicationTests : 640 ] -
+                The following 1 profile is active: "dev"
+2022-07-20 16:30:42 [ INFO  ] [ main ] [ c.k.fridaybootapi.FridaybootApiApplicationTests : 55 ] -
+                Starting FridaybootApiApplicationTests using Java 17.0.3 on archlinux with PID 122270 (started by zhang in /home/zhang/IdeaProjects/fridayboot/fridayboot-api)
+2022-07-20 16:30:42 [ INFO  ] [ main ] [ c.k.fridaybootapi.FridaybootApiApplicationTests : 640 ] -
+                The following 1 profile is active: "dev"
+2022-07-20 16:32:50 [ INFO  ] [ main ] [ c.k.fridaybootapi.FridaybootApiApplicationTests : 55 ] -
+                Starting FridaybootApiApplicationTests using Java 17.0.3 on archlinux with PID 122541 (started by zhang in /home/zhang/IdeaProjects/fridayboot/fridayboot-api)
+2022-07-20 16:32:50 [ INFO  ] [ main ] [ c.k.fridaybootapi.FridaybootApiApplicationTests : 640 ] -
+                The following 1 profile is active: "dev"
+2022-07-20 16:38:32 [ INFO  ] [ main ] [ c.k.fridaybootapi.FridaybootApiApplicationTests : 55 ] -
+                Starting FridaybootApiApplicationTests using Java 17.0.3 on archlinux with PID 123171 (started by zhang in /home/zhang/IdeaProjects/fridayboot/fridayboot-api)
+2022-07-20 16:38:33 [ INFO  ] [ main ] [ c.k.fridaybootapi.FridaybootApiApplicationTests : 640 ] -
+                The following 1 profile is active: "dev"
+2022-07-20 16:38:33 [ WARN  ] [ main ] [ org.mybatis.spring.mapper.ClassPathMapperScanner : 44 ] -
+                No MyBatis mapper was found in '[com.knifez.fridaybootapi]' package. Please check your configuration.
+2022-07-20 16:40:37 [ INFO  ] [ main ] [ c.k.fridaybootapi.FridaybootApiApplicationTests : 55 ] -
+                Starting FridaybootApiApplicationTests using Java 17.0.3 on archlinux with PID 123458 (started by zhang in /home/zhang/IdeaProjects/fridayboot/fridayboot-api)
+2022-07-20 16:40:37 [ INFO  ] [ main ] [ c.k.fridaybootapi.FridaybootApiApplicationTests : 640 ] -
+                The following 1 profile is active: "dev"
+2022-07-20 16:40:37 [ WARN  ] [ main ] [ org.mybatis.spring.mapper.ClassPathMapperScanner : 44 ] -
+                No MyBatis mapper was found in '[com.knifez.fridaybootapi]' package. Please check your configuration.
+2022-07-20 16:41:24 [ INFO  ] [ main ] [ c.k.fridaybootapi.FridaybootApiApplicationTests : 55 ] -
+                Starting FridaybootApiApplicationTests using Java 17.0.3 on archlinux with PID 123786 (started by zhang in /home/zhang/IdeaProjects/fridayboot/fridayboot-api)
+2022-07-20 16:41:24 [ INFO  ] [ main ] [ c.k.fridaybootapi.FridaybootApiApplicationTests : 640 ] -
+                The following 1 profile is active: "dev"
+2022-07-20 16:42:33 [ INFO  ] [ main ] [ c.k.fridaybootapi.FridaybootApiApplicationTests : 55 ] -
+                Starting FridaybootApiApplicationTests using Java 17.0.3 on archlinux with PID 124036 (started by zhang in /home/zhang/IdeaProjects/fridayboot/fridayboot-api)
+2022-07-20 16:42:33 [ INFO  ] [ main ] [ c.k.fridaybootapi.FridaybootApiApplicationTests : 640 ] -
+                The following 1 profile is active: "dev"
+2022-07-20 16:46:15 [ INFO  ] [ main ] [ c.k.fridaybootapi.FridaybootApiApplicationTests : 55 ] -
+                Starting FridaybootApiApplicationTests using Java 17.0.3 on archlinux with PID 124396 (started by zhang in /home/zhang/IdeaProjects/fridayboot/fridayboot-api)
+2022-07-20 16:46:15 [ INFO  ] [ main ] [ c.k.fridaybootapi.FridaybootApiApplicationTests : 640 ] -
+                The following 1 profile is active: "dev"
+2022-07-20 16:51:21 [ INFO  ] [ main ] [ c.k.fridaybootapi.FridaybootApiApplicationTests : 55 ] -
+                Starting FridaybootApiApplicationTests using Java 17.0.3 on archlinux with PID 124912 (started by zhang in /home/zhang/IdeaProjects/fridayboot/fridayboot-api)
+2022-07-20 16:51:21 [ INFO  ] [ main ] [ c.k.fridaybootapi.FridaybootApiApplicationTests : 640 ] -
+                The following 1 profile is active: "dev"
+2022-07-20 16:54:40 [ INFO  ] [ main ] [ c.k.fridaybootapi.FridaybootApiApplicationTests : 55 ] -
+                Starting FridaybootApiApplicationTests using Java 17.0.3 on archlinux with PID 125334 (started by zhang in /home/zhang/IdeaProjects/fridayboot/fridayboot-api)
+2022-07-20 16:54:40 [ INFO  ] [ main ] [ c.k.fridaybootapi.FridaybootApiApplicationTests : 640 ] -
+                The following 1 profile is active: "dev"
+2022-07-20 16:54:42 [ INFO  ] [ main ] [ c.k.fridaybootapi.FridaybootApiApplicationTests : 61 ] -
+                Started FridaybootApiApplicationTests in 3.01 seconds (JVM running for 3.671)
+2022-07-20 17:35:35 [ INFO  ] [ main ] [ c.k.fridaybootapi.FridaybootApiApplicationTests : 55 ] -
+                Starting FridaybootApiApplicationTests using Java 17.0.3 on archlinux with PID 127826 (started by zhang in /home/zhang/IdeaProjects/fridayboot/fridayboot-api)
+2022-07-20 17:35:35 [ INFO  ] [ main ] [ c.k.fridaybootapi.FridaybootApiApplicationTests : 640 ] -
+                The following 1 profile is active: "dev"
+2022-07-20 17:36:13 [ INFO  ] [ main ] [ c.k.fridaybootapi.FridaybootApiApplicationTests : 55 ] -
+                Starting FridaybootApiApplicationTests using Java 17.0.3 on archlinux with PID 128040 (started by zhang in /home/zhang/IdeaProjects/fridayboot/fridayboot-api)
+2022-07-20 17:36:13 [ INFO  ] [ main ] [ c.k.fridaybootapi.FridaybootApiApplicationTests : 640 ] -
+                The following 1 profile is active: "dev"
+2022-07-20 17:38:04 [ INFO  ] [ main ] [ c.k.fridaybootapi.FridaybootApiApplicationTests : 55 ] -
+                Starting FridaybootApiApplicationTests using Java 17.0.3 on archlinux with PID 128408 (started by zhang in /home/zhang/IdeaProjects/fridayboot/fridayboot-api)
+2022-07-20 17:38:04 [ INFO  ] [ main ] [ c.k.fridaybootapi.FridaybootApiApplicationTests : 640 ] -
+                The following 1 profile is active: "dev"
+2022-07-20 17:39:29 [ INFO  ] [ main ] [ c.k.fridaybootapi.FridaybootApiApplicationTests : 55 ] -
+                Starting FridaybootApiApplicationTests using Java 17.0.3 on archlinux with PID 128942 (started by zhang in /home/zhang/IdeaProjects/fridayboot/fridayboot-api)
+2022-07-20 17:39:29 [ INFO  ] [ main ] [ c.k.fridaybootapi.FridaybootApiApplicationTests : 640 ] -
+                The following 1 profile is active: "dev"
+2022-07-20 17:41:54 [ INFO  ] [ main ] [ c.k.fridaybootapi.FridaybootApiApplicationTests : 55 ] -
+                Starting FridaybootApiApplicationTests using Java 17.0.3 on archlinux with PID 129225 (started by zhang in /home/zhang/IdeaProjects/fridayboot/fridayboot-api)
+2022-07-20 17:41:54 [ INFO  ] [ main ] [ c.k.fridaybootapi.FridaybootApiApplicationTests : 640 ] -
+                The following 1 profile is active: "dev"
+2022-07-20 17:42:10 [ INFO  ] [ main ] [ c.k.fridaybootapi.FridaybootApiApplicationTests : 55 ] -
+                Starting FridaybootApiApplicationTests using Java 17.0.3 on archlinux with PID 129451 (started by zhang in /home/zhang/IdeaProjects/fridayboot/fridayboot-api)
+2022-07-20 17:42:10 [ INFO  ] [ main ] [ c.k.fridaybootapi.FridaybootApiApplicationTests : 640 ] -
+                The following 1 profile is active: "dev"
+2022-07-20 17:44:01 [ INFO  ] [ main ] [ c.k.fridaybootapi.FridaybootApiApplicationTests : 55 ] -
+                Starting FridaybootApiApplicationTests using Java 17.0.3 on archlinux with PID 129724 (started by zhang in /home/zhang/IdeaProjects/fridayboot/fridayboot-api)
+2022-07-20 17:44:01 [ INFO  ] [ main ] [ c.k.fridaybootapi.FridaybootApiApplicationTests : 640 ] -
+                The following 1 profile is active: "dev"
+2022-07-20 17:44:30 [ INFO  ] [ main ] [ c.k.fridaybootapi.FridaybootApiApplicationTests : 55 ] -
+                Starting FridaybootApiApplicationTests using Java 17.0.3 on archlinux with PID 129935 (started by zhang in /home/zhang/IdeaProjects/fridayboot/fridayboot-api)
+2022-07-20 17:44:30 [ INFO  ] [ main ] [ c.k.fridaybootapi.FridaybootApiApplicationTests : 640 ] -
+                The following 1 profile is active: "dev"
+2022-07-20 17:44:34 [ INFO  ] [ main ] [ c.k.fridaybootapi.FridaybootApiApplicationTests : 61 ] -
+                Started FridaybootApiApplicationTests in 3.531 seconds (JVM running for 4.264)
+2022-07-20 17:47:41 [ INFO  ] [ main ] [ c.k.fridaybootapi.FridaybootApiApplicationTests : 55 ] -
+                Starting FridaybootApiApplicationTests using Java 17.0.3 on archlinux with PID 130262 (started by zhang in /home/zhang/IdeaProjects/fridayboot/fridayboot-api)
+2022-07-20 17:47:41 [ INFO  ] [ main ] [ c.k.fridaybootapi.FridaybootApiApplicationTests : 640 ] -
+                The following 1 profile is active: "dev"
+2022-07-20 17:47:44 [ INFO  ] [ main ] [ c.k.fridaybootapi.FridaybootApiApplicationTests : 61 ] -
+                Started FridaybootApiApplicationTests in 2.917 seconds (JVM running for 3.579)
+2022-07-20 17:49:45 [ INFO  ] [ main ] [ c.k.fridaybootapi.FridaybootApiApplicationTests : 55 ] -
+                Starting FridaybootApiApplicationTests using Java 17.0.3 on archlinux with PID 130594 (started by zhang in /home/zhang/IdeaProjects/fridayboot/fridayboot-api)
+2022-07-20 17:49:45 [ INFO  ] [ main ] [ c.k.fridaybootapi.FridaybootApiApplicationTests : 640 ] -
+                The following 1 profile is active: "dev"
+2022-07-20 17:49:48 [ INFO  ] [ main ] [ c.k.fridaybootapi.FridaybootApiApplicationTests : 61 ] -
+                Started FridaybootApiApplicationTests in 2.957 seconds (JVM running for 3.625)
+2022-07-20 18:24:06 [ INFO  ] [ main ] [ c.k.fridaybootapi.FridaybootApiApplicationTests : 55 ] -
+                Starting FridaybootApiApplicationTests using Java 17.0.3 on archlinux with PID 132688 (started by zhang in /home/zhang/IdeaProjects/fridayboot/fridayboot-api)
+2022-07-20 18:24:06 [ INFO  ] [ main ] [ c.k.fridaybootapi.FridaybootApiApplicationTests : 640 ] -
+                The following 1 profile is active: "dev"
