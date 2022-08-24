@@ -14,6 +14,8 @@
 - hutool
 - Swagger+Apifox
 
-感谢JetBrains对本项目的大力支持.
+---
 
-<img src="https://resources.jetbrains.com/storage/products/company/brand/logos/IntelliJ_IDEA_icon.png" style="width:80px;" alt="IntelliJ IDEA logo.">
+感谢JetBrains为本项目提供的开源许可.
+
+<img src="https://resources.jetbrains.com/storage/products/company/brand/logos/IntelliJ_IDEA_icon.png" width="80" height="80" alt="IntelliJ IDEA logo.">
