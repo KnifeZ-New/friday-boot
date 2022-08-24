@@ -4,7 +4,6 @@
 一个基于Springboot开发的后台管理框架
 
 #### 软件架构
-软件架构说明
 - Java 17
 - Springboot 2.x
 - Spring Security
