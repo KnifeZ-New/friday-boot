@@ -1,5 +1,7 @@
 package com.knifez.fridaybootadmin.service.impl;
 
+import cn.hutool.json.JSONUtil;
+import cn.hutool.jwt.JWTUtil;
 import com.knifez.fridaybootadmin.entity.AppUser;
 import com.knifez.fridaybootadmin.dto.JwtUser;
 import com.knifez.fridaybootadmin.dto.LoginRequest;
@@ -7,6 +9,7 @@ import com.knifez.fridaybootadmin.dto.Token;
 import com.knifez.fridaybootadmin.service.IAppUserService;
 import com.knifez.fridaybootadmin.service.IAuthService;
 import com.knifez.fridaybootadmin.utils.JwtTokenUtils;
+import com.knifez.fridaybootcore.constants.AppConstants;
 import com.knifez.fridaybootcore.enums.ResultStatus;
 import com.knifez.fridaybootcore.exception.FridayResultException;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -45,6 +48,8 @@ public class AuthServiceImpl implements IAuthService {
                 .toList();
         Token token = JwtTokenUtils.createToken(user.getAccount(), user.getId().toString(), authorities, loginRequest.getRememberMe());
         stringRedisTemplate.opsForValue().set(user.getId().toString(), token.getAccessToken());
+        //绑定账户权限
+        stringRedisTemplate.opsForValue().set(AppConstants.CURRENT_USER_PERMISSION_PREFIX + user.getId().toString(), JSONUtil.toJsonStr(user.getPermissions()));
         return token;
     }
 
@@ -84,9 +89,9 @@ public class AuthServiceImpl implements IAuthService {
     @Override
     public String getCurrentUserId() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//        var token= JWTUtil.parseToken()
-        if (authentication != null && authentication.getPrincipal() != null) {
-            return (String) authentication.getPrincipal();
+        if (authentication != null) {
+            var jwt = JWTUtil.parseToken(authentication.getCredentials().toString());
+            return jwt.getPayload("jti").toString();
         }
         return null;
     }

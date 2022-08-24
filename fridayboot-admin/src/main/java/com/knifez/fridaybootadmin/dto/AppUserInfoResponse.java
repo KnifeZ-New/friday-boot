@@ -1,17 +1,18 @@
 package com.knifez.fridaybootadmin.dto;
 
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.knifez.fridaybootcore.entity.BaseAuditEntity;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author zhang
  */
 @Getter
 @Setter
-public class AppUserResponse extends BaseAuditEntity {
+public class AppUserInfoResponse {
     @ApiModelProperty("主键id")
     private Long id;
 
@@ -27,7 +28,12 @@ public class AppUserResponse extends BaseAuditEntity {
     @ApiModelProperty("头像")
     private String avatar;
 
-    @TableField(value = "is_locked")
-    @ApiModelProperty("是否锁定")
-    private Boolean locked;
+    @ApiModelProperty("角色")
+    private List<String> userRoles = new ArrayList<>();
+
+    @ApiModelProperty("权限")
+    private List<String> permissions = new ArrayList<>();
+
+    @ApiModelProperty("首页")
+    public String homePath;
 }

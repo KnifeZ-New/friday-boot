@@ -20,7 +20,14 @@ public class ApplicationCollocation {
     private List<String> roles;
     @ApiModelProperty("权限")
     private List<String> permissions;
+
     @ApiModelProperty("语言")
     private String language;
+
+    @ApiModelProperty("暗黑模式")
+    private Boolean darkMode;
+
+    @ApiModelProperty("所有权限")
+    private List<String> grantedPolicies;
 
 }

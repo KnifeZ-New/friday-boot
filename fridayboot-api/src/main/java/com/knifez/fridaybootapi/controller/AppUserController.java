@@ -5,6 +5,7 @@ import com.knifez.fridaybootadmin.entity.AppUser;
 import com.knifez.fridaybootadmin.service.IAppUserService;
 import com.knifez.fridaybootadmin.dto.AppUserPagedQueryRequest;
 import com.knifez.fridaybootcore.annotation.ApiRestController;
+import com.knifez.fridaybootcore.annotation.permission.AllowAuthenticated;
 import com.knifez.fridaybootcore.dto.FridayResult;
 import com.knifez.fridaybootcore.dto.PageResult;
 import io.swagger.annotations.Api;
@@ -12,7 +13,6 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.BeanUtils;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.security.PermitAll;
 
 /**
  * <p>
@@ -38,11 +38,15 @@ public class AppUserController {
      * @param queryRequest 查询请求
      * @return <{@link PageResult}<{@link AppUser}>
      */
-    @PermitAll
+    @AllowAuthenticated
     @ApiOperation("分页列表")
     @PostMapping("list")
-    public PageResult<AppUser> pagedList(@RequestBody AppUserPagedQueryRequest queryRequest) {
-        return appUserService.listByPageQuery(queryRequest);
+    public PageResult<AppUserResponse> pagedList(@RequestBody AppUserPagedQueryRequest queryRequest) {
+        //查询列表数据
+        var ret = appUserService.listByPageQuery(queryRequest);
+        var list = new PageResult<AppUserResponse>();
+        BeanUtils.copyProperties(ret, list);
+        return list;
     }
 
 
@@ -82,6 +86,7 @@ public class AppUserController {
     @PostMapping("{id}")
     @ApiOperation("修改用户")
     public Boolean update(@RequestBody AppUser user) {
+        //
         return appUserService.updateById(user);
     }
 

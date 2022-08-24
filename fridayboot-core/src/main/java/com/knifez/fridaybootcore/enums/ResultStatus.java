@@ -16,12 +16,11 @@ public enum ResultStatus {
     BAD_REQUEST(HttpStatus.BAD_REQUEST),
 
     // 授权/登录验证失败
-    UNAUTHORIZED(HttpStatus.UNAUTHORIZED),
+    UNAUTHORIZED(HttpStatus.UNAUTHORIZED.value(), "不存在的用户或已超期，请登录后再进行操作！"),
 
     UNAUTHORIZED_001(401001, "用户名或密码不正确。"),
 
-    //权限不足
-    FORBIDDEN(HttpStatus.FORBIDDEN),
+    FORBIDDEN(HttpStatus.FORBIDDEN.value(), "禁止访问! 请联系管理员确认账户权限"),
 
     FORBIDDEN_001(403001, "账户已锁定，请联系管理员解锁"),
 

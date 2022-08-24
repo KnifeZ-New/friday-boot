@@ -25,7 +25,7 @@ public class FridayResult<T> {
     private T data;
 
     @ApiModelProperty("是否成功")
-    private Boolean isSuccess;
+    private Boolean success;
 
 
     @ApiModelProperty("请求时间")
@@ -35,13 +35,13 @@ public class FridayResult<T> {
         this.code = resultStatus.getCode();
         this.message = resultStatus.getMessage();
         this.data = data;
-        this.isSuccess = resultStatus == ResultStatus.SUCCESS;
+        this.success = resultStatus == ResultStatus.SUCCESS;
     }
 
     public FridayResult(Integer code, String message) {
         this.code = code;
         this.message = message;
-        this.isSuccess = false;
+        this.success = false;
 
     }
 
@@ -50,11 +50,15 @@ public class FridayResult<T> {
     }
 
     public static <T> FridayResult<T> ok() {
-        return new FridayResult<>(ResultStatus.SUCCESS, null);
+        return ok(null);
     }
 
     public static <T> FridayResult<T> fail(ResultStatus resultStatus, T data) {
         return new FridayResult<>(resultStatus, data);
+    }
+
+    public static FridayResult<Void> fail(Integer code, String message) {
+        return new FridayResult<>(code, message);
     }
 
     public static <T> FridayResult<T> fail(ResultStatus resultStatus) {
@@ -63,18 +67,13 @@ public class FridayResult<T> {
 
 
     public static <T> FridayResult<T> fail() {
-        return fail(ResultStatus.BAD_REQUEST, null);
-    }
-
-    public static FridayResult<Void> fail(Integer code, String message) {
-        return new FridayResult<>(code, message);
+        return fail(ResultStatus.BAD_REQUEST);
     }
 
     @Override
     public String toString() {
-//        .format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss"))
         return "{\n" +
-                "    \"success\": " + this.isSuccess + ",\n" +
+                "    \"success\": " + this.success + ",\n" +
                 "    \"code\": " + this.code + ",\n" +
                 "    \"message\": \"" + this.message + "\",\n" +
                 "    \"data\": " + this.data + ",\n" +

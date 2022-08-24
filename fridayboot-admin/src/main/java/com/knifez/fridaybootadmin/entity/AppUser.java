@@ -61,6 +61,11 @@ public class AppUser extends BaseAuditEntity implements Serializable {
     @ApiModelProperty("角色")
     private List<String> userRoles = new ArrayList<>();
 
+    @TableField(exist = false)
+    @JsonIgnore
+    @ApiModelProperty("权限")
+    private List<String> permissions = new ArrayList<>();
+
     public List<SimpleGrantedAuthority> getRoles() {
         List<SimpleGrantedAuthority> authorities = new ArrayList<>();
         userRoles.forEach(role -> authorities.add(new SimpleGrantedAuthority("ROLE_" + role)));

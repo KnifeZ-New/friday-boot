@@ -1,6 +1,6 @@
 package com.knifez.fridaybootcore.utils;
 
-import com.knifez.fridaybootcore.constants.FridaybootAppConstants;
+import com.knifez.fridaybootcore.constants.AppConstants;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.ResourcePatternResolver;
@@ -31,11 +31,11 @@ public class AnnotationUtils {
         return urls;
     }
 
-    private static <T> void resolveClass(MetadataReader reader, List<String> maps, Class<T> annotationClass) throws Exception {
+    private static <T> void resolveClass(MetadataReader reader, List<String> maps, Class<T> annotationClass) {
         String tagAnnotationClassCanonicalName = annotationClass.getCanonicalName();
         AnnotationMetadata annotationMetadata = reader.getAnnotationMetadata();
         Map<String, Object> annotationAttributes = annotationMetadata.getAnnotationAttributes(RequestMapping.class.getCanonicalName());
-        String pathParent = FridaybootAppConstants.API_PREFIX;
+        String pathParent = AppConstants.API_PREFIX;
         if (annotationAttributes != null) {
             String[] pathParents = (String[]) annotationAttributes.get(VALUE);
             if (pathParents.length > 0) {

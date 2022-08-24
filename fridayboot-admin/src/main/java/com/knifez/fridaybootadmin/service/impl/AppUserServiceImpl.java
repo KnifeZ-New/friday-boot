@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.knifez.fridaybootadmin.dto.AppUserPagedQueryRequest;
 import com.knifez.fridaybootadmin.entity.AppUser;
 import com.knifez.fridaybootadmin.mapper.AppUserMapper;
+import com.knifez.fridaybootadmin.service.IAppPermissionGrantService;
 import com.knifez.fridaybootadmin.service.IAppRoleService;
 import com.knifez.fridaybootadmin.service.IAppUserService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -26,8 +27,11 @@ public class AppUserServiceImpl extends ServiceImpl<AppUserMapper, AppUser> impl
 
     private final IAppRoleService roleService;
 
-    public AppUserServiceImpl(IAppRoleService roleService) {
+    private final IAppPermissionGrantService permissionService;
+
+    public AppUserServiceImpl(IAppRoleService roleService, IAppPermissionGrantService permissionService) {
         this.roleService = roleService;
+        this.permissionService = permissionService;
     }
 
     /**
@@ -39,7 +43,7 @@ public class AppUserServiceImpl extends ServiceImpl<AppUserMapper, AppUser> impl
     @Override
     public PageResult<AppUser> listByPageQuery(AppUserPagedQueryRequest queryRequest) {
         QueryWrapper<AppUser> queryWrapper = new QueryWrapper<>();
-        queryWrapper.like("username", queryRequest.getUsername());
+        queryWrapper.like(queryRequest.getUsername() != null, "username", queryRequest.getUsername());
         IPage<AppUser> page = new Page<>();
         page.setCurrent(queryRequest.getPage());
         page.setSize(queryRequest.getPageSize());
@@ -56,6 +60,10 @@ public class AppUserServiceImpl extends ServiceImpl<AppUserMapper, AppUser> impl
             user = new AppUser();
         } else {
             var roles = roleService.listByUserId(user.getId());
+            if (!roles.isEmpty()) {
+                var permissions = permissionService.listByRoles(roles);
+                user.setPermissions(permissions);
+            }
             user.setUserRoles(roles);
         }
         return user;
