@@ -1,5 +1,7 @@
 package com.knifez.fridaybootapi.controller;
 
+import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.bean.copier.CopyOptions;
 import com.knifez.fridaybootadmin.dto.AppUserResponse;
 import com.knifez.fridaybootadmin.entity.AppUser;
 import com.knifez.fridaybootadmin.service.IAppUserService;
@@ -45,7 +47,8 @@ public class AppUserController {
         //查询列表数据
         var ret = appUserService.listByPageQuery(queryRequest);
         var list = new PageResult<AppUserResponse>();
-        BeanUtils.copyProperties(ret, list);
+        list.setTotal(ret.getTotal());
+        list.setItems(BeanUtil.copyToList(ret.getItems(), AppUserResponse.class));
         return list;
     }
 
@@ -86,7 +89,6 @@ public class AppUserController {
     @PostMapping("{id}")
     @ApiOperation("修改用户")
     public Boolean update(@RequestBody AppUser user) {
-        //
         return appUserService.updateById(user);
     }
 
