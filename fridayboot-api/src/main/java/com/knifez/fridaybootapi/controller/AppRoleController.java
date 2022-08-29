@@ -5,6 +5,7 @@ import com.knifez.fridaybootadmin.dto.AppUserResponse;
 import com.knifez.fridaybootadmin.entity.AppRole;
 import com.knifez.fridaybootadmin.service.IAppRoleService;
 import com.knifez.fridaybootcore.annotation.ApiRestController;
+import com.knifez.fridaybootcore.annotation.permission.AllowAuthenticated;
 import com.knifez.fridaybootcore.dto.PageResult;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
  */
 @Api(tags = "角色管理")
 @ApiRestController
+@AllowAuthenticated
 @RequestMapping("/role")
 public class AppRoleController {
 

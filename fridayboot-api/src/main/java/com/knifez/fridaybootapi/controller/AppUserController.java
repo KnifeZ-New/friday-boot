@@ -1,7 +1,6 @@
 package com.knifez.fridaybootapi.controller;
 
 import cn.hutool.core.bean.BeanUtil;
-import cn.hutool.core.bean.copier.CopyOptions;
 import com.knifez.fridaybootadmin.dto.AppUserResponse;
 import com.knifez.fridaybootadmin.entity.AppUser;
 import com.knifez.fridaybootadmin.service.IAppUserService;
