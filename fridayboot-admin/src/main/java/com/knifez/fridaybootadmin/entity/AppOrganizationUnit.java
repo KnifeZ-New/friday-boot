@@ -10,39 +10,41 @@ import java.io.Serializable;
 import com.knifez.fridaybootcore.entity.BaseAuditEntity;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * <p>
- *
+ * 组织机构
  * </p>
  *
  * @author KnifeZ
- * @since 2022-07-06
+ * @since 2022-09-01
  */
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-@TableName("app_role")
-@ApiModel(value = "AppRole对象", description = "角色")
-public class AppRole extends BaseAuditEntity implements Serializable {
+@Getter
+@Setter
+@TableName("app_organization_unit")
+@ApiModel(value = "AppOrganizationUnit对象", description = "组织机构")
+public class AppOrganizationUnit extends BaseAuditEntity implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;
 
-    @TableId(value = "id", type = IdType.AUTO)
     @ApiModelProperty("主键id")
+    @TableId(value = "id", type = IdType.AUTO)
     private Long id;
 
-    @ApiModelProperty("角色")
-    private String name;
+    @ApiModelProperty("机构编码")
+    private String unitCode;
+
+
+    @ApiModelProperty("父级节点")
+    private Long parentId;
 
     @ApiModelProperty("名称")
-    private String displayName;
+    private String name;
 
-    @ApiModelProperty("角色介绍")
+    @ApiModelProperty("简介")
     private String description;
 
 

@@ -17,4 +17,7 @@ public class AppUserPagedQueryRequest extends PageRequest {
     @NotNull(message = "name 不能为空")
     @ApiModelProperty("用户姓名")
     private String username;
+
+    @ApiModelProperty("部门")
+    private Long organizationUnitId;
 }

@@ -56,8 +56,8 @@ public class AppRoleServiceImpl extends ServiceImpl<AppRoleMapper, AppRole> impl
     @Override
     public PageResult<AppRole> listByPageQuery(AppRolePagedQueryRequest queryRequest) {
         QueryWrapper<AppRole> queryWrapper = new QueryWrapper<>();
-        queryWrapper.like("display_name", queryRequest.getDisplayName());
-        queryWrapper.like("name", queryRequest.getName());
+        queryWrapper.like(!queryRequest.getDisplayName().isEmpty(), "display_name", queryRequest.getDisplayName());
+        queryWrapper.like(!queryRequest.getName().isEmpty(), "name", queryRequest.getName());
         IPage<AppRole> page = new Page<>();
         page.setCurrent(queryRequest.getPage());
         page.setSize(queryRequest.getPageSize());

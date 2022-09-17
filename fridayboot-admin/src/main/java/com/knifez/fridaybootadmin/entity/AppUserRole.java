@@ -6,13 +6,15 @@ import com.baomidou.mybatisplus.annotation.TableName;
 
 import java.io.Serial;
 import java.io.Serializable;
+
+import com.knifez.fridaybootcore.entity.BaseAuditEntity;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author KnifeZ
@@ -21,7 +23,7 @@ import lombok.Data;
 @Data
 @TableName("app_user_role")
 @ApiModel(value = "AppUserRole对象", description = "用户角色关联表")
-public class AppUserRole implements Serializable {
+public class AppUserRole extends BaseAuditEntity implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;
@@ -34,7 +36,6 @@ public class AppUserRole implements Serializable {
 
     @ApiModelProperty("角色id")
     private Long roleId;
-
 
 
 }
