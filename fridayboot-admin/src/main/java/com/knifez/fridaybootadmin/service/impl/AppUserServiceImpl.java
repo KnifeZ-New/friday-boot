@@ -3,6 +3,7 @@ package com.knifez.fridaybootadmin.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.github.yulichang.query.MPJQueryWrapper;
 import com.knifez.fridaybootadmin.dto.AppUserPagedQueryRequest;
 import com.knifez.fridaybootadmin.entity.AppUser;
 import com.knifez.fridaybootadmin.mapper.AppUserMapper;
@@ -42,12 +43,15 @@ public class AppUserServiceImpl extends ServiceImpl<AppUserMapper, AppUser> impl
      */
     @Override
     public PageResult<AppUser> listByPageQuery(AppUserPagedQueryRequest queryRequest) {
-        QueryWrapper<AppUser> queryWrapper = new QueryWrapper<>();
+        MPJQueryWrapper<AppUser> queryWrapper = new MPJQueryWrapper<>();
+        queryWrapper.selectAll(AppUser.class);
+        queryWrapper.leftJoin("(select * from app_user_organization_unit) uo on t.id=uo.user_id");
         queryWrapper.like(queryRequest.getUsername() != null, "username", queryRequest.getUsername());
+        queryWrapper.like(queryRequest.getOrganizationUnitId() != null, "uo.user_id", queryRequest.getOrganizationUnitId());
         IPage<AppUser> page = new Page<>();
         page.setCurrent(queryRequest.getPage());
         page.setSize(queryRequest.getPageSize());
-        page = getBaseMapper().selectPage(page, queryWrapper);
+        page = getBaseMapper().selectJoinPage(page, AppUser.class, queryWrapper);
         return PageResult.builder(page.getRecords(), page.getTotal());
     }
 

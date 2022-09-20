@@ -19,6 +19,7 @@
         <jwt.version>0.11.5</jwt.version>
         <springboot.version>2.7.1</springboot.version>
         <mybatisplus.version>3.5.2</mybatisplus.version>
+        <mybatisplusjoin.version>1.2.4</mybatisplusjoin.version>
         <mysql.version>8.0.29</mysql.version>
         <swagger.version>3.0.0</swagger.version>
         <hutool.version>5.8.3</hutool.version>
@@ -82,6 +83,11 @@
                 <groupId>com.baomidou</groupId>
                 <artifactId>mybatis-plus-generator</artifactId>
                 <version>${mybatisplus.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.yulichang</groupId>
+                <artifactId>mybatis-plus-join</artifactId>
+                <version>${mybatisplusjoin.version}</version>
             </dependency>
             <dependency>
                 <groupId>mysql</groupId>

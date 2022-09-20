@@ -1,6 +1,6 @@
 package com.knifez.fridaybootadmin.mapper;
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.github.yulichang.base.MPJBaseMapper;
 import com.knifez.fridaybootadmin.entity.AppUser;
 
 /**
@@ -11,6 +11,6 @@ import com.knifez.fridaybootadmin.entity.AppUser;
  * @author KnifeZ
  * @since 2022-04-01
  */
-public interface AppUserMapper extends BaseMapper<AppUser> {
+public interface AppUserMapper extends MPJBaseMapper<AppUser> {
 
 }
