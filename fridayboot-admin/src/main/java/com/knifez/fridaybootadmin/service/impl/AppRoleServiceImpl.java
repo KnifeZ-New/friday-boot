@@ -11,6 +11,7 @@ import com.knifez.fridaybootadmin.service.IAppRoleService;
 import com.knifez.fridaybootadmin.service.IAppUserRoleService;
 import com.knifez.fridaybootcore.dto.PageResult;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.util.Collections;
 import java.util.List;
@@ -56,8 +57,8 @@ public class AppRoleServiceImpl extends ServiceImpl<AppRoleMapper, AppRole> impl
     @Override
     public PageResult<AppRole> listByPageQuery(AppRolePagedQueryRequest queryRequest) {
         QueryWrapper<AppRole> queryWrapper = new QueryWrapper<>();
-        queryWrapper.like(!queryRequest.getDisplayName().isEmpty(), "display_name", queryRequest.getDisplayName());
-        queryWrapper.like(!queryRequest.getName().isEmpty(), "name", queryRequest.getName());
+        queryWrapper.like(StringUtils.hasText(queryRequest.getDisplayName()), "display_name", queryRequest.getDisplayName());
+        queryWrapper.like(StringUtils.hasText(queryRequest.getName()), "name", queryRequest.getName());
         IPage<AppRole> page = new Page<>();
         page.setCurrent(queryRequest.getPage());
         page.setSize(queryRequest.getPageSize());

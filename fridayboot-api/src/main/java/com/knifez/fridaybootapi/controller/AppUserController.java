@@ -9,6 +9,8 @@ import com.knifez.fridaybootcore.annotation.ApiRestController;
 import com.knifez.fridaybootcore.annotation.permission.AllowAuthenticated;
 import com.knifez.fridaybootcore.dto.FridayResult;
 import com.knifez.fridaybootcore.dto.PageResult;
+import com.knifez.fridaybootcore.enums.ResultStatus;
+import com.knifez.fridaybootcore.exception.FridayResultException;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.BeanUtils;
@@ -23,6 +25,7 @@ import org.springframework.web.bind.annotation.*;
  * @author KnifeZ
  * @since 2022-04-01
  */
+@AllowAuthenticated
 @Api(tags = "用户管理")
 @ApiRestController
 @RequestMapping("/user")
@@ -39,7 +42,6 @@ public class AppUserController {
      * @param queryRequest 查询请求
      * @return <{@link PageResult}<{@link AppUser}>
      */
-    @AllowAuthenticated
     @ApiOperation("分页列表")
     @PostMapping("list")
     public PageResult<AppUserResponse> pagedList(@RequestBody AppUserPagedQueryRequest queryRequest) {
@@ -104,4 +106,14 @@ public class AppUserController {
     }
 
 
+    @GetMapping("account-exist/{account}")
+    @ApiOperation("帐号是否存在")
+    public String exist(@PathVariable String account) {
+        var user = appUserService.findByAccount(account);
+        if (user.getId() == null) {
+            return "恭喜，该帐号可用";
+        } else {
+            throw new FridayResultException(ResultStatus.FORBIDDEN_003);
+        }
+    }
 }

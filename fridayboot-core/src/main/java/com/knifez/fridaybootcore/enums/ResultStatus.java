@@ -26,6 +26,8 @@ public enum ResultStatus {
 
     FORBIDDEN_002(403002, "登录失败次数过多，请稍后再试"),
 
+    FORBIDDEN_003(403003, "该帐号已存在"),
+
 
     //    400 0001 - 400 9999 业务状态码
     CHECK_PARAMS_FAILED(400001, "参数校验失败");

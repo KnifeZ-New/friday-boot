@@ -11,6 +11,8 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 /**
  * <p>
  * 前端控制器
@@ -19,9 +21,9 @@ import org.springframework.web.bind.annotation.*;
  * @author KnifeZ
  * @since 2022-07-06
  */
+@AllowAuthenticated
 @Api(tags = "角色管理")
 @ApiRestController
-@AllowAuthenticated
 @RequestMapping("/role")
 public class AppRoleController {
 
@@ -43,6 +45,17 @@ public class AppRoleController {
     @ApiOperation("分页列表")
     public PageResult<AppRole> pagedList(@RequestBody AppRolePagedQueryRequest queryRequest) {
         return roleService.listByPageQuery(queryRequest);
+    }
+
+    /**
+     * 所有角色列表
+     *
+     * @return {@link List}<{@link AppRole}>
+     */
+    @PostMapping("all")
+    @ApiOperation("所有角色列表")
+    public List<AppRole> allRoles() {
+        return roleService.list();
     }
 
     /**
