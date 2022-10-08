@@ -56,6 +56,16 @@ public class AppUser extends BaseAuditEntity implements Serializable {
     @ApiModelProperty("是否启锁定")
     private Boolean locked;
 
+    @ApiModelProperty("所属部门id")
+    private Long organizationId;
+
+    /**
+     * 部门名称
+     */
+    @ApiModelProperty("所属部门")
+    @TableField(exist = false)
+    private String organizationName;
+
     @TableField(exist = false)
     @JsonIgnore
     @ApiModelProperty("角色")

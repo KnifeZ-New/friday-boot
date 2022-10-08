@@ -19,5 +19,5 @@ public class AppUserPagedQueryRequest extends PageRequest {
     private String username;
 
     @ApiModelProperty("部门")
-    private Long organizationUnitId;
+    private Long organizationId;
 }

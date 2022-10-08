@@ -106,12 +106,18 @@ public class AppUserController {
     }
 
 
+    /**
+     * 检查帐号是否存在
+     *
+     * @param account 账户
+     * @return {@link String}
+     */
     @GetMapping("account-exist/{account}")
-    @ApiOperation("帐号是否存在")
-    public String exist(@PathVariable String account) {
+    @ApiOperation("检查帐号是否存在")
+    public Boolean exist(@PathVariable String account) {
         var user = appUserService.findByAccount(account);
         if (user.getId() == null) {
-            return "恭喜，该帐号可用";
+            return true;
         } else {
             throw new FridayResultException(ResultStatus.FORBIDDEN_003);
         }

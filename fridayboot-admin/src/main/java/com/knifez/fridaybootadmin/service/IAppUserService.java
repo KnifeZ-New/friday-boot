@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.knifez.fridaybootadmin.dto.AppUserPagedQueryRequest;
 import com.knifez.fridaybootadmin.entity.AppUser;
 import com.knifez.fridaybootcore.dto.PageResult;
+import org.apache.ibatis.annotations.Result;
+import org.apache.ibatis.annotations.Results;
 
 /**
  * <p>
@@ -25,6 +27,7 @@ public interface IAppUserService extends IService<AppUser> {
     PageResult<AppUser> listByPageQuery(AppUserPagedQueryRequest queryRequest);
 
     /**
+     * 找到账户
      * 根据账户获取用户
      *
      * @param account 账户

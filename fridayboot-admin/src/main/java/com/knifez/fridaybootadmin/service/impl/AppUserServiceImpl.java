@@ -45,13 +45,12 @@ public class AppUserServiceImpl extends ServiceImpl<AppUserMapper, AppUser> impl
     public PageResult<AppUser> listByPageQuery(AppUserPagedQueryRequest queryRequest) {
         MPJQueryWrapper<AppUser> queryWrapper = new MPJQueryWrapper<>();
         queryWrapper.selectAll(AppUser.class);
-        queryWrapper.leftJoin("(select * from app_user_organization_unit) uo on t.id=uo.user_id");
         queryWrapper.like(queryRequest.getUsername() != null, "username", queryRequest.getUsername());
-        queryWrapper.like(queryRequest.getOrganizationUnitId() != null, "uo.user_id", queryRequest.getOrganizationUnitId());
+        queryWrapper.like(queryRequest.getOrganizationId() != null, "organization_id", queryRequest.getOrganizationId());
         IPage<AppUser> page = new Page<>();
         page.setCurrent(queryRequest.getPage());
         page.setSize(queryRequest.getPageSize());
-        page = getBaseMapper().selectJoinPage(page, AppUser.class, queryWrapper);
+        page = getBaseMapper().selectPage(page, queryWrapper);
         return PageResult.builder(page.getRecords(), page.getTotal());
     }
 
