@@ -114,12 +114,12 @@ public class AppUserController {
      */
     @GetMapping("account-exist/{account}")
     @ApiOperation("检查帐号是否存在")
-    public Boolean exist(@PathVariable String account) {
+    public FridayResult<String> exist(@PathVariable String account) {
         var user = appUserService.findByAccount(account);
         if (user.getId() == null) {
-            return true;
+            return FridayResult.ok(account + "可使用");
         } else {
-            throw new FridayResultException(ResultStatus.FORBIDDEN_003);
+            return FridayResult.fail(ResultStatus.FORBIDDEN_003);
         }
     }
 }

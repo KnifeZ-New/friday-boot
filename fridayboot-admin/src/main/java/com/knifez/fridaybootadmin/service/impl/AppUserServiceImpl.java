@@ -43,8 +43,7 @@ public class AppUserServiceImpl extends ServiceImpl<AppUserMapper, AppUser> impl
      */
     @Override
     public PageResult<AppUser> listByPageQuery(AppUserPagedQueryRequest queryRequest) {
-        MPJQueryWrapper<AppUser> queryWrapper = new MPJQueryWrapper<>();
-        queryWrapper.selectAll(AppUser.class);
+        QueryWrapper<AppUser> queryWrapper = new QueryWrapper<>();
         queryWrapper.like(queryRequest.getUsername() != null, "username", queryRequest.getUsername());
         queryWrapper.like(queryRequest.getOrganizationId() != null, "organization_id", queryRequest.getOrganizationId());
         IPage<AppUser> page = new Page<>();

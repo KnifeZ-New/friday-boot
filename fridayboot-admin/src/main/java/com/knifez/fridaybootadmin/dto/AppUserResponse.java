@@ -30,4 +30,7 @@ public class AppUserResponse extends BaseAuditEntity {
     @TableField(value = "is_locked")
     @ApiModelProperty("是否锁定")
     private Boolean locked;
+
+    @ApiModelProperty("所属部门id")
+    private Long organizationId;
 }
