@@ -49,10 +49,6 @@ public class FridayResult<T> {
         return new FridayResult<>(ResultStatus.SUCCESS, data);
     }
 
-    public static <T> FridayResult<T> ok() {
-        return ok(null);
-    }
-
     public static <T> FridayResult<T> fail(ResultStatus resultStatus, T data) {
         return new FridayResult<>(resultStatus, data);
     }
@@ -63,11 +59,6 @@ public class FridayResult<T> {
 
     public static <T> FridayResult<T> fail(ResultStatus resultStatus) {
         return fail(resultStatus, null);
-    }
-
-
-    public static <T> FridayResult<T> fail() {
-        return fail(ResultStatus.BAD_REQUEST);
     }
 
     @Override

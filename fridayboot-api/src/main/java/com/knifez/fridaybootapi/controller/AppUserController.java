@@ -10,7 +10,6 @@ import com.knifez.fridaybootcore.annotation.permission.AllowAuthenticated;
 import com.knifez.fridaybootcore.dto.FridayResult;
 import com.knifez.fridaybootcore.dto.PageResult;
 import com.knifez.fridaybootcore.enums.ResultStatus;
-import com.knifez.fridaybootcore.exception.FridayResultException;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.BeanUtils;

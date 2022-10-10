@@ -2,6 +2,7 @@
 package ${package.Controller};
 
 import org.springframework.web.bind.annotation.*;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 <#if restControllerStyle>
 import com.knifez.fridaybootcore.annotation.ApiRestController;
