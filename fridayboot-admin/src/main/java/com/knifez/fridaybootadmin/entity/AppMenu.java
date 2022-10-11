@@ -1,12 +1,15 @@
 package com.knifez.fridaybootadmin.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+
+import com.knifez.fridaybootcore.entity.BaseAuditEntity;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
@@ -24,7 +27,7 @@ import lombok.Setter;
 @Setter
 @TableName("app_menu")
 @ApiModel(value = "AppMenu对象", description = "菜单")
-public class AppMenu implements Serializable {
+public class AppMenu extends BaseAuditEntity implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;
@@ -52,31 +55,20 @@ public class AppMenu implements Serializable {
     private String routePath;
 
     @ApiModelProperty("组件路径")
-    private String comPath;
+    private String component;
 
     @ApiModelProperty("权限标识")
     private String permission;
 
+    @TableField(value = "is_visible")
     @ApiModelProperty("是否显示")
-    private Boolean isVisible;
+    private Boolean visible;
 
     @ApiModelProperty("是否缓存")
-    private Boolean isCached;
+    private Boolean keepAlive;
 
+    @TableField(value = "is_enabled")
     @ApiModelProperty("是否启用")
-    private Boolean isEnabled;
-
-    @ApiModelProperty("创建人")
-    private String createBy;
-
-    @ApiModelProperty("创建时间")
-    private LocalDateTime createTime;
-
-    @ApiModelProperty("修改人")
-    private String updateBy;
-
-    @ApiModelProperty("更新时间")
-    private LocalDateTime updateTime;
-
+    private Boolean enabled;
 
 }

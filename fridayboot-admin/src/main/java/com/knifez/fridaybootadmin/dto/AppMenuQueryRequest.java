@@ -10,6 +10,7 @@ public class AppMenuQueryRequest {
 
     @ApiModelProperty("名称")
     private String name;
+
     @ApiModelProperty("状态")
     private boolean enabled;
 }

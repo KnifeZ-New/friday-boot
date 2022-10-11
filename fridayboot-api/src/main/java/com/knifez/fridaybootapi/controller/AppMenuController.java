@@ -43,19 +43,24 @@ public class AppMenuController {
     @ApiOperation("列表")
     public List<Tree<Integer>> treeList(@RequestBody AppMenuQueryRequest queryRequest) {
         QueryWrapper<AppMenu> queryWrapper = new QueryWrapper<>();
-        queryWrapper.like("is_enabled", queryRequest.isEnabled());
         queryWrapper.like(StringUtils.hasText(queryRequest.getName()), "name", queryRequest.getName());
+        queryWrapper.orderByAsc("sort");
         var list = appMenuService.list(queryWrapper);
         TreeNodeConfig treeConfig = new TreeNodeConfig();
+
         return TreeUtil.build(list, null, treeConfig, (node, tree) -> {
             tree.setId(node.getId());
             tree.setName(node.getName());
             tree.setParentId(node.getParentId());
             tree.putExtra("icon", node.getIcon());
+            tree.putExtra("type", node.getType());
             tree.putExtra("sort", node.getSort());
-            tree.putExtra("com_path", node.getComPath());
+            tree.putExtra("routePath", node.getRoutePath());
+            tree.putExtra("component", node.getComponent());
             tree.putExtra("permission", node.getPermission());
-            tree.putExtra("is_enabled", node.getIsEnabled());
+            tree.putExtra("visible", node.getVisible());
+            tree.putExtra("enabled", node.getEnabled());
+            tree.putExtra("keepAlive", node.getKeepAlive());
             tree.putExtra("createTime", node.getCreateTime());
         });
     }

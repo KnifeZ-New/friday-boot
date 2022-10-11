@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.7.1</version>
+        <version>2.7.4</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.knifez</groupId>
@@ -19,16 +19,16 @@
         <jwt.version>0.11.5</jwt.version>
         <springboot.version>2.7.1</springboot.version>
         <mybatisplus.version>3.5.2</mybatisplus.version>
-        <mybatisplusjoin.version>1.2.4</mybatisplusjoin.version>
-        <mysql.version>8.0.29</mysql.version>
+        <mysql.version>8.0.30</mysql.version>
         <swagger.version>3.0.0</swagger.version>
-        <hutool.version>5.8.3</hutool.version>
-        <jackson.version>2.13.3</jackson.version>
+        <hutool.version>5.8.8</hutool.version>
+        <jackson.version>2.13.4</jackson.version>
     </properties>
     <modules>
         <module>fridayboot-core</module>
         <module>fridayboot-admin</module>
         <module>fridayboot-api</module>
+        <module>module-site</module>
     </modules>
     <dependencyManagement>
         <dependencies>
@@ -87,7 +87,7 @@
             <dependency>
                 <groupId>com.github.yulichang</groupId>
                 <artifactId>mybatis-plus-join</artifactId>
-                <version>${mybatisplusjoin.version}</version>
+                <version>1.2.4</version>
             </dependency>
             <dependency>
                 <groupId>mysql</groupId>
