@@ -44,10 +44,9 @@ public class AppMenuController {
     public List<Tree<Integer>> treeList(@RequestBody AppMenuQueryRequest queryRequest) {
         QueryWrapper<AppMenu> queryWrapper = new QueryWrapper<>();
         queryWrapper.like(StringUtils.hasText(queryRequest.getName()), "name", queryRequest.getName());
-        queryWrapper.orderByAsc("sort");
+        queryWrapper.orderByDesc("type", "sort");
         var list = appMenuService.list(queryWrapper);
         TreeNodeConfig treeConfig = new TreeNodeConfig();
-
         return TreeUtil.build(list, null, treeConfig, (node, tree) -> {
             tree.setId(node.getId());
             tree.setName(node.getName());
@@ -62,6 +61,27 @@ public class AppMenuController {
             tree.putExtra("enabled", node.getEnabled());
             tree.putExtra("keepAlive", node.getKeepAlive());
             tree.putExtra("createTime", node.getCreateTime());
+        });
+    }
+
+
+    @PostMapping("menu-list")
+    @ApiOperation("前台菜单")
+    public List<Tree<Integer>> menus() {
+        QueryWrapper<AppMenu> queryWrapper = new QueryWrapper<>();
+        queryWrapper.like("is_enabled", true);
+        queryWrapper.orderByDesc("type", "sort");
+        var list = appMenuService.list(queryWrapper);
+        TreeNodeConfig treeConfig = new TreeNodeConfig();
+        return TreeUtil.build(list, null, treeConfig, (node, tree) -> {
+            tree.setId(node.getId());
+            tree.setName(node.getName());
+            tree.setParentId(node.getParentId());
+            tree.putExtra("name", node.getName());
+            tree.putExtra("path", node.getRoutePath());
+            tree.putExtra("component", node.getComponent());
+            tree.putExtra("icon", node.getIcon());
+            tree.putExtra("permission", node.getPermission());
         });
     }
 
