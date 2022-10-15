@@ -15,7 +15,6 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.BeanUtils;
 import org.springframework.web.bind.annotation.*;
 
-
 /**
  * <p>
  * 用户表 前端控制器
@@ -111,6 +110,7 @@ public class AppUserController {
      * @param account 账户
      * @return {@link String}
      */
+    @AllowAuthenticated
     @GetMapping("account-exist/{account}")
     @ApiOperation("检查帐号是否存在")
     public FridayResult<String> exist(@PathVariable String account) {

@@ -1,6 +1,7 @@
 package com.knifez.fridaybootadmin.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 
@@ -43,7 +44,8 @@ public class AppDictionary extends BaseAuditEntity implements Serializable {
     @ApiModelProperty("备注")
     private String description;
 
+    @TableField(value = "is_enabled")
     @ApiModelProperty("是否启用")
-    private Boolean isEnabled;
+    private Boolean enabled;
 
 }

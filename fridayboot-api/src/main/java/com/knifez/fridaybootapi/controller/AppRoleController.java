@@ -3,6 +3,7 @@ package com.knifez.fridaybootapi.controller;
 import com.knifez.fridaybootadmin.dto.AppRolePagedQueryRequest;
 import com.knifez.fridaybootadmin.dto.AppUserResponse;
 import com.knifez.fridaybootadmin.entity.AppRole;
+import com.knifez.fridaybootadmin.service.IAppPermissionGrantService;
 import com.knifez.fridaybootadmin.service.IAppRoleService;
 import com.knifez.fridaybootcore.annotation.ApiRestController;
 import com.knifez.fridaybootcore.annotation.permission.AllowAuthenticated;
@@ -30,8 +31,11 @@ public class AppRoleController {
 
     private final IAppRoleService roleService;
 
-    public AppRoleController(IAppRoleService roleService) {
+    private final IAppPermissionGrantService permissionService;
+
+    public AppRoleController(IAppRoleService roleService, IAppPermissionGrantService permissionService) {
         this.roleService = roleService;
+        this.permissionService = permissionService;
     }
 
 
@@ -58,6 +62,13 @@ public class AppRoleController {
         return roleService.list();
     }
 
+    @GetMapping("{roleName}/permission-list")
+    @ApiOperation("角色权限列表")
+    public int[] permissionsByRoleName(@PathVariable String roleName) {
+        var list = permissionService.listByRole(roleName);
+        return list.stream().mapToInt(Integer::parseInt).toArray();
+    }
+
     /**
      * 根据id获取角色
      *
@@ -79,6 +90,7 @@ public class AppRoleController {
     @PostMapping
     @ApiOperation("新增角色")
     public Boolean create(@RequestBody AppRole role) {
+        permissionService.saveByRole(role.getPermissions(), role.getName());
         return roleService.save(role);
     }
 
@@ -91,6 +103,7 @@ public class AppRoleController {
     @PostMapping("{id}")
     @ApiOperation("修改角色")
     public Boolean update(@RequestBody AppRole role) {
+        permissionService.saveByRole(role.getPermissions(), role.getName());
         return roleService.updateById(role);
     }
 

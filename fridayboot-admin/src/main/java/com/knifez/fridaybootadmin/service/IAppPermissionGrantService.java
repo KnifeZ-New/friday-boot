@@ -23,6 +23,15 @@ public interface IAppPermissionGrantService extends IService<AppPermissionGrant>
      */
     List<String> listByRole(String roleName);
 
+
+    /**
+     * 根据角色保存权限
+     *
+     * @param permissions 菜单权限id集合
+     * @param roleName    角色
+     */
+    void saveByRole(List<Integer> permissions, String roleName);
+
     /**
      * 按角色获取权限列表
      *

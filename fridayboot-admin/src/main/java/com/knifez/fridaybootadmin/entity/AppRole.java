@@ -1,12 +1,15 @@
 package com.knifez.fridaybootadmin.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.knifez.fridaybootcore.entity.BaseAuditEntity;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -45,5 +48,8 @@ public class AppRole extends BaseAuditEntity implements Serializable {
     @ApiModelProperty("角色介绍")
     private String description;
 
+    @TableField(exist = false)
+    @ApiModelProperty("角色权限")
+    private List<Integer> permissions;
 
 }
