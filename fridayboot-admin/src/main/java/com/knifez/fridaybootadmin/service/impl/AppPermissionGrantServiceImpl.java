@@ -1,13 +1,15 @@
 package com.knifez.fridaybootadmin.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.knifez.fridaybootadmin.entity.AppPermissionGrant;
 import com.knifez.fridaybootadmin.mapper.AppPermissionGrantMapper;
+import com.knifez.fridaybootadmin.service.IAppMenuService;
 import com.knifez.fridaybootadmin.service.IAppPermissionGrantService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -21,6 +23,12 @@ import java.util.List;
 @Service
 public class AppPermissionGrantServiceImpl extends ServiceImpl<AppPermissionGrantMapper, AppPermissionGrant> implements IAppPermissionGrantService {
 
+    private final IAppMenuService menuService;
+
+    public AppPermissionGrantServiceImpl(IAppMenuService menuService) {
+        this.menuService = menuService;
+    }
+
     /**
      * 按角色获取权限列表
      *
@@ -29,18 +37,19 @@ public class AppPermissionGrantServiceImpl extends ServiceImpl<AppPermissionGran
      */
     @Override
     public List<String> listByRole(String roleName) {
-        var queryWrapper = new QueryWrapper<AppPermissionGrant>();
-        queryWrapper.eq("provide_for", roleName);
-        queryWrapper.eq("provide_name", "ROLE");
+        var queryWrapper = new LambdaQueryWrapper<AppPermissionGrant>();
+        queryWrapper.eq(AppPermissionGrant::getProvideFor, roleName);
+        queryWrapper.eq(AppPermissionGrant::getProvideName, "ROLE");
         var list = baseMapper.selectList(queryWrapper);
-        return list.stream().map(AppPermissionGrant::getName).toList();
+        var ids = list.stream().map(AppPermissionGrant::getName).distinct().toList();
+        return menuService.getMenuPermissions(ids);
     }
 
     @Override
     public void saveByRole(List<Integer> permissions, String roleName) {
-        var queryWrapper = new QueryWrapper<AppPermissionGrant>();
-        queryWrapper.eq("provide_for", roleName);
-        queryWrapper.eq("provide_name", "ROLE");
+        var queryWrapper = new LambdaQueryWrapper<AppPermissionGrant>();
+        queryWrapper.eq(AppPermissionGrant::getProvideFor, roleName);
+        queryWrapper.eq(AppPermissionGrant::getProvideName, "ROLE");
         baseMapper.delete(queryWrapper);
         List<AppPermissionGrant> permissionGrants = new ArrayList<>();
         for (var menu : permissions) {
@@ -61,10 +70,14 @@ public class AppPermissionGrantServiceImpl extends ServiceImpl<AppPermissionGran
      */
     @Override
     public List<String> listByRoles(List<String> roleNames) {
-        var queryWrapper = new QueryWrapper<AppPermissionGrant>();
-        queryWrapper.in("provide_for", roleNames);
-        queryWrapper.eq("provide_name", "ROLE");
+        if (roleNames.isEmpty()) {
+            return Collections.emptyList();
+        }
+        var queryWrapper = new LambdaQueryWrapper<AppPermissionGrant>();
+        queryWrapper.in(AppPermissionGrant::getProvideFor, roleNames);
+        queryWrapper.eq(AppPermissionGrant::getProvideName, "ROLE");
         var list = baseMapper.selectList(queryWrapper);
-        return list.stream().map(AppPermissionGrant::getName).distinct().toList();
+        var ids = list.stream().map(AppPermissionGrant::getName).distinct().toList();
+        return menuService.getMenuPermissions(ids);
     }
 }

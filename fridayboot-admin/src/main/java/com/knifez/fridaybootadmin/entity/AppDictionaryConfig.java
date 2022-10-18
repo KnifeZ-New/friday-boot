@@ -37,6 +37,9 @@ public class AppDictionaryConfig extends BaseAuditEntity implements Serializable
     @ApiModelProperty("字典编码")
     private String dictCode;
 
+    @ApiModelProperty("父级节点")
+    private Long parentId;
+
     @ApiModelProperty("名字")
     private String name;
 
@@ -48,6 +51,9 @@ public class AppDictionaryConfig extends BaseAuditEntity implements Serializable
 
     @ApiModelProperty("标签等级")
     private String labelLevel;
+
+    @ApiModelProperty("图标")
+    private String icon;
 
     @ApiModelProperty("排序")
     private Integer sort;

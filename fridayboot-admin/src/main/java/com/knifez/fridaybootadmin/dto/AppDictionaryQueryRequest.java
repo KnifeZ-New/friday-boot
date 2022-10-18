@@ -5,6 +5,9 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ * @author Knife
+ */
 @Getter
 @Setter
 public class AppDictionaryQueryRequest extends PageRequest {

@@ -4,6 +4,7 @@ package com.knifez.fridaybootapi.controller;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.knifez.fridaybootadmin.entity.AppDictionaryConfig;
 import com.knifez.fridaybootadmin.service.IAppDictionaryConfigService;
+import com.knifez.fridaybootcore.annotation.permission.AllowAuthenticated;
 import io.swagger.annotations.Api;
 import org.springframework.web.bind.annotation.*;
 import io.swagger.annotations.ApiOperation;
@@ -19,7 +20,7 @@ import java.util.List;
  * @author KnifeZ
  * @since 2022-10-09
  */
-
+@AllowAuthenticated
 @Api(tags = "字典配置管理")
 @ApiRestController
 @RequestMapping("/dictionary-config")
@@ -46,12 +47,12 @@ public class AppDictionaryConfigController {
     }
 
     /**
-     * 发现通过dict类型代码
+     * 根据code获取字典属性列表
      *
      * @param dictCode dict类型代码
      * @return {@link List}<{@link AppDictionaryConfig}>
      */
-    @GetMapping("list/{dictCode}")
+    @PostMapping("list/{dictCode}")
     @ApiOperation("根据code获取字典属性列表")
     public List<AppDictionaryConfig> listByDictCode(@PathVariable String dictCode) {
         QueryWrapper<AppDictionaryConfig> queryWrapper = new QueryWrapper<>();

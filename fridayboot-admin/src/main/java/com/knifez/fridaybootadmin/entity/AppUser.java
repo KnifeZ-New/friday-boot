@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.knifez.fridaybootadmin.service.IAppUserRoleService;
 import com.knifez.fridaybootcore.entity.BaseAuditEntity;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -67,6 +68,10 @@ public class AppUser extends BaseAuditEntity implements Serializable {
     private String organizationName;
 
     @TableField(exist = false)
+    @ApiModelProperty("角色")
+    private List<Long> roles = new ArrayList<>();
+
+    @TableField(exist = false)
     @JsonIgnore
     @ApiModelProperty("角色")
     private List<String> userRoles = new ArrayList<>();
@@ -76,7 +81,7 @@ public class AppUser extends BaseAuditEntity implements Serializable {
     @ApiModelProperty("权限")
     private List<String> permissions = new ArrayList<>();
 
-    public List<SimpleGrantedAuthority> getRoles() {
+    public List<SimpleGrantedAuthority> getGrantRoles() {
         List<SimpleGrantedAuthority> authorities = new ArrayList<>();
         userRoles.forEach(role -> authorities.add(new SimpleGrantedAuthority("ROLE_" + role)));
         if (authorities.isEmpty()) {

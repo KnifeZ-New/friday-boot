@@ -3,6 +3,7 @@ package com.knifez.fridaybootapi.controller;
 import cn.hutool.core.bean.BeanUtil;
 import com.knifez.fridaybootadmin.dto.AppUserResponse;
 import com.knifez.fridaybootadmin.entity.AppUser;
+import com.knifez.fridaybootadmin.service.IAppUserRoleService;
 import com.knifez.fridaybootadmin.service.IAppUserService;
 import com.knifez.fridaybootadmin.dto.AppUserPagedQueryRequest;
 import com.knifez.fridaybootcore.annotation.ApiRestController;
@@ -14,6 +15,8 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.BeanUtils;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * <p>
@@ -30,8 +33,11 @@ import org.springframework.web.bind.annotation.*;
 public class AppUserController {
     private final IAppUserService appUserService;
 
-    public AppUserController(IAppUserService appUserService) {
+    private final IAppUserRoleService userRoleService;
+
+    public AppUserController(IAppUserService appUserService, IAppUserRoleService userRoleService) {
         this.appUserService = appUserService;
+        this.userRoleService = userRoleService;
     }
 
     /**
@@ -76,7 +82,7 @@ public class AppUserController {
     @PostMapping
     @ApiOperation("新增用户")
     public Boolean create(@RequestBody AppUser user) {
-        return appUserService.save(user);
+        return appUserService.saveWithUserRoles(user, false);
     }
 
     /**
@@ -88,7 +94,7 @@ public class AppUserController {
     @PostMapping("{id}")
     @ApiOperation("修改用户")
     public Boolean update(@RequestBody AppUser user) {
-        return appUserService.updateById(user);
+        return appUserService.saveWithUserRoles(user, true);
     }
 
     /**
@@ -120,5 +126,17 @@ public class AppUserController {
         } else {
             return FridayResult.fail(ResultStatus.FORBIDDEN_003);
         }
+    }
+
+    /**
+     * 获取用户关联角色
+     *
+     * @param id userid
+     * @return roleIds
+     */
+    @GetMapping("{id}/roles")
+    @ApiOperation("获取用户关联角色")
+    public List<Long> getUserRoles(@PathVariable Long id) {
+        return userRoleService.listRolesByUserId(id);
     }
 }

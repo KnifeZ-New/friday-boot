@@ -4,8 +4,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.knifez.fridaybootadmin.dto.AppUserPagedQueryRequest;
 import com.knifez.fridaybootadmin.entity.AppUser;
 import com.knifez.fridaybootcore.dto.PageResult;
-import org.apache.ibatis.annotations.Result;
-import org.apache.ibatis.annotations.Results;
 
 /**
  * <p>
@@ -34,4 +32,13 @@ public interface IAppUserService extends IService<AppUser> {
      * @return User
      */
     AppUser findByAccount(String account);
+
+    /**
+     * 保存用户数据和角色关系
+     *
+     * @param user     user对象
+     * @param isUpdate 更新
+     * @return 操作结果
+     */
+    Boolean saveWithUserRoles(AppUser user, boolean isUpdate);
 }

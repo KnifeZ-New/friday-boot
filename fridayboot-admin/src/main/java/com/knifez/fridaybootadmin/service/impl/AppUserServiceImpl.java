@@ -3,16 +3,18 @@ package com.knifez.fridaybootadmin.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.github.yulichang.query.MPJQueryWrapper;
 import com.knifez.fridaybootadmin.dto.AppUserPagedQueryRequest;
 import com.knifez.fridaybootadmin.entity.AppUser;
 import com.knifez.fridaybootadmin.mapper.AppUserMapper;
 import com.knifez.fridaybootadmin.service.IAppPermissionGrantService;
 import com.knifez.fridaybootadmin.service.IAppRoleService;
+import com.knifez.fridaybootadmin.service.IAppUserRoleService;
 import com.knifez.fridaybootadmin.service.IAppUserService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.knifez.fridaybootcore.dto.PageResult;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 /**
  * <p>
@@ -30,9 +32,12 @@ public class AppUserServiceImpl extends ServiceImpl<AppUserMapper, AppUser> impl
 
     private final IAppPermissionGrantService permissionService;
 
-    public AppUserServiceImpl(IAppRoleService roleService, IAppPermissionGrantService permissionService) {
+    private final IAppUserRoleService userRoleService;
+
+    public AppUserServiceImpl(IAppRoleService roleService, IAppPermissionGrantService permissionService, IAppUserRoleService userRoleService) {
         this.roleService = roleService;
         this.permissionService = permissionService;
+        this.userRoleService = userRoleService;
     }
 
     /**
@@ -69,5 +74,24 @@ public class AppUserServiceImpl extends ServiceImpl<AppUserMapper, AppUser> impl
             user.setUserRoles(roles);
         }
         return user;
+    }
+
+    @Override
+    public Boolean saveWithUserRoles(AppUser user, boolean isUpdate) {
+        var result = false;
+        if (StringUtils.hasText(user.getPassword())) {
+            BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+            String password = bCryptPasswordEncoder.encode(user.getPassword());
+            user.setPassword(password);
+        }
+        if (isUpdate) {
+            result = updateById(user);
+        } else {
+            result = save(user);
+        }
+        if (result) {
+            result = userRoleService.saveRolesByUserId(user.getId(), user.getRoles());
+        }
+        return result;
     }
 }

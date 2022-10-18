@@ -38,7 +38,7 @@ public class JwtUser implements UserDetails {
         username = user.getUsername();
         password = user.getPassword();
         locked = user.getLocked() == null || user.getLocked();
-        authorities = user.getRoles();
+        authorities = user.getGrantRoles();
     }
 
     @Override
