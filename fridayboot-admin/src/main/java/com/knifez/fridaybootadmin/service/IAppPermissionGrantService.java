@@ -16,12 +16,12 @@ import java.util.List;
 public interface IAppPermissionGrantService extends IService<AppPermissionGrant> {
 
     /**
-     * 按角色获取权限列表
+     * 按角色获取菜单列表
      *
      * @param roleName 角色名
      * @return {@link List}<{@link String}>
      */
-    List<String> listByRole(String roleName);
+    List<String> getSelectMenusByRoleName(String roleName);
 
 
     /**

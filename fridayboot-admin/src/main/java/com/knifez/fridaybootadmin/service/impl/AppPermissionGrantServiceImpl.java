@@ -30,19 +30,18 @@ public class AppPermissionGrantServiceImpl extends ServiceImpl<AppPermissionGran
     }
 
     /**
-     * 按角色获取权限列表
+     * 按角色获取菜单列表
      *
      * @param roleName 角色名
      * @return {@link List}<{@link String}>
      */
     @Override
-    public List<String> listByRole(String roleName) {
+    public List<String> getSelectMenusByRoleName(String roleName) {
         var queryWrapper = new LambdaQueryWrapper<AppPermissionGrant>();
         queryWrapper.eq(AppPermissionGrant::getProvideFor, roleName);
         queryWrapper.eq(AppPermissionGrant::getProvideName, "ROLE");
         var list = baseMapper.selectList(queryWrapper);
-        var ids = list.stream().map(AppPermissionGrant::getName).distinct().toList();
-        return menuService.getMenuPermissions(ids);
+        return list.stream().map(AppPermissionGrant::getName).distinct().toList();
     }
 
     @Override

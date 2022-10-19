@@ -56,16 +56,18 @@ public class AppRoleController {
      *
      * @return {@link List}<{@link AppRole}>
      */
+    @AllowAuthenticated
     @PostMapping("all")
     @ApiOperation("所有角色列表")
     public List<AppRole> allRoles() {
         return roleService.list();
     }
 
+    @AllowAuthenticated
     @GetMapping("{roleName}/permission-list")
-    @ApiOperation("角色权限列表")
+    @ApiOperation("根据角色名获取角色绑定菜单列表")
     public int[] permissionsByRoleName(@PathVariable String roleName) {
-        var list = permissionService.listByRole(roleName);
+        var list = permissionService.getSelectMenusByRoleName(roleName);
         return list.stream().mapToInt(Integer::parseInt).toArray();
     }
 
