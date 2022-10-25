@@ -20,4 +20,7 @@ public class AppUserPagedQueryRequest extends PageRequest {
 
     @ApiModelProperty("部门")
     private Long organizationId;
+
+    @ApiModelProperty("是否锁定")
+    private Boolean locked;
 }

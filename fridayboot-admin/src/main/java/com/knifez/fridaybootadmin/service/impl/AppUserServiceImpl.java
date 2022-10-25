@@ -49,8 +49,9 @@ public class AppUserServiceImpl extends ServiceImpl<AppUserMapper, AppUser> impl
     @Override
     public PageResult<AppUser> listByPageQuery(AppUserPagedQueryRequest queryRequest) {
         QueryWrapper<AppUser> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq(queryRequest.getLocked() != null, "is_locked", queryRequest.getLocked());
         queryWrapper.like(queryRequest.getUsername() != null, "username", queryRequest.getUsername());
-        queryWrapper.like(queryRequest.getOrganizationId() != null, "organization_id", queryRequest.getOrganizationId());
+        queryWrapper.eq(queryRequest.getOrganizationId() != null, "organization_id", queryRequest.getOrganizationId());
         IPage<AppUser> page = new Page<>();
         page.setCurrent(queryRequest.getPage());
         page.setSize(queryRequest.getPageSize());
