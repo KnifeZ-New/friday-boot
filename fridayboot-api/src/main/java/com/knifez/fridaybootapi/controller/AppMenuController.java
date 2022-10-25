@@ -2,14 +2,12 @@
 package com.knifez.fridaybootapi.controller;
 
 import cn.hutool.core.lang.tree.Tree;
-import cn.hutool.core.lang.tree.TreeNodeConfig;
-import cn.hutool.core.lang.tree.TreeUtil;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.knifez.fridaybootadmin.dto.AppMenuButtonQueryRequest;
+import com.knifez.fridaybootadmin.dto.AppMenuButtonResponse;
 import com.knifez.fridaybootadmin.dto.AppMenuQueryRequest;
 import com.knifez.fridaybootadmin.entity.AppMenu;
 import com.knifez.fridaybootadmin.service.IAppMenuService;
 import com.knifez.fridaybootcore.annotation.permission.AllowAuthenticated;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -39,51 +37,18 @@ public class AppMenuController {
     }
 
 
+    @ApiOperation("菜单列表")
     @PostMapping("tree-list")
-    @ApiOperation("列表")
     public List<Tree<Integer>> treeList(@RequestBody AppMenuQueryRequest queryRequest) {
-        QueryWrapper<AppMenu> queryWrapper = new QueryWrapper<>();
-        queryWrapper.like(StringUtils.hasText(queryRequest.getName()), "name", queryRequest.getName());
-        queryWrapper.orderByDesc("type", "sort");
-        var list = appMenuService.list(queryWrapper);
-        TreeNodeConfig treeConfig = new TreeNodeConfig();
-        return TreeUtil.build(list, null, treeConfig, (node, tree) -> {
-            tree.setId(node.getId());
-            tree.setName(node.getName());
-            tree.setParentId(node.getParentId());
-            tree.putExtra("icon", node.getIcon());
-            tree.putExtra("type", node.getType());
-            tree.putExtra("sort", node.getSort());
-            tree.putExtra("routePath", node.getRoutePath());
-            tree.putExtra("component", node.getComponent());
-            tree.putExtra("permission", node.getPermission());
-            tree.putExtra("visible", node.getVisible());
-            tree.putExtra("enabled", node.getEnabled());
-            tree.putExtra("keepAlive", node.getKeepAlive());
-            tree.putExtra("createTime", node.getCreateTime());
-        });
+        return appMenuService.getTreeList(queryRequest);
     }
 
-
-    @PostMapping("menu-list")
-    @ApiOperation("前台菜单")
-    public List<Tree<Integer>> menus() {
-        QueryWrapper<AppMenu> queryWrapper = new QueryWrapper<>();
-        queryWrapper.like("is_enabled", true);
-        queryWrapper.orderByDesc("type", "sort");
-        var list = appMenuService.list(queryWrapper);
-        TreeNodeConfig treeConfig = new TreeNodeConfig();
-        return TreeUtil.build(list, null, treeConfig, (node, tree) -> {
-            tree.setId(node.getId());
-            tree.setName(node.getName());
-            tree.setParentId(node.getParentId());
-            tree.putExtra("name", node.getName());
-            tree.putExtra("path", node.getRoutePath());
-            tree.putExtra("component", node.getComponent());
-            tree.putExtra("icon", node.getIcon());
-            tree.putExtra("permission", node.getPermission());
-        });
+    @ApiOperation("菜单按钮列表")
+    @PostMapping("button-list")
+    public List<AppMenuButtonResponse> menuButtonList(@RequestBody AppMenuButtonQueryRequest queryRequest) {
+        return appMenuService.getMenuButtons(queryRequest);
     }
+
 
     /**
      * 根据id获取菜单

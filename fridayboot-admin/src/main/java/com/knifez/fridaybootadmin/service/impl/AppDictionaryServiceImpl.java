@@ -33,7 +33,7 @@ public class AppDictionaryServiceImpl extends ServiceImpl<AppDictionaryMapper, A
     @Override
     public PageResult<AppDictionary> listByPageQuery(AppDictionaryQueryRequest queryRequest) {
         QueryWrapper<AppDictionary> queryWrapper = new QueryWrapper<>();
-        queryWrapper.like(StringUtils.hasText(queryRequest.getCode()), "code", queryRequest.getCode());
+        queryWrapper.eq(queryRequest.getEnabled() != null, "is_enabled", queryRequest.getEnabled());
         queryWrapper.like(StringUtils.hasText(queryRequest.getName()), "name", queryRequest.getName());
         IPage<AppDictionary> page = new Page<>();
         page.setCurrent(queryRequest.getPage());

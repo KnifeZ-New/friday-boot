@@ -1,6 +1,5 @@
 package com.knifez.fridaybootadmin.dto;
 
-import com.knifez.fridaybootcore.dto.PageRequest;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
@@ -10,9 +9,12 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public class AppDictionaryQueryRequest extends PageRequest {
+public class AppMenuButtonQueryRequest {
 
-    @ApiModelProperty("字典名称")
+    @ApiModelProperty("菜单ID")
+    private int menuId;
+
+    @ApiModelProperty("按钮名称")
     private String name;
 
     @ApiModelProperty("是否启用")

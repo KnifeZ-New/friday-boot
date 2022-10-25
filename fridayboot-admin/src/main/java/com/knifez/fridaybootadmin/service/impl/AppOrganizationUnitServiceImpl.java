@@ -38,7 +38,6 @@ public class AppOrganizationUnitServiceImpl extends ServiceImpl<AppOrganizationU
         page.setCurrent(queryRequest.getPage());
         page.setSize(queryRequest.getPageSize());
         page = getBaseMapper().selectPage(page, queryWrapper);
-        var list = getBaseMapper().selectList(queryWrapper);
         return PageResult.builder(page.getRecords(), page.getTotal());
     }
 }

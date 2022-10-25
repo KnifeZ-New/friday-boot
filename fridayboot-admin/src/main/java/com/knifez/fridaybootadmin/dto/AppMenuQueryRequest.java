@@ -4,6 +4,9 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ * @author Knife
+ */
 @Getter
 @Setter
 public class AppMenuQueryRequest {
@@ -12,5 +15,8 @@ public class AppMenuQueryRequest {
     private String name;
 
     @ApiModelProperty("状态")
-    private boolean enabled;
+    private Boolean enabled;
+
+    @ApiModelProperty("是否返回按钮")
+    private Boolean includeButton;
 }
