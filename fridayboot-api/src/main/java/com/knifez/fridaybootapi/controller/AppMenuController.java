@@ -3,7 +3,7 @@ package com.knifez.fridaybootapi.controller;
 
 import cn.hutool.core.lang.tree.Tree;
 import com.knifez.fridaybootadmin.dto.AppMenuButtonQueryRequest;
-import com.knifez.fridaybootadmin.dto.AppMenuButtonResponse;
+import com.knifez.fridaybootadmin.entity.AppMenuButton;
 import com.knifez.fridaybootadmin.dto.AppMenuQueryRequest;
 import com.knifez.fridaybootadmin.entity.AppMenu;
 import com.knifez.fridaybootadmin.service.IAppMenuService;
@@ -45,7 +45,7 @@ public class AppMenuController {
 
     @ApiOperation("菜单按钮列表")
     @PostMapping("button-list")
-    public List<AppMenuButtonResponse> menuButtonList(@RequestBody AppMenuButtonQueryRequest queryRequest) {
+    public List<AppMenuButton> menuButtonList(@RequestBody AppMenuButtonQueryRequest queryRequest) {
         return appMenuService.getMenuButtons(queryRequest);
     }
 

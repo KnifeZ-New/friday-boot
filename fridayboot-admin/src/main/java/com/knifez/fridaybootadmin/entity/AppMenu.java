@@ -46,7 +46,7 @@ public class AppMenu extends BaseAuditEntity implements Serializable {
     private String route;
 
     @ApiModelProperty("菜单类型")
-    private String type;
+    private Integer type;
 
     @ApiModelProperty("排序")
     private Integer sort;

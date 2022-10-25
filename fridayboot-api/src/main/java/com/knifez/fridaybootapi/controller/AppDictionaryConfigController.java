@@ -62,7 +62,7 @@ public class AppDictionaryConfigController {
     public List<AppDictionaryConfig> listByDictCode(@PathVariable String dictCode, @RequestBody AppDictionaryConfigQueryRequest queryRequest) {
         QueryWrapper<AppDictionaryConfig> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("dict_code", dictCode);
-        queryWrapper.eq("is_enabled", queryRequest.getEnabled());
+        queryWrapper.eq(queryRequest.getEnabled() != null, "is_enabled", queryRequest.getEnabled());
         queryWrapper.like(StringUtils.hasText(queryRequest.getName()), "name", queryRequest.getName());
         return appDictionaryConfigService.list(queryWrapper);
     }
@@ -79,7 +79,7 @@ public class AppDictionaryConfigController {
     public List<Tree<Long>> treeListByDictCode(@PathVariable String dictCode, @RequestBody AppDictionaryConfigQueryRequest queryRequest) {
         QueryWrapper<AppDictionaryConfig> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("dict_code", dictCode);
-        queryWrapper.eq("is_enabled", queryRequest.getEnabled());
+        queryWrapper.eq(queryRequest.getEnabled() != null, "is_enabled", queryRequest.getEnabled());
         queryWrapper.like(StringUtils.hasText(queryRequest.getName()), "name", queryRequest.getName());
         var list = appDictionaryConfigService.list(queryWrapper);
         TreeNodeConfig treeConfig = new TreeNodeConfig();

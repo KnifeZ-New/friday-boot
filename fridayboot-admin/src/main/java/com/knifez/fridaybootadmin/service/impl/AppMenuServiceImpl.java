@@ -7,7 +7,7 @@ import cn.hutool.core.lang.tree.TreeUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.knifez.fridaybootadmin.dto.AppMenuButtonQueryRequest;
-import com.knifez.fridaybootadmin.dto.AppMenuButtonResponse;
+import com.knifez.fridaybootadmin.entity.AppMenuButton;
 import com.knifez.fridaybootadmin.dto.AppMenuQueryRequest;
 import com.knifez.fridaybootadmin.entity.AppDictionaryConfig;
 import com.knifez.fridaybootadmin.entity.AppMenu;
@@ -56,13 +56,13 @@ public class AppMenuServiceImpl extends ServiceImpl<AppMenuMapper, AppMenu> impl
      * @return 按钮集合
      */
     @Override
-    public List<AppMenuButtonResponse> getMenuButtons(AppMenuButtonQueryRequest queryRequest) {
+    public List<AppMenuButton> getMenuButtons(AppMenuButtonQueryRequest queryRequest) {
         LambdaQueryWrapper<AppMenu> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(AppMenu::getId, queryRequest.getMenuId());
         queryWrapper.like(StringUtils.hasText(queryRequest.getName()), AppMenu::getName, queryRequest.getName());
         queryWrapper.eq(queryRequest.getEnabled() != null, AppMenu::getEnabled, queryRequest.getEnabled());
         var list = baseMapper.selectList(queryWrapper);
-        var buttons = BeanUtil.copyToList(list, AppMenuButtonResponse.class);
+        var buttons = BeanUtil.copyToList(list, AppMenuButton.class);
         var systemButtons = dictionaryConfigService.listByDictCode("system_button");
         for (var button : buttons) {
             var labelLevel = systemButtons.stream().filter(x -> Objects.equals(x.getValue(), button.getRoute())).map(AppDictionaryConfig::getLabelLevel).findFirst();
