@@ -64,7 +64,7 @@ public class MybatisPlusGenerator {
                             .disable(TemplateType.MAPPER)
                             .disable(TemplateType.XML)
                             .disable(TemplateType.SERVICE)
-                            .disable(TemplateType.SERVICEIMPL)
+                            .disable(TemplateType.SERVICE_IMPL)
                             .controller("/templates/curdController.java")
                     )
                     .templateEngine(new FreemarkerTemplateEngine())

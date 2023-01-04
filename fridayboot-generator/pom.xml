@@ -3,9 +3,9 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>com.knifez</groupId>
-        <artifactId>fridayboot</artifactId>
-        <version>1.0.0-SNAPSHOT</version>
+        <groupId>org.knifez</groupId>
+        <artifactId>friday-boot</artifactId>
+        <version>0.1.0-SNAPSHOT</version>
     </parent>
     <artifactId>fridayboot-generator</artifactId>
     <version>0.0.1-SNAPSHOT</version>
@@ -37,14 +37,5 @@
             <artifactId>spring-boot-starter-freemarker</artifactId>
         </dependency>
     </dependencies>
-
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
-        </plugins>
-    </build>
 
 </project>
