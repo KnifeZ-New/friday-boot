@@ -1,8 +1,9 @@
 
 package org.knifez.fridaybootapi.controller;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.knifez.fridaybootadmin.entity.AppPermissionGrant;
 import org.knifez.fridaybootadmin.service.IAppPermissionGrantService;
 import org.knifez.fridaybootcore.annotation.ApiRestController;
@@ -16,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
  * @author KnifeZ
  * @since 2022-07-25
  */
-@Api(tags = "授权记录管理")
+@Tag(name = "授权记录管理")
 @ApiRestController
 @RequestMapping("/permission-grant")
 public class AppPermissionGrantController {
@@ -36,7 +37,7 @@ public class AppPermissionGrantController {
      * @return {@link AppPermissionGrant}
      */
     @GetMapping("{id}")
-    @ApiOperation("根据id获取授权记录")
+    @Operation(summary = "根据id获取授权记录")
     public AppPermissionGrant findById(@PathVariable Long id) {
         return appPermissionGrantService.getById(id);
     }
@@ -48,7 +49,7 @@ public class AppPermissionGrantController {
      * @return {@link Boolean}
      */
     @PostMapping
-    @ApiOperation("新增")
+    @Operation(summary = "新增")
     public Boolean create(@RequestBody AppPermissionGrant appPermissionGrant) {
         return appPermissionGrantService.save(appPermissionGrant);
     }
@@ -60,7 +61,7 @@ public class AppPermissionGrantController {
      * @return {@link Boolean}
      */
     @PostMapping("{id}")
-    @ApiOperation("修改")
+    @Operation(summary = "修改")
     public Boolean update(@RequestBody AppPermissionGrant appPermissionGrant) {
         return appPermissionGrantService.updateById(appPermissionGrant);
     }
@@ -72,7 +73,7 @@ public class AppPermissionGrantController {
      * @return {@link Boolean}
      */
     @DeleteMapping("{id}")
-    @ApiOperation("删除")
+    @Operation(summary = "删除")
     public Boolean delete(@PathVariable Long id) {
         return appPermissionGrantService.removeById(id);
     }

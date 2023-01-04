@@ -19,10 +19,10 @@
         <java.version>17</java.version>
         <jwt.version>0.11.5</jwt.version>
         <springboot.version>3.0.0</springboot.version>
-        <swagger.version>3.0.0</swagger.version>
+        <springdoc.version>1.6.14</springdoc.version>
         <mybatisplus.version>3.5.3</mybatisplus.version>
         <mysql.version>8.0.30</mysql.version>
-        <hutool.version>5.8.8</hutool.version>
+        <hutool.version>5.8.11</hutool.version>
         <jackson.version>2.13.4</jackson.version>
     </properties>
     <modules>
@@ -37,6 +37,14 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
+
+        <!--Spring doc-->
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-security</artifactId>
+            <version>${springdoc.version}</version>
+        </dependency>
+
         <!--JWT-->
         <dependency>
             <groupId>io.jsonwebtoken</groupId>
@@ -56,6 +64,13 @@
             <scope>runtime</scope>
         </dependency>
 
+        <!--数据库驱动-->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>${mysql.version}</version>
+            <scope>runtime</scope>
+        </dependency>
 
         <!--lombok-->
         <dependency>
@@ -74,20 +89,6 @@
     <dependencyManagement>
         <dependencies>
 
-            <!--数据库驱动-->
-
-            <dependency>
-                <groupId>mysql</groupId>
-                <artifactId>mysql-connector-java</artifactId>
-                <version>${mysql.version}</version>
-                <scope>runtime</scope>
-            </dependency>
-            <!--            <dependency>-->
-            <!--                <groupId>com.mysql</groupId>-->
-            <!--                <artifactId>mysql-connector-j</artifactId>-->
-            <!--                <version>${mysql.version}</version>-->
-            <!--                <scope>runtime</scope>-->
-            <!--            </dependency>-->
 
             <!--security安全框架-->
             <dependency>
@@ -120,13 +121,6 @@
                 <groupId>com.baomidou</groupId>
                 <artifactId>mybatis-plus-generator</artifactId>
                 <version>${mybatisplus.version}</version>
-            </dependency>
-
-            <!--Swagger doc-->
-            <dependency>
-                <groupId>io.springfox</groupId>
-                <artifactId>springfox-boot-starter</artifactId>
-                <version>${swagger.version}</version>
             </dependency>
 
             <!--常用工具集-->

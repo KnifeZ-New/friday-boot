@@ -1,6 +1,6 @@
 package org.knifez.fridaybootcore.dto;
 
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
 import org.knifez.fridaybootcore.enums.ResultStatus;
@@ -15,20 +15,20 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 public class FridayResult<T> {
-    @ApiModelProperty("状态码")
+    @Schema(defaultValue = "状态码")
     private Integer code;
 
-    @ApiModelProperty("操作消息")
+    @Schema(defaultValue = "操作消息")
     private String message;
 
-    @ApiModelProperty("返回结果")
+    @Schema(defaultValue = "返回结果")
     private T data;
 
-    @ApiModelProperty("是否成功")
+    @Schema(defaultValue = "是否成功")
     private Boolean success;
 
 
-    @ApiModelProperty("请求时间")
+    @Schema(defaultValue = "请求时间")
     private LocalDateTime timestamp = LocalDateTime.now();
 
     private FridayResult(ResultStatus resultStatus, T data) {

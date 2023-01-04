@@ -1,6 +1,6 @@
 package org.knifez.fridaybootcore.dto;
 
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -13,9 +13,9 @@ import lombok.Setter;
 @Setter
 public class PageRequest {
 
-    @ApiModelProperty("当前页码")
+    @Schema(defaultValue = "当前页码")
     private int page;
 
-    @ApiModelProperty("分页大小")
+    @Schema(defaultValue = "分页大小")
     private int pageSize;
 }

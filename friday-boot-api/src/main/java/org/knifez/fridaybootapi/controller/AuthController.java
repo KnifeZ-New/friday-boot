@@ -1,7 +1,8 @@
 package org.knifez.fridaybootapi.controller;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.knifez.fridaybootadmin.dto.AppUserInfoResponse;
 import org.knifez.fridaybootadmin.dto.LoginRequest;
 import org.knifez.fridaybootadmin.dto.Token;
@@ -29,7 +30,7 @@ import java.util.Map;
 /**
  * @author zhang
  */
-@Api(tags = "认证")
+@Tag(name = "认证")
 @ApiRestController
 @RequestMapping("/auth")
 public class AuthController {
@@ -43,7 +44,7 @@ public class AuthController {
     }
 
     @AllowAnonymous
-    @ApiOperation("登录")
+    @Operation(summary = "登录")
     @PostMapping("login")
     public Token login(@RequestBody LoginRequest loginRequest) {
         return authService.createToken(loginRequest);
@@ -56,7 +57,7 @@ public class AuthController {
      */
     @AllowAuthenticated
     @GetMapping("application-configuration")
-    @ApiOperation("系统配置")
+    @Operation(summary = "系统配置")
     public ApplicationCollocation applicationCollocation() {
         // 系统配置表读取配置
         var applicationCollocation = new ApplicationCollocation();
@@ -86,7 +87,7 @@ public class AuthController {
      */
     @AllowAuthenticated
     @GetMapping("current-userinfo")
-    @ApiOperation("当前用户信息")
+    @Operation(summary = "当前用户信息")
     public AppUserInfoResponse getCurrentUserInfo() {
         var userInfo = new AppUserInfoResponse();
         var currentUser = authService.getCurrentUser();
@@ -96,7 +97,7 @@ public class AuthController {
     }
 
     @AllowAuthenticated
-    @ApiOperation("退出")
+    @Operation(summary = "退出")
     @PostMapping("logout")
     public void logout() {
         authService.removeToken();

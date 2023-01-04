@@ -3,8 +3,7 @@ package org.knifez.fridaybootadmin.entity;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -22,23 +21,23 @@ import java.io.Serializable;
 @Getter
 @Setter
 @TableName("app_permission_grant")
-@ApiModel(value = "AppPermissionGrant对象", description = "授权记录")
+@Schema(defaultValue = "AppPermissionGrant对象", description = "授权记录")
 public class AppPermissionGrant implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;
 
-    @ApiModelProperty("主键id")
+    @Schema(defaultValue = "主键id")
     @TableId(value = "id", type = IdType.AUTO)
     private Long id;
 
-    @ApiModelProperty("权限")
+    @Schema(defaultValue = "权限")
     private String name;
 
-    @ApiModelProperty("授权类型")
+    @Schema(defaultValue = "授权类型")
     private String provideName;
 
-    @ApiModelProperty("授权对象")
+    @Schema(defaultValue = "授权对象")
     private String provideFor;
 
 

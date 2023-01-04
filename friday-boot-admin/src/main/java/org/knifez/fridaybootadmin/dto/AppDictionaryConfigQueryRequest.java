@@ -1,6 +1,6 @@
 package org.knifez.fridaybootadmin.dto;
 
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,9 +10,9 @@ import lombok.Setter;
 @Getter
 @Setter
 public class AppDictionaryConfigQueryRequest {
-    @ApiModelProperty("字典名称")
+    @Schema(defaultValue = "字典名称")
     private String name;
 
-    @ApiModelProperty("是否启用")
+    @Schema(defaultValue = "是否启用")
     private Boolean enabled;
 }

@@ -4,8 +4,7 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -29,30 +28,30 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @TableName("app_role")
-@ApiModel(value = "AppRole对象", description = "角色")
+@Schema(defaultValue = "AppRole对象", description = "角色")
 public class AppRole extends BaseAuditEntity implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;
 
     @TableId(value = "id", type = IdType.AUTO)
-    @ApiModelProperty("主键id")
+    @Schema(defaultValue = "主键id")
     private Long id;
 
-    @ApiModelProperty("角色")
+    @Schema(defaultValue = "角色")
     private String name;
 
-    @ApiModelProperty("名称")
+    @Schema(defaultValue = "名称")
     private String displayName;
 
-    @ApiModelProperty("角色介绍")
+    @Schema(defaultValue = "角色介绍")
     private String description;
 
     @TableField(value = "is_enabled")
-    @ApiModelProperty("状态")
+    @Schema(defaultValue = "状态")
     private Boolean enabled;
     @TableField(exist = false)
-    @ApiModelProperty("角色权限")
+    @Schema(defaultValue = "角色权限")
     private List<Integer> permissions;
 
 }

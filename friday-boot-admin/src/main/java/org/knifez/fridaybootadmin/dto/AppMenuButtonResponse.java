@@ -1,6 +1,6 @@
 package org.knifez.fridaybootadmin.dto;
 
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
 import org.knifez.fridaybootadmin.entity.AppMenu;
@@ -12,6 +12,6 @@ import org.knifez.fridaybootadmin.entity.AppMenu;
 @Setter
 public class AppMenuButtonResponse extends AppMenu {
 
-    @ApiModelProperty("标签颜色")
+    @Schema(defaultValue = "标签颜色")
     private String tagColor;
 }

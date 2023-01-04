@@ -1,6 +1,6 @@
 package org.knifez.fridaybootcore.dto;
 
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -15,10 +15,10 @@ import java.util.List;
 @Setter
 public class PageResult<T> {
 
-    @ApiModelProperty("总条数")
+    @Schema(defaultValue = "总条数")
     private long total;
 
-    @ApiModelProperty("返回数据")
+    @Schema(defaultValue = "返回数据")
     private List<T> items;
 
     public static <T> PageResult<T> builder(List<T> items, long total) {

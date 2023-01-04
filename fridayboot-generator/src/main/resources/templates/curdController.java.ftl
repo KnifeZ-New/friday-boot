@@ -2,31 +2,31 @@
 package ${package.Controller};
 
 import org.springframework.web.bind.annotation.*;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+
+import io.swagger.v3.oas.annotations.Operation;
 <#if restControllerStyle>
-import com.knifez.fridaybootcore.annotation.ApiRestController;
+    import com.knifez.fridaybootcore.annotation.ApiRestController;
 <#else>
-import org.springframework.stereotype.Controller;
+    import org.springframework.stereotype.Controller;
 </#if>
 <#if superControllerClassPackage??>
-import ${superControllerClassPackage};
+    import ${superControllerClassPackage};
 </#if>
 
 /**
 * <p>
-* ${table.comment!} 前端控制器
-* </p>
+    * ${table.comment!} 前端控制器
+    * </p>
 *
 * @author ${author}
 * @since ${date}
 */
 
-@Api(tags = "${table.comment!}管理")
+@Tag(name = "${table.comment!}管理")
 <#if restControllerStyle>
-@ApiRestController
+    @ApiRestController
 <#else>
-@Controller
+    @Controller
 </#if>
 @RequestMapping("<#if package.ModuleName?? && package.ModuleName != "">/${package.ModuleName}</#if>/<#if controllerMappingHyphenStyle>${controllerMappingHyphen}<#else>${table.entityPath}</#if>")
 <#if kotlin>
@@ -53,9 +53,9 @@ public class ${table.controllerName} {
     * @return {@link ${table.entityName}}
     */
     @GetMapping("{id}")
-    @ApiOperation("根据id获取${table.comment!}")
+    @Operation(summary = "根据id获取${table.comment!}")
     public ${table.entityName} findById(@PathVariable Long id) {
-        return ${table.entityPath}Service.getById(id);
+    return ${table.entityPath}Service.getById(id);
     }
 
     /**
@@ -65,7 +65,7 @@ public class ${table.controllerName} {
     * @return {@link Boolean}
     */
     @PostMapping
-    @ApiOperation("添加")
+    @Operation(summary = "添加")
     public Boolean create(@RequestBody ${table.entityName} ${table.entityPath}) {
         return ${table.entityPath}Service.save(${table.entityPath});
     }
@@ -77,7 +77,7 @@ public class ${table.controllerName} {
     * @return {@link Boolean}
     */
     @PostMapping("{id}")
-    @ApiOperation("修改")
+    @Operation(summary = "修改")
     public Boolean update(@RequestBody ${table.entityName} ${table.entityPath}) {
         return ${table.entityPath}Service.updateById(${table.entityPath});
     }
@@ -89,9 +89,9 @@ public class ${table.controllerName} {
     * @return {@link Boolean}
     */
     @DeleteMapping("{id}")
-    @ApiOperation("删除")
+    @Operation(summary = "删除")
     public Boolean delete(@PathVariable Long id) {
-        return ${table.entityPath}Service.removeById(id);
+    return ${table.entityPath}Service.removeById(id);
     }
 
 

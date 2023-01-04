@@ -1,6 +1,6 @@
 package org.knifez.fridaybootadmin.dto;
 
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
 import org.knifez.fridaybootcore.dto.PageRequest;
@@ -12,12 +12,12 @@ import org.knifez.fridaybootcore.dto.PageRequest;
 @Setter
 public class AppRolePagedQueryRequest extends PageRequest {
 
-    @ApiModelProperty("角色编码")
+    @Schema(defaultValue = "角色编码")
     private String name;
 
-    @ApiModelProperty("角色名称")
+    @Schema(defaultValue = "角色名称")
     private String displayName;
 
-    @ApiModelProperty("状态")
+    @Schema(defaultValue = "状态")
     private Boolean enabled;
 }

@@ -1,8 +1,9 @@
 
 package org.knifez.fridaybootapi.controller;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.knifez.fridaybootadmin.dto.AppDictionaryQueryRequest;
 import org.knifez.fridaybootadmin.entity.AppDictionary;
 import org.knifez.fridaybootadmin.service.IAppDictionaryService;
@@ -20,7 +21,7 @@ import org.springframework.web.bind.annotation.*;
  * @since 2022-10-09
  */
 @AllowAuthenticated
-@Api(tags = "字典管理")
+@Tag(name = "字典管理")
 @ApiRestController
 @RequestMapping("/dictionary")
 public class AppDictionaryController {
@@ -33,7 +34,7 @@ public class AppDictionaryController {
     }
 
     @PostMapping("list")
-    @ApiOperation("分页列表")
+    @Operation(summary = "分页列表")
     public PageResult<AppDictionary> pagedList(@RequestBody AppDictionaryQueryRequest queryRequest) {
         return appDictionaryService.listByPageQuery(queryRequest);
     }
@@ -45,7 +46,7 @@ public class AppDictionaryController {
      * @return {@link AppDictionary}
      */
     @GetMapping("{id}")
-    @ApiOperation("根据id获取字典")
+    @Operation(summary = "根据id获取字典")
     public AppDictionary findById(@PathVariable Long id) {
         return appDictionaryService.getById(id);
     }
@@ -57,7 +58,7 @@ public class AppDictionaryController {
      * @return {@link Boolean}
      */
     @PostMapping
-    @ApiOperation("添加")
+    @Operation(summary = "添加")
     public Boolean create(@RequestBody AppDictionary appDictionary) {
         return appDictionaryService.save(appDictionary);
     }
@@ -69,7 +70,7 @@ public class AppDictionaryController {
      * @return {@link Boolean}
      */
     @PostMapping("{id}")
-    @ApiOperation("修改")
+    @Operation(summary = "修改")
     public Boolean update(@RequestBody AppDictionary appDictionary) {
         return appDictionaryService.updateById(appDictionary);
     }
@@ -81,7 +82,7 @@ public class AppDictionaryController {
      * @return {@link Boolean}
      */
     @DeleteMapping("{id}")
-    @ApiOperation("删除")
+    @Operation(summary = "删除")
     public Boolean delete(@PathVariable Long id) {
         return appDictionaryService.removeById(id);
     }

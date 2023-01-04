@@ -4,8 +4,8 @@ package org.knifez.fridaybootapi.controller;
 import cn.hutool.core.lang.tree.Tree;
 import cn.hutool.core.lang.tree.TreeNodeConfig;
 import cn.hutool.core.lang.tree.TreeUtil;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.knifez.fridaybootadmin.dto.AppOrganizationUnitQueryRequest;
 import org.knifez.fridaybootadmin.entity.AppOrganizationUnit;
 import org.knifez.fridaybootadmin.service.IAppOrganizationUnitService;
@@ -24,7 +24,7 @@ import java.util.List;
  * @since 2022-09-01
  */
 
-@Api(tags = "组织机构管理")
+@Tag(name = "组织机构管理")
 @ApiRestController
 @AllowAuthenticated
 @RequestMapping("/organization-unit")
@@ -39,7 +39,7 @@ public class AppOrganizationUnitController {
 
 
     @PostMapping("tree-list")
-    @ApiOperation("列表")
+    @Operation(summary = "列表")
     public List<Tree<Long>> treeList(@RequestBody AppOrganizationUnitQueryRequest queryRequest) {
         var list = appOrganizationUnitService.listWithParentNodes(queryRequest);
         TreeNodeConfig treeConfig = new TreeNodeConfig();
@@ -60,7 +60,7 @@ public class AppOrganizationUnitController {
      * @return {@link AppOrganizationUnit}
      */
     @GetMapping("{id}")
-    @ApiOperation("根据id获取组织机构")
+    @Operation(summary = "根据id获取组织机构")
     public AppOrganizationUnit findById(@PathVariable Long id) {
         return appOrganizationUnitService.getById(id);
     }
@@ -72,7 +72,7 @@ public class AppOrganizationUnitController {
      * @return {@link Boolean}
      */
     @PostMapping
-    @ApiOperation("添加")
+    @Operation(summary = "添加")
     public Boolean create(@RequestBody AppOrganizationUnit appOrganizationUnit) {
         return appOrganizationUnitService.save(appOrganizationUnit);
     }
@@ -84,7 +84,7 @@ public class AppOrganizationUnitController {
      * @return {@link Boolean}
      */
     @PostMapping("{id}")
-    @ApiOperation("修改")
+    @Operation(summary = "修改")
     public Boolean update(@RequestBody AppOrganizationUnit appOrganizationUnit) {
         return appOrganizationUnitService.updateById(appOrganizationUnit);
     }
@@ -96,7 +96,7 @@ public class AppOrganizationUnitController {
      * @return {@link Boolean}
      */
     @DeleteMapping("{id}")
-    @ApiOperation("删除")
+    @Operation(summary = "删除")
     public Boolean delete(@PathVariable Long id) {
         return appOrganizationUnitService.removeById(id);
     }

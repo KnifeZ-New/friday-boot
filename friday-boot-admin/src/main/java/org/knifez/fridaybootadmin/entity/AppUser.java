@@ -5,8 +5,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -32,54 +31,54 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @TableName("app_user")
-@ApiModel(value = "AppUser对象", description = "用户")
+@Schema(defaultValue = "AppUser对象", description = "用户")
 public class AppUser extends BaseAuditEntity implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;
 
     @TableId(value = "id", type = IdType.AUTO)
-    @ApiModelProperty("主键id")
+    @Schema(defaultValue = "主键id")
     private Long id;
 
-    @ApiModelProperty("账号")
+    @Schema(defaultValue = "账号")
     private String account;
 
-    @ApiModelProperty("姓名")
+    @Schema(defaultValue = "姓名")
     private String username;
 
-    @ApiModelProperty("密码")
+    @Schema(defaultValue = "密码")
     private String password;
 
-    @ApiModelProperty("邮箱")
+    @Schema(defaultValue = "邮箱")
     private String email;
 
     @TableField(value = "is_locked")
-    @ApiModelProperty("是否启锁定")
+    @Schema(defaultValue = "是否启锁定")
     private Boolean locked;
 
-    @ApiModelProperty("所属部门id")
+    @Schema(defaultValue = "所属部门id")
     private Long organizationId;
 
     /**
      * 部门名称
      */
-    @ApiModelProperty("所属部门")
+    @Schema(defaultValue = "所属部门")
     @TableField(exist = false)
     private String organizationName;
 
     @TableField(exist = false)
-    @ApiModelProperty("角色")
+    @Schema(defaultValue = "角色")
     private List<Long> roles = new ArrayList<>();
 
     @TableField(exist = false)
     @JsonIgnore
-    @ApiModelProperty("角色")
+    @Schema(defaultValue = "角色")
     private List<String> userRoles = new ArrayList<>();
 
     @TableField(exist = false)
     @JsonIgnore
-    @ApiModelProperty("权限")
+    @Schema(defaultValue = "权限")
     private List<String> permissions = new ArrayList<>();
 
     public List<SimpleGrantedAuthority> getGrantRoles() {

@@ -1,6 +1,6 @@
 package org.knifez.fridaybootadmin.dto;
 
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,12 +11,12 @@ import lombok.Setter;
 @Setter
 public class AppMenuQueryRequest {
 
-    @ApiModelProperty("名称")
+    @Schema(defaultValue = "名称")
     private String name;
 
-    @ApiModelProperty("状态")
+    @Schema(defaultValue = "状态")
     private Boolean enabled;
 
-    @ApiModelProperty("是否返回按钮")
+    @Schema(defaultValue = "是否返回按钮")
     private Boolean includeButton;
 }

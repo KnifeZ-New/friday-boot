@@ -1,7 +1,8 @@
 package org.knifez.fridaybootapi.controller;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.knifez.fridaybootadmin.dto.AppRolePagedQueryRequest;
 import org.knifez.fridaybootadmin.dto.AppUserResponse;
 import org.knifez.fridaybootadmin.entity.AppRole;
@@ -23,7 +24,7 @@ import java.util.List;
  * @since 2022-07-06
  */
 @AllowAuthenticated
-@Api(tags = "角色管理")
+@Tag(name = "角色管理")
 @ApiRestController
 @RequestMapping("/role")
 public class AppRoleController {
@@ -46,7 +47,7 @@ public class AppRoleController {
      * @return {@link PageResult}<{@link AppRole}>
      */
     @PostMapping("list")
-    @ApiOperation("分页列表")
+    @Operation(summary = "分页列表")
     public PageResult<AppRole> pagedList(@RequestBody AppRolePagedQueryRequest queryRequest) {
         return roleService.listByPageQuery(queryRequest);
     }
@@ -58,14 +59,14 @@ public class AppRoleController {
      */
     @AllowAuthenticated
     @PostMapping("all")
-    @ApiOperation("所有角色列表")
+    @Operation(summary = "所有角色列表")
     public List<AppRole> allRoles() {
         return roleService.list();
     }
 
     @AllowAuthenticated
     @GetMapping("{roleName}/permission-list")
-    @ApiOperation("根据角色名获取角色绑定菜单列表")
+    @Operation(summary = "根据角色名获取角色绑定菜单列表")
     public int[] permissionsByRoleName(@PathVariable String roleName) {
         var list = permissionService.getSelectMenusByRoleName(roleName);
         return list.stream().mapToInt(Integer::parseInt).toArray();
@@ -78,7 +79,7 @@ public class AppRoleController {
      * @return {@link AppUserResponse}
      */
     @GetMapping("{id}")
-    @ApiOperation("根据id获取角色")
+    @Operation(summary = "根据id获取角色")
     public AppRole findById(@PathVariable Long id) {
         return roleService.getById(id);
     }
@@ -90,7 +91,7 @@ public class AppRoleController {
      * @return {@link Boolean}
      */
     @PostMapping
-    @ApiOperation("新增角色")
+    @Operation(summary = "新增角色")
     public Boolean create(@RequestBody AppRole role) {
         permissionService.saveByRole(role.getPermissions(), role.getName());
         return roleService.save(role);
@@ -103,7 +104,7 @@ public class AppRoleController {
      * @return {@link Boolean}
      */
     @PostMapping("{id}")
-    @ApiOperation("修改角色")
+    @Operation(summary = "修改角色")
     public Boolean update(@RequestBody AppRole role) {
         permissionService.saveByRole(role.getPermissions(), role.getName());
         return roleService.updateById(role);
@@ -116,7 +117,7 @@ public class AppRoleController {
      * @return {@link Boolean}
      */
     @DeleteMapping("{id}")
-    @ApiOperation("删除角色")
+    @Operation(summary = "删除角色")
     public Boolean delete(@PathVariable Long id) {
         return roleService.removeById(id);
     }

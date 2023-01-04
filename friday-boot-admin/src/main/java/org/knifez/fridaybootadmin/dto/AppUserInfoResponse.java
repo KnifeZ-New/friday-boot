@@ -1,6 +1,6 @@
 package org.knifez.fridaybootadmin.dto;
 
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -13,20 +13,20 @@ import java.util.List;
 @Getter
 @Setter
 public class AppUserInfoResponse {
-    @ApiModelProperty("首页")
+    @Schema(defaultValue = "首页")
     public String homePath;
-    @ApiModelProperty("主键id")
+    @Schema(defaultValue = "主键id")
     private Long id;
-    @ApiModelProperty("账号")
+    @Schema(defaultValue = "账号")
     private String account;
-    @ApiModelProperty("姓名")
+    @Schema(defaultValue = "姓名")
     private String username;
-    @ApiModelProperty("邮箱")
+    @Schema(defaultValue = "邮箱")
     private String email;
-    @ApiModelProperty("头像")
+    @Schema(defaultValue = "头像")
     private String avatar;
-    @ApiModelProperty("角色")
+    @Schema(defaultValue = "角色")
     private List<String> userRoles = new ArrayList<>();
-    @ApiModelProperty("权限")
+    @Schema(defaultValue = "权限")
     private List<String> permissions = new ArrayList<>();
 }

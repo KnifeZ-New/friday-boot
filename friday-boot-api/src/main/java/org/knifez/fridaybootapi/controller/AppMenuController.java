@@ -1,8 +1,8 @@
 package org.knifez.fridaybootapi.controller;
 
 import cn.hutool.core.lang.tree.Tree;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.knifez.fridaybootadmin.dto.AppMenuButtonQueryRequest;
 import org.knifez.fridaybootadmin.dto.AppMenuButtonResponse;
 import org.knifez.fridaybootadmin.dto.AppMenuQueryRequest;
@@ -23,7 +23,7 @@ import java.util.List;
  * @since 2022-10-11
  */
 @AllowAuthenticated
-@Api(tags = "菜单管理")
+@Tag(name = "菜单管理")
 @ApiRestController
 @RequestMapping("/menu")
 public class AppMenuController {
@@ -36,13 +36,13 @@ public class AppMenuController {
     }
 
 
-    @ApiOperation("菜单列表")
+    @Operation(summary = "菜单列表")
     @PostMapping("tree-list")
     public List<Tree<Integer>> treeList(@RequestBody AppMenuQueryRequest queryRequest) {
         return appMenuService.getTreeList(queryRequest);
     }
 
-    @ApiOperation("菜单按钮列表")
+    @Operation(summary = "菜单按钮列表")
     @PostMapping("button-list")
     public List<AppMenuButtonResponse> menuButtonList(@RequestBody AppMenuButtonQueryRequest queryRequest) {
         return appMenuService.getMenuButtons(queryRequest);
@@ -55,7 +55,7 @@ public class AppMenuController {
      * @return {@link AppMenu}
      */
     @GetMapping("{id}")
-    @ApiOperation("根据id获取菜单")
+    @Operation(summary = "根据id获取菜单")
     public AppMenu findById(@PathVariable Long id) {
         return appMenuService.getById(id);
     }
@@ -67,7 +67,7 @@ public class AppMenuController {
      * @return {@link Boolean}
      */
     @PostMapping
-    @ApiOperation("添加")
+    @Operation(summary = "添加")
     public Boolean create(@RequestBody AppMenu appMenu) {
         return appMenuService.save(appMenu);
     }
@@ -79,7 +79,7 @@ public class AppMenuController {
      * @return {@link Boolean}
      */
     @PostMapping("{id}")
-    @ApiOperation("修改")
+    @Operation(summary = "修改")
     public Boolean update(@RequestBody AppMenu appMenu) {
         return appMenuService.updateById(appMenu);
     }
@@ -91,7 +91,7 @@ public class AppMenuController {
      * @return {@link Boolean}
      */
     @DeleteMapping("{id}")
-    @ApiOperation("删除")
+    @Operation(summary = "删除")
     public Boolean delete(@PathVariable Long id) {
         return appMenuService.removeById(id);
     }

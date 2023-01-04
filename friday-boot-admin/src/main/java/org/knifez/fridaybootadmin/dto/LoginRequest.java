@@ -1,6 +1,6 @@
 package org.knifez.fridaybootadmin.dto;
 
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -14,16 +14,16 @@ public class LoginRequest {
     /**
      * 用户名
      */
-    @ApiModelProperty("用户名")
+    @Schema(defaultValue = "用户名")
     private String username;
     /**
      * 密码
      */
-    @ApiModelProperty("密码")
+    @Schema(defaultValue = "密码")
     private String password;
     /**
      * 记住帐号
      */
-    @ApiModelProperty("记住帐号")
+    @Schema(defaultValue = "记住帐号")
     private Boolean rememberMe;
 }

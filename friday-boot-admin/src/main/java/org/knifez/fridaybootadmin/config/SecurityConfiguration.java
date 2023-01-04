@@ -6,6 +6,7 @@ import org.knifez.fridaybootadmin.exception.JwtAccessDeniedHandler;
 import org.knifez.fridaybootadmin.exception.JwtAuthenticationEntryPoint;
 import org.knifez.fridaybootadmin.filter.JwtAuthorizationFilter;
 import org.knifez.fridaybootcore.annotation.permission.AllowAnonymous;
+import org.knifez.fridaybootcore.constants.AppConstants;
 import org.knifez.fridaybootcore.utils.AnnotationUtils;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -63,13 +64,13 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         //system whitelist
-        var whitelist = AnnotationUtils.getAllUrlsByAnnotations(resourcePatternResolver, "classpath:com/knifez/**/controller/**.class", AllowAnonymous.class);
+        var whitelist = AnnotationUtils.getAllUrlsByAnnotations(resourcePatternResolver, "classpath:org/knifez/**/controller/**.class", AllowAnonymous.class);
         http.csrf(AbstractHttpConfigurer::disable)
                 .cors(Customizer.withDefaults())
                 .authorizeHttpRequests(auth -> auth.requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                        .requestMatchers(SecurityConstants.SWAGGER_WHITELIST).permitAll()
                         .requestMatchers(whitelist.toArray(new String[0])).permitAll()
-                        .anyRequest().authenticated())
+                        .requestMatchers(AppConstants.API_PREFIX + "/**").authenticated()
+                        .anyRequest().permitAll())
                 .addFilter(new JwtAuthorizationFilter(authentication -> authentication, stringRedisTemplate))
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()

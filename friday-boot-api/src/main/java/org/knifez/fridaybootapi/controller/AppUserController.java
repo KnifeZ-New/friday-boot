@@ -1,8 +1,8 @@
 package org.knifez.fridaybootapi.controller;
 
 import cn.hutool.core.bean.BeanUtil;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.knifez.fridaybootadmin.dto.AppUserPagedQueryRequest;
 import org.knifez.fridaybootadmin.dto.AppUserResponse;
 import org.knifez.fridaybootadmin.entity.AppOrganizationUnit;
@@ -31,7 +31,7 @@ import java.util.stream.Collectors;
  * @since 2022-04-01
  */
 @AllowAuthenticated
-@Api(tags = "用户管理")
+@Tag(name = "用户管理")
 @ApiRestController
 @RequestMapping("/user")
 public class AppUserController {
@@ -56,7 +56,7 @@ public class AppUserController {
      * @param queryRequest 查询请求
      * @return <{@link PageResult}<{@link AppUser}>
      */
-    @ApiOperation("分页列表")
+    @Operation(summary = "分页列表")
     @PostMapping("list")
     public PageResult<AppUserResponse> pagedList(@RequestBody AppUserPagedQueryRequest queryRequest) {
         //查询列表数据
@@ -83,7 +83,7 @@ public class AppUserController {
      * @return {@link AppUserResponse}
      */
     @GetMapping("{id}")
-    @ApiOperation("根据id获取用户")
+    @Operation(summary = "根据id获取用户")
     public AppUserResponse findById(@PathVariable Long id) {
         var user = appUserService.getById(id);
         AppUserResponse result = new AppUserResponse();
@@ -98,7 +98,7 @@ public class AppUserController {
      * @return {@link Boolean}
      */
     @PostMapping
-    @ApiOperation("新增用户")
+    @Operation(summary = "新增用户")
     public Boolean create(@RequestBody AppUser user) {
         return appUserService.saveWithUserRoles(user, false);
     }
@@ -110,7 +110,7 @@ public class AppUserController {
      * @return {@link Boolean}
      */
     @PostMapping("{id}")
-    @ApiOperation("修改用户")
+    @Operation(summary = "修改用户")
     public Boolean update(@RequestBody AppUser user) {
         return appUserService.saveWithUserRoles(user, true);
     }
@@ -122,7 +122,7 @@ public class AppUserController {
      * @return {@link FridayResult}<{@link Boolean}>
      */
     @DeleteMapping("{id}")
-    @ApiOperation("删除用户")
+    @Operation(summary = "删除用户")
     public Boolean delete(@PathVariable Long id) {
         return appUserService.removeById(id);
     }
@@ -136,7 +136,7 @@ public class AppUserController {
      */
     @AllowAuthenticated
     @GetMapping("account-exist/{account}")
-    @ApiOperation("检查帐号是否存在")
+    @Operation(summary = "检查帐号是否存在")
     public FridayResult<String> exist(@PathVariable String account) {
         var user = appUserService.findByAccount(account);
         if (user.getId() == null) {
@@ -153,7 +153,7 @@ public class AppUserController {
      * @return roleIds
      */
     @GetMapping("{id}/roles")
-    @ApiOperation("获取用户关联角色")
+    @Operation(summary = "获取用户关联角色")
     public List<Long> getUserRoles(@PathVariable Long id) {
         return userRoleService.listRolesByUserId(id);
     }

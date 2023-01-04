@@ -4,8 +4,8 @@ import cn.hutool.core.lang.tree.Tree;
 import cn.hutool.core.lang.tree.TreeNodeConfig;
 import cn.hutool.core.lang.tree.TreeUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.knifez.fridaybootadmin.dto.AppDictionaryConfigQueryRequest;
 import org.knifez.fridaybootadmin.entity.AppDictionaryConfig;
 import org.knifez.fridaybootadmin.service.IAppDictionaryConfigService;
@@ -25,7 +25,7 @@ import java.util.List;
  * @since 2022-10-09
  */
 @AllowAuthenticated
-@Api(tags = "字典配置管理")
+@Tag(name = "字典配置管理")
 @ApiRestController
 @RequestMapping("/dictionary-config")
 public class AppDictionaryConfigController {
@@ -45,7 +45,7 @@ public class AppDictionaryConfigController {
      * @return {@link AppDictionaryConfig}
      */
     @GetMapping("{id}")
-    @ApiOperation("根据id获取字典配置")
+    @Operation(summary = "根据id获取字典配置")
     public AppDictionaryConfig findById(@PathVariable Long id) {
         return appDictionaryConfigService.getById(id);
     }
@@ -57,7 +57,7 @@ public class AppDictionaryConfigController {
      * @return {@link List}<{@link AppDictionaryConfig}>
      */
     @PostMapping("list/{dictCode}")
-    @ApiOperation("根据code获取字典属性列表")
+    @Operation(summary = "根据code获取字典属性列表")
     public List<AppDictionaryConfig> listByDictCode(@PathVariable String dictCode, @RequestBody AppDictionaryConfigQueryRequest queryRequest) {
         QueryWrapper<AppDictionaryConfig> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("dict_code", dictCode);
@@ -73,7 +73,7 @@ public class AppDictionaryConfigController {
      * @return {@link List}<{@link AppDictionaryConfig}>
      */
     @PostMapping("tree/{dictCode}")
-    @ApiOperation("根据code获取字典属性树")
+    @Operation(summary = "根据code获取字典属性树")
     public List<Tree<Long>> treeListByDictCode(@PathVariable String dictCode, @RequestBody AppDictionaryConfigQueryRequest queryRequest) {
         QueryWrapper<AppDictionaryConfig> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("dict_code", dictCode);
@@ -104,7 +104,7 @@ public class AppDictionaryConfigController {
      * @return {@link Boolean}
      */
     @PostMapping
-    @ApiOperation("添加")
+    @Operation(summary = "添加")
     public Boolean create(@RequestBody AppDictionaryConfig appDictionaryConfig) {
         return appDictionaryConfigService.save(appDictionaryConfig);
     }
@@ -116,7 +116,7 @@ public class AppDictionaryConfigController {
      * @return {@link Boolean}
      */
     @PostMapping("{id}")
-    @ApiOperation("修改")
+    @Operation(summary = "修改")
     public Boolean update(@RequestBody AppDictionaryConfig appDictionaryConfig) {
         return appDictionaryConfigService.updateById(appDictionaryConfig);
     }
@@ -128,7 +128,7 @@ public class AppDictionaryConfigController {
      * @return {@link Boolean}
      */
     @DeleteMapping("{id}")
-    @ApiOperation("删除")
+    @Operation(summary = "删除")
     public Boolean delete(@PathVariable Long id) {
         return appDictionaryConfigService.removeById(id);
     }

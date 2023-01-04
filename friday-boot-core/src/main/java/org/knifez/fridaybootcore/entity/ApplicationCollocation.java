@@ -1,6 +1,6 @@
 package org.knifez.fridaybootcore.entity;
 
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,22 +12,22 @@ import java.util.List;
 @Getter
 @Setter
 public class ApplicationCollocation {
-    @ApiModelProperty("当前用户id")
+    @Schema(defaultValue = "当前用户id")
     private String userId;
-    @ApiModelProperty("所属租户id")
+    @Schema(defaultValue = "所属租户id")
     private String tenantId;
-    @ApiModelProperty("角色")
+    @Schema(defaultValue = "角色")
     private List<String> roles;
-    @ApiModelProperty("权限")
+    @Schema(defaultValue = "权限")
     private List<String> permissions;
 
-    @ApiModelProperty("语言")
+    @Schema(defaultValue = "语言")
     private String language;
 
-    @ApiModelProperty("暗黑模式")
+    @Schema(defaultValue = "暗黑模式")
     private Boolean darkMode;
 
-    @ApiModelProperty("所有权限")
+    @Schema(defaultValue = "所有权限")
     private List<String> grantedPolicies;
 
 }

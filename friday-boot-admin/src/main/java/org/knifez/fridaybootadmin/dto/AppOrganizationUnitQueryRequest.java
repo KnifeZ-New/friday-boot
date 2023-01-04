@@ -1,6 +1,6 @@
 package org.knifez.fridaybootadmin.dto;
 
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,9 +11,9 @@ import lombok.Setter;
 @Setter
 public class AppOrganizationUnitQueryRequest {
 
-    @ApiModelProperty("机构编码")
+    @Schema(defaultValue = "机构编码")
     private String unitCode;
 
-    @ApiModelProperty("名称")
+    @Schema(defaultValue = "名称")
     private String name;
 }

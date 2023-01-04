@@ -1,6 +1,6 @@
 package org.knifez.fridaybootadmin.dto;
 
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
@@ -16,12 +16,12 @@ import java.util.List;
 public class AppUserPagedQueryRequest extends PageRequest {
 
     @NotNull(message = "name 不能为空")
-    @ApiModelProperty("用户姓名")
+    @Schema(defaultValue = "用户姓名")
     private String username;
 
-    @ApiModelProperty("部门")
+    @Schema(defaultValue = "部门")
     private List<Long> organizationIds;
 
-    @ApiModelProperty("是否锁定")
+    @Schema(defaultValue = "是否锁定")
     private Boolean locked;
 }

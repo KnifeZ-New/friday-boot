@@ -4,8 +4,7 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
 import org.knifez.fridaybootcore.entity.BaseAuditEntity;
@@ -24,27 +23,27 @@ import java.io.Serializable;
 @Getter
 @Setter
 @TableName("app_dictionary")
-@ApiModel(value = "AppDictionary对象", description = "字典")
+@Schema(defaultValue = "AppDictionary对象", description = "字典")
 public class AppDictionary extends BaseAuditEntity implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;
 
-    @ApiModelProperty("主键id")
+    @Schema(defaultValue = "主键id")
     @TableId(value = "id", type = IdType.AUTO)
     private Long id;
 
-    @ApiModelProperty("字典名称")
+    @Schema(defaultValue = "字典名称")
     private String name;
 
-    @ApiModelProperty("字典编码")
+    @Schema(defaultValue = "字典编码")
     private String code;
 
-    @ApiModelProperty("备注")
+    @Schema(defaultValue = "备注")
     private String description;
 
     @TableField(value = "is_enabled")
-    @ApiModelProperty("是否启用")
+    @Schema(defaultValue = "是否启用")
     private Boolean enabled;
 
 }
