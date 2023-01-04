@@ -14,7 +14,7 @@ import java.util.List;
  * 菜单 服务类
  * </p>
  *
- * @author KnifeZ
+@author KnifeZ
  * @since 2022-10-11
  */
 public interface IAppMenuService extends IService<AppMenu> {

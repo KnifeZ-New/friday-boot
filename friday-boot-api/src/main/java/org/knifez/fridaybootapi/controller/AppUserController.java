@@ -27,7 +27,7 @@ import java.util.stream.Collectors;
  * 用户表 前端控制器
  * </p>
  *
- * @author KnifeZ
+@author KnifeZ
  * @since 2022-04-01
  */
 @AllowAuthenticated

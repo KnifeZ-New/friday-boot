@@ -10,7 +10,7 @@ import java.util.List;
  * 字典配置 服务类
  * </p>
  *
- * @author KnifeZ
+@author KnifeZ
  * @since 2022-10-09
  */
 public interface IAppDictionaryConfigService extends IService<AppDictionaryConfig> {

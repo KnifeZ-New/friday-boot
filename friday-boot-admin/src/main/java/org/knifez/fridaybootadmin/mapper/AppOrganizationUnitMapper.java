@@ -8,7 +8,7 @@ import org.knifez.fridaybootadmin.entity.AppOrganizationUnit;
  * 组织机构 Mapper 接口
  * </p>
  *
- * @author KnifeZ
+@author KnifeZ
  * @since 2022-09-01
  */
 public interface AppOrganizationUnitMapper extends BaseMapper<AppOrganizationUnit> {

@@ -5,7 +5,7 @@ import java.lang.annotation.*;
 /**
  * 权限注解 表示允许匿名请求
  *
- * @author zhang
+@author KnifeZ
  */
 @Target({ElementType.METHOD, ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)

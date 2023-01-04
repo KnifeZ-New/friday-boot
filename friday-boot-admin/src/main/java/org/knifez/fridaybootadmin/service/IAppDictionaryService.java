@@ -10,7 +10,7 @@ import org.knifez.fridaybootcore.dto.PageResult;
  * 字典 服务类
  * </p>
  *
- * @author KnifeZ
+@author KnifeZ
  * @since 2022-10-09
  */
 public interface IAppDictionaryService extends IService<AppDictionary> {

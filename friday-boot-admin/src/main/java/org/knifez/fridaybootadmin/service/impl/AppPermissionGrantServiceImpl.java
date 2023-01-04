@@ -17,7 +17,7 @@ import java.util.List;
  * 授权记录 服务实现类
  * </p>
  *
- * @author KnifeZ
+@author KnifeZ
  * @since 2022-07-23
  */
 @Service

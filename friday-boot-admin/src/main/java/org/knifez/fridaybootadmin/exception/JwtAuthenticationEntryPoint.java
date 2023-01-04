@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 /**
- * @author zhang
+@author KnifeZ
  */
 public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
 

@@ -21,7 +21,7 @@ import java.util.List;
  * 字典配置 前端控制器
  * </p>
  *
- * @author KnifeZ
+@author KnifeZ
  * @since 2022-10-09
  */
 @AllowAuthenticated

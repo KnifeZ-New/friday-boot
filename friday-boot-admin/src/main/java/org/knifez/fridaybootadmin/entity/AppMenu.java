@@ -17,7 +17,7 @@ import java.io.Serializable;
  * 菜单
  * </p>
  *
- * @author KnifeZ
+@author KnifeZ
  * @since 2022-10-11
  */
 @Getter

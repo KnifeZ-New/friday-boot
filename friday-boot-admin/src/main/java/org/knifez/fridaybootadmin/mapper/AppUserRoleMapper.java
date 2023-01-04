@@ -8,7 +8,7 @@ import org.knifez.fridaybootadmin.entity.AppUserRole;
  * Mapper 接口
  * </p>
  *
- * @author KnifeZ
+@author KnifeZ
  * @since 2022-07-07
  */
 public interface AppUserRoleMapper extends BaseMapper<AppUserRole> {

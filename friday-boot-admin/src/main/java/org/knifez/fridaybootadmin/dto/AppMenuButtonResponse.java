@@ -6,7 +6,7 @@ import lombok.Setter;
 import org.knifez.fridaybootadmin.entity.AppMenu;
 
 /**
- * @author Knife
+ * @author KnifeZ
  */
 @Getter
 @Setter

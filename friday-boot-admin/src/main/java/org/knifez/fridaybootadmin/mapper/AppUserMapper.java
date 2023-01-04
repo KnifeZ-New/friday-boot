@@ -8,7 +8,7 @@ import org.knifez.fridaybootadmin.entity.AppUser;
  * 用户表 Mapper 接口
  * </p>
  *
- * @author KnifeZ
+@author KnifeZ
  * @since 2022-04-01
  */
 public interface AppUserMapper extends BaseMapper<AppUser> {

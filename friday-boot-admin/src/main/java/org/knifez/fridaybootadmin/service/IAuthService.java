@@ -5,7 +5,7 @@ import org.knifez.fridaybootadmin.dto.Token;
 import org.knifez.fridaybootadmin.entity.AppUser;
 
 /**
- * @author zhang
+@author KnifeZ
  */
 public interface IAuthService {
     /**

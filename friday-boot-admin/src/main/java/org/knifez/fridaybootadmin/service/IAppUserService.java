@@ -10,7 +10,7 @@ import org.knifez.fridaybootcore.dto.PageResult;
  * 用户表 服务类
  * </p>
  *
- * @author KnifeZ
+@author KnifeZ
  * @since 2022-04-01
  */
 public interface IAppUserService extends IService<AppUser> {

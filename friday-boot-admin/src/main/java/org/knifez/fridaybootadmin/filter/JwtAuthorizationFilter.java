@@ -19,7 +19,7 @@ import java.io.IOException;
 /**
  * 鉴权过滤器
  *
- * @author zhang
+@author KnifeZ
  */
 @Slf4j
 public class JwtAuthorizationFilter extends BasicAuthenticationFilter {

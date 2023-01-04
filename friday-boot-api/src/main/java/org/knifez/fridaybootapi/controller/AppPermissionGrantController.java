@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
  * 授权记录 前端控制器
  * </p>
  *
- * @author KnifeZ
+@author KnifeZ
  * @since 2022-07-25
  */
 @Tag(name = "授权记录管理")

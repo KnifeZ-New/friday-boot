@@ -9,7 +9,7 @@ import org.knifez.fridaybootcore.dto.PageRequest;
 import java.util.List;
 
 /**
- * @author zhang
+@author KnifeZ
  */
 @Getter
 @Setter

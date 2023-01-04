@@ -17,7 +17,7 @@ import java.io.Serializable;
  * 字典配置
  * </p>
  *
- * @author KnifeZ
+@author KnifeZ
  * @since 2022-10-09
  */
 @Getter

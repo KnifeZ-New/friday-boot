@@ -5,7 +5,7 @@ import lombok.Setter;
 import org.knifez.fridaybootcore.enums.ResultStatus;
 
 /**
- * @author zhang
+@author KnifeZ
  */
 @Getter
 @Setter

@@ -17,10 +17,14 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * @author zhang
+ * @author KnifeZ
  */
 @Slf4j
 public class AnnotationUtils {
+    private AnnotationUtils() {
+        throw new IllegalStateException("AnnotationUtils class");
+    }
+
     private static final String VALUE = "value";
 
     public static <T> List<String> getAllUrlsByAnnotations(ResourcePatternResolver resourcePatternResolver, String classpath, Class<T> annotationClass) throws Exception {
@@ -63,7 +67,6 @@ public class AnnotationUtils {
                     path = pathParent + "/" + childPath[0];
                 }
                 if (maps.contains(path)) {
-
                     log.error("path关系映射重复");
                     continue;
                 }

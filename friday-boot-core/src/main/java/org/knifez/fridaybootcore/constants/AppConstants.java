@@ -3,9 +3,13 @@ package org.knifez.fridaybootcore.constants;
 /**
  * 应用常量
  *
- * @author zhang
+ * @author KnifeZ
  */
 public class AppConstants {
+    private AppConstants() {
+        throw new IllegalStateException("AppConstants class");
+    }
+
     /**
      * api前缀
      */

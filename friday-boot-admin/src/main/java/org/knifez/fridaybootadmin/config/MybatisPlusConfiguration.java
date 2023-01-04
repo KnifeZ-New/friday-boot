@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Configuration;
 /**
  * MybatisPlus插件配置
  *
- * @author KnifeZ
+@author KnifeZ
  */
 @Configuration
 public class MybatisPlusConfiguration {

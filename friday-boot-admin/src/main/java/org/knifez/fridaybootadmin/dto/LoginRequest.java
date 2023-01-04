@@ -5,7 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 
 /**
- * @author zhang
+@author KnifeZ
  * 用户登录请求DTO
  */
 @Data

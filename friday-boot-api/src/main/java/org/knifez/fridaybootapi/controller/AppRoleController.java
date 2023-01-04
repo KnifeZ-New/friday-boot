@@ -20,7 +20,7 @@ import java.util.List;
  * 前端控制器
  * </p>
  *
- * @author KnifeZ
+@author KnifeZ
  * @since 2022-07-06
  */
 @AllowAuthenticated

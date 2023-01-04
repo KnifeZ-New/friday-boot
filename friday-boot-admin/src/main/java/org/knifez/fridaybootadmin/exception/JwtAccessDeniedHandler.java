@@ -8,7 +8,7 @@ import org.springframework.security.web.access.AccessDeniedHandler;
 import java.io.IOException;
 
 /**
- * @author zhang
+@author KnifeZ
  */
 public class JwtAccessDeniedHandler implements AccessDeniedHandler {
 

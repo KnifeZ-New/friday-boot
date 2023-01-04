@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Scanner;
 
 /**
- * @author zhang
+@author KnifeZ
  */
 @Slf4j
 public class MybatisPlusGenerator {

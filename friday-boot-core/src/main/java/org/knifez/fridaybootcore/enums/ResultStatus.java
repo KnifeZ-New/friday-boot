@@ -7,7 +7,7 @@ import org.springframework.http.HttpStatus;
 /**
  * 结果状态
  *
- * @author zhang
+@author KnifeZ
  */
 @Getter
 public enum ResultStatus {

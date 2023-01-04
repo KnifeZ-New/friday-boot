@@ -8,7 +8,7 @@ import org.knifez.fridaybootadmin.entity.AppMenu;
  * 菜单 Mapper 接口
  * </p>
  *
- * @author KnifeZ
+@author KnifeZ
  * @since 2022-10-11
  */
 public interface AppMenuMapper extends BaseMapper<AppMenu> {

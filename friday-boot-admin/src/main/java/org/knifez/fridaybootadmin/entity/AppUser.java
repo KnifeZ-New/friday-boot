@@ -23,7 +23,7 @@ import java.util.List;
  * 用户表
  * </p>
  *
- * @author KnifeZ
+@author KnifeZ
  * @since 2022-04-01
  */
 @Getter

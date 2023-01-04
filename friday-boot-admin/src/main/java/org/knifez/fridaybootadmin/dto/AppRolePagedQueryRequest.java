@@ -6,7 +6,7 @@ import lombok.Setter;
 import org.knifez.fridaybootcore.dto.PageRequest;
 
 /**
- * @author zhang
+@author KnifeZ
  */
 @Getter
 @Setter
