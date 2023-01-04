@@ -18,13 +18,22 @@ import java.util.List;
 public interface IAppRoleService extends IService<AppRole> {
 
 
+
     /**
      * 通过用户id获取角色列表
      *
      * @param userId 用户id
      * @return {@link List}<{@link AppRole}>
      */
-    List<String> listByUserId(long userId);
+    List<String> listRoleNameByUserId(long userId);
+
+    /**
+     * 通过用户id获取角色列表
+     *
+     * @param userId 用户id
+     * @return {@link List}<{@link AppRole}>
+     */
+    List<AppRole> listByUserId(long userId);
 
     /**
      * 列表页面查询

@@ -1,6 +1,5 @@
 package com.knifez.fridaybootadmin.dto;
 
-import com.knifez.fridaybootcore.dto.PageRequest;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
@@ -10,7 +9,7 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public class AppOrganizationUnitQueryRequest extends PageRequest {
+public class AppOrganizationUnitQueryRequest {
 
     @ApiModelProperty("机构编码")
     private String unitCode;

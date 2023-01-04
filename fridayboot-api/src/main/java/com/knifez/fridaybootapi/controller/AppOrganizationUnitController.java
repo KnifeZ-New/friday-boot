@@ -4,14 +4,12 @@ package com.knifez.fridaybootapi.controller;
 import cn.hutool.core.lang.tree.Tree;
 import cn.hutool.core.lang.tree.TreeNodeConfig;
 import cn.hutool.core.lang.tree.TreeUtil;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.knifez.fridaybootadmin.dto.AppOrganizationUnitQueryRequest;
 import com.knifez.fridaybootadmin.entity.AppOrganizationUnit;
 import com.knifez.fridaybootadmin.service.IAppOrganizationUnitService;
 import com.knifez.fridaybootcore.annotation.ApiRestController;
 import com.knifez.fridaybootcore.annotation.permission.AllowAuthenticated;
 import io.swagger.annotations.Api;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import io.swagger.annotations.ApiOperation;
 
@@ -43,11 +41,7 @@ public class AppOrganizationUnitController {
     @PostMapping("tree-list")
     @ApiOperation("列表")
     public List<Tree<Long>> treeList(@RequestBody AppOrganizationUnitQueryRequest queryRequest) {
-        QueryWrapper<AppOrganizationUnit> queryWrapper = new QueryWrapper<>();
-        queryWrapper.like(StringUtils.hasText(queryRequest.getUnitCode()), "unit_code", queryRequest.getUnitCode());
-        queryWrapper.like(StringUtils.hasText(queryRequest.getName()), "name", queryRequest.getName());
-
-        var list = appOrganizationUnitService.list(queryWrapper);
+        var list = appOrganizationUnitService.listWithParentNodes(queryRequest);
         TreeNodeConfig treeConfig = new TreeNodeConfig();
         return TreeUtil.build(list, null, treeConfig, (node, tree) -> {
             tree.setId(node.getId());

@@ -47,6 +47,10 @@ public class AuthServiceImpl implements IAuthService {
                 .map(GrantedAuthority::getAuthority)
                 .toList();
         Token token = JwtTokenUtils.createToken(user.getAccount(), user.getId().toString(), authorities, loginRequest.getRememberMe());
+        //重复登录accessToken不变，防止帐号挤掉
+        if (Boolean.TRUE.equals(stringRedisTemplate.hasKey(user.getId().toString()))) {
+            token.setAccessToken(stringRedisTemplate.opsForValue().get(user.getId().toString()));
+        }
         stringRedisTemplate.opsForValue().set(user.getId().toString(), token.getAccessToken());
         //绑定账户权限
         stringRedisTemplate.opsForValue().set(AppConstants.CURRENT_USER_PERMISSION_PREFIX + user.getId().toString(), JSONUtil.toJsonStr(user.getPermissions()));

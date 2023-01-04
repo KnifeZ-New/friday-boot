@@ -2,6 +2,7 @@ package com.knifez.fridaybootadmin.dto;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.knifez.fridaybootadmin.entity.AppRole;
 import com.knifez.fridaybootcore.entity.BaseAuditEntity;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
@@ -38,8 +39,6 @@ public class AppUserResponse extends BaseAuditEntity {
     @ApiModelProperty("所属部门id")
     private Long organizationId;
 
-    @TableField(exist = false)
-    @JsonIgnore
     @ApiModelProperty("角色")
-    private List<Long> roles = new ArrayList<>();
+    private List<AppRole> roles = new ArrayList<>();
 }

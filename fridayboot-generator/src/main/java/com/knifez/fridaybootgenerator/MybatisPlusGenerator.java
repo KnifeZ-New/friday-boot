@@ -21,13 +21,16 @@ public class MybatisPlusGenerator {
     private static String packagePath;
 
     private static final String PROJECT_NAME = "fridayboot";
+
+    private static final String DATABASE_URL = "jdbc:mysql://127.0.0.1:3306/fridayboot";
+    private static final String DATABASE_PASSWORD = "fridayboot";
     /**
      * 表列表
      */
     private static List<String> tableList = new ArrayList<>();
 
     public static void main(String[] args) {
-        FastAutoGenerator.create("jdbc:mysql://127.0.0.1:3306/fridayboot", PROJECT_NAME, PROJECT_NAME)
+        FastAutoGenerator.create(DATABASE_URL, PROJECT_NAME, DATABASE_PASSWORD)
                 .globalConfig((scanner, builder) ->
                         builder.author("KnifeZ")
                                 .enableSwagger()
@@ -49,7 +52,7 @@ public class MybatisPlusGenerator {
             isGenerateController = true;
         }
         if (isGenerateController) {
-            FastAutoGenerator.create("jdbc:mysql://127.0.0.1:3306/fridayboot", PROJECT_NAME, PROJECT_NAME)
+            FastAutoGenerator.create(DATABASE_URL, PROJECT_NAME, DATABASE_PASSWORD)
                     .globalConfig(builder -> builder.author("KnifeZ")
                             .enableSwagger()
                             .outputDir(getOutputPath("api")))

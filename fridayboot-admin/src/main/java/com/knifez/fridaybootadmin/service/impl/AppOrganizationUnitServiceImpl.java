@@ -1,16 +1,16 @@
 package com.knifez.fridaybootadmin.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.knifez.fridaybootadmin.dto.AppOrganizationUnitQueryRequest;
 import com.knifez.fridaybootadmin.entity.AppOrganizationUnit;
 import com.knifez.fridaybootadmin.mapper.AppOrganizationUnitMapper;
 import com.knifez.fridaybootadmin.service.IAppOrganizationUnitService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.knifez.fridaybootcore.dto.PageResult;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * <p>
@@ -24,20 +24,38 @@ import org.springframework.util.StringUtils;
 public class AppOrganizationUnitServiceImpl extends ServiceImpl<AppOrganizationUnitMapper, AppOrganizationUnit> implements IAppOrganizationUnitService {
 
     /**
-     * 列表页面查询
+     * 组织架构列表（包含查询结果的父节点）
      *
      * @param queryRequest 查询请求
-     * @return {@link PageResult}<{@link AppOrganizationUnit}>
+     * @return {@link List}<{@link AppOrganizationUnit}>
      */
     @Override
-    public PageResult<AppOrganizationUnit> listByPageQuery(AppOrganizationUnitQueryRequest queryRequest) {
-        QueryWrapper<AppOrganizationUnit> queryWrapper = new QueryWrapper<>();
-        queryWrapper.like(StringUtils.hasText(queryRequest.getUnitCode()), "unit_code", queryRequest.getUnitCode());
-        queryWrapper.like(StringUtils.hasText(queryRequest.getName()), "name", queryRequest.getName());
-        IPage<AppOrganizationUnit> page = new Page<>();
-        page.setCurrent(queryRequest.getPage());
-        page.setSize(queryRequest.getPageSize());
-        page = getBaseMapper().selectPage(page, queryWrapper);
-        return PageResult.builder(page.getRecords(), page.getTotal());
+    public List<AppOrganizationUnit> listWithParentNodes(AppOrganizationUnitQueryRequest queryRequest) {
+        LambdaQueryWrapper<AppOrganizationUnit> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.like(StringUtils.hasText(queryRequest.getUnitCode()), AppOrganizationUnit::getUnitCode, queryRequest.getUnitCode());
+        queryWrapper.like(StringUtils.hasText(queryRequest.getName()), AppOrganizationUnit::getName, queryRequest.getName());
+        var list = list(queryWrapper);
+        if (StringUtils.hasText(queryRequest.getName()) || StringUtils.hasText(queryRequest.getUnitCode())) {
+            list = mixWithParentNodes(list);
+        }
+        return list;
+    }
+
+    private List<AppOrganizationUnit> mixWithParentNodes(List<AppOrganizationUnit> list) {
+        List<AppOrganizationUnit> mixdList = new ArrayList<>();
+        for (var item : list) {
+            if (item.getParentId() != null) {
+                List<AppOrganizationUnit> parentNodes = new ArrayList<>();
+                parentNodes.add(item);
+                while (item.getParentId() != null) {
+                    item = getById(item.getParentId());
+                    parentNodes.add(item);
+                }
+                mixdList.addAll(parentNodes);
+            } else {
+                mixdList.add(item);
+            }
+        }
+        return mixdList.stream().distinct().toList();
     }
 }

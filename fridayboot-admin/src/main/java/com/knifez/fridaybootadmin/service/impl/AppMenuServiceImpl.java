@@ -18,6 +18,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -58,7 +59,8 @@ public class AppMenuServiceImpl extends ServiceImpl<AppMenuMapper, AppMenu> impl
     @Override
     public List<AppMenuButton> getMenuButtons(AppMenuButtonQueryRequest queryRequest) {
         LambdaQueryWrapper<AppMenu> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.eq(AppMenu::getId, queryRequest.getMenuId());
+        queryWrapper.eq(AppMenu::getParentId, queryRequest.getMenuId());
+        queryWrapper.eq(AppMenu::getType, 2);
         queryWrapper.like(StringUtils.hasText(queryRequest.getName()), AppMenu::getName, queryRequest.getName());
         queryWrapper.eq(queryRequest.getEnabled() != null, AppMenu::getEnabled, queryRequest.getEnabled());
         var list = baseMapper.selectList(queryWrapper);
@@ -90,11 +92,46 @@ public class AppMenuServiceImpl extends ServiceImpl<AppMenuMapper, AppMenu> impl
         queryWrapper.eq(queryRequest.getEnabled() != null, "is_enabled", queryRequest.getEnabled());
         queryWrapper.like(StringUtils.hasText(queryRequest.getName()), "name", queryRequest.getName());
         var list = list(queryWrapper);
+        if (StringUtils.hasText(queryRequest.getName())) {
+            list = mixWithParentNodes(list);
+        }
+        //重新加载菜单按钮
+        if (Boolean.TRUE.equals(queryRequest.getIncludeButton())) {
+            var ids = list.stream().map(AppMenu::getId).toList();
+            QueryWrapper<AppMenu> buttonWrapper = new QueryWrapper<>();
+            buttonWrapper.in("parent_id", ids);
+            buttonWrapper.eq("type", 2);
+            List<AppMenu> buttons = list(buttonWrapper);
+
+            List<AppMenu> mixdList = new ArrayList<>();
+            mixdList.addAll(list);
+            mixdList.addAll(buttons);
+            list = mixdList;
+        }
         return menuListToTree(list);
+    }
+
+    private List<AppMenu> mixWithParentNodes(List<AppMenu> list) {
+        List<AppMenu> mixdList = new ArrayList<>();
+        for (var item : list) {
+            if (item.getParentId() != null) {
+                List<AppMenu> parentNodes = new ArrayList<>();
+                parentNodes.add(item);
+                while (item.getParentId() != null) {
+                    item = getById(item.getParentId());
+                    parentNodes.add(item);
+                }
+                mixdList.addAll(parentNodes);
+            } else {
+                mixdList.add(item);
+            }
+        }
+        return mixdList.stream().distinct().toList();
     }
 
     private List<Tree<Integer>> menuListToTree(List<AppMenu> list) {
         TreeNodeConfig treeConfig = new TreeNodeConfig();
+        treeConfig.setWeightKey("sort");
         return TreeUtil.build(list, null, treeConfig, (node, tree) -> {
             tree.setId(node.getId());
             tree.setName(node.getName());
@@ -111,6 +148,7 @@ public class AppMenuServiceImpl extends ServiceImpl<AppMenuMapper, AppMenu> impl
             tree.putExtra("badge", node.getBadge());
             tree.putExtra("transition", node.getTransition());
             tree.putExtra("sort", node.getSort());
+            tree.putExtra("remark", node.getRemark());
             tree.putExtra("permission", node.getPermission());
             tree.putExtra("routePath", node.getRoutePath());
             tree.putExtra("component", node.getComponent());

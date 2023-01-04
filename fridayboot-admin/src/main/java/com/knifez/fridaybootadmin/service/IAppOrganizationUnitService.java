@@ -3,7 +3,8 @@ package com.knifez.fridaybootadmin.service;
 import com.knifez.fridaybootadmin.dto.AppOrganizationUnitQueryRequest;
 import com.knifez.fridaybootadmin.entity.AppOrganizationUnit;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.knifez.fridaybootcore.dto.PageResult;
+
+import java.util.List;
 
 /**
  * <p>
@@ -15,12 +16,11 @@ import com.knifez.fridaybootcore.dto.PageResult;
  */
 public interface IAppOrganizationUnitService extends IService<AppOrganizationUnit> {
 
-
     /**
-     * 列表页面查询
+     * 组织架构列表（包含查询结果的父节点）
      *
      * @param queryRequest 查询请求
-     * @return {@link PageResult}<{@link AppOrganizationUnit}>
+     * @return {@link List}<{@link AppOrganizationUnit}>
      */
-    PageResult<AppOrganizationUnit> listByPageQuery(AppOrganizationUnitQueryRequest queryRequest);
+    List<AppOrganizationUnit> listWithParentNodes(AppOrganizationUnitQueryRequest queryRequest);
 }

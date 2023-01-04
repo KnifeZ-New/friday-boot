@@ -3,6 +3,7 @@ package com.knifez.fridaybootapi.controller;
 import cn.hutool.core.bean.BeanUtil;
 import com.knifez.fridaybootadmin.dto.AppUserResponse;
 import com.knifez.fridaybootadmin.entity.AppUser;
+import com.knifez.fridaybootadmin.service.IAppRoleService;
 import com.knifez.fridaybootadmin.service.IAppUserRoleService;
 import com.knifez.fridaybootadmin.service.IAppUserService;
 import com.knifez.fridaybootadmin.dto.AppUserPagedQueryRequest;
@@ -35,9 +36,12 @@ public class AppUserController {
 
     private final IAppUserRoleService userRoleService;
 
-    public AppUserController(IAppUserService appUserService, IAppUserRoleService userRoleService) {
+    private final IAppRoleService roleService;
+
+    public AppUserController(IAppUserService appUserService, IAppUserRoleService userRoleService, IAppRoleService roleService) {
         this.appUserService = appUserService;
         this.userRoleService = userRoleService;
+        this.roleService = roleService;
     }
 
     /**
@@ -51,9 +55,13 @@ public class AppUserController {
     public PageResult<AppUserResponse> pagedList(@RequestBody AppUserPagedQueryRequest queryRequest) {
         //查询列表数据
         var ret = appUserService.listByPageQuery(queryRequest);
+        var responseList = BeanUtil.copyToList(ret.getItems(), AppUserResponse.class);
+        for (AppUserResponse user : responseList) {
+            user.setRoles(roleService.listByUserId(user.getId()));
+        }
         var list = new PageResult<AppUserResponse>();
         list.setTotal(ret.getTotal());
-        list.setItems(BeanUtil.copyToList(ret.getItems(), AppUserResponse.class));
+        list.setItems(responseList);
         return list;
     }
 

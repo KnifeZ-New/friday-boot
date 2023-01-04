@@ -67,7 +67,7 @@ public class AppUserServiceImpl extends ServiceImpl<AppUserMapper, AppUser> impl
         if (user == null) {
             user = new AppUser();
         } else {
-            var roles = roleService.listByUserId(user.getId());
+            var roles = roleService.listRoleNameByUserId(user.getId());
             if (!roles.isEmpty()) {
                 var permissions = permissionService.listByRoles(roles);
                 user.setPermissions(permissions);

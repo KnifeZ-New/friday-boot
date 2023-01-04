@@ -40,12 +40,27 @@ public class AppRoleServiceImpl extends ServiceImpl<AppRoleMapper, AppRole> impl
      * @return {@link List}<{@link AppRole}>
      */
     @Override
-    public List<String> listByUserId(long userId) {
+    public List<String> listRoleNameByUserId(long userId) {
         var ids = userRoleService.listRolesByUserId(userId);
         if (ids.isEmpty()) {
             return Collections.emptyList();
         }
         return baseMapper.selectBatchIds(ids).stream().map(AppRole::getName).toList();
+    }
+
+    /**
+     * 通过用户id获取角色列表
+     *
+     * @param userId 用户id
+     * @return {@link List}<{@link AppRole}>
+     */
+    @Override
+    public List<AppRole> listByUserId(long userId) {
+        var ids = userRoleService.listRolesByUserId(userId);
+        if (ids.isEmpty()) {
+            return Collections.emptyList();
+        }
+        return baseMapper.selectBatchIds(ids);
     }
 
     /**
