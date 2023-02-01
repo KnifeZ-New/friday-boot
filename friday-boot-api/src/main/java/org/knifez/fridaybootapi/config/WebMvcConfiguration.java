@@ -11,7 +11,7 @@ import org.springframework.web.servlet.config.annotation.PathMatchConfigurer;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 /**
-@author KnifeZ
+ * @author KnifeZ
  */
 @Configuration
 public class WebMvcConfiguration implements WebMvcConfigurer {
@@ -30,7 +30,8 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(new PermissionInterceptor(redisTemplate)).addPathPatterns("/api/**");
+        registry.addInterceptor(new PermissionInterceptor(redisTemplate)).addPathPatterns(AppConstants.API_PREFIX + "/**")
+                .excludePathPatterns("/static/**");
     }
 
     @Override

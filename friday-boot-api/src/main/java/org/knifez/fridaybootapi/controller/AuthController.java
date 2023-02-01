@@ -3,7 +3,7 @@ package org.knifez.fridaybootapi.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.knifez.fridaybootadmin.dto.AppUserInfoResponse;
+import org.knifez.fridaybootadmin.dto.AppUserInfoDTO;
 import org.knifez.fridaybootadmin.dto.LoginRequest;
 import org.knifez.fridaybootadmin.dto.Token;
 import org.knifez.fridaybootadmin.service.IAuthService;
@@ -83,13 +83,13 @@ public class AuthController {
     /**
      * 获取当前用户信息
      *
-     * @return {@link AppUserInfoResponse}
+     * @return {@link AppUserInfoDTO}
      */
     @AllowAuthenticated
     @GetMapping("current-userinfo")
     @Operation(summary = "当前用户信息")
-    public AppUserInfoResponse getCurrentUserInfo() {
-        var userInfo = new AppUserInfoResponse();
+    public AppUserInfoDTO getCurrentUserInfo() {
+        var userInfo = new AppUserInfoDTO();
         var currentUser = authService.getCurrentUser();
         BeanUtils.copyProperties(currentUser, userInfo);
         userInfo.setHomePath("/");

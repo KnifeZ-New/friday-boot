@@ -1,36 +1,19 @@
-package org.knifez.fridaybootadmin.entity;
+package org.knifez.fridaybootadmin.dto;
 
-import com.baomidou.mybatisplus.annotation.IdType;
+
 import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
-import org.knifez.fridaybootcore.entity.BaseAuditEntity;
-
-import java.io.Serial;
-import java.io.Serializable;
 
 /**
- * <p>
- * 菜单
- * </p>
- *
-@author KnifeZ
- * @since 2022-10-11
+ * @author KnifeZ
  */
 @Getter
 @Setter
-@TableName("app_menu")
-@Schema(defaultValue = "AppMenu对象", description = "菜单")
-public class AppMenu extends BaseAuditEntity implements Serializable {
-
-    @Serial
-    private static final long serialVersionUID = 1L;
+public class AppMenuModifyRequest {
 
     @Schema(defaultValue = "主键id")
-    @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
     @Schema(defaultValue = "父级节点")
@@ -87,5 +70,4 @@ public class AppMenu extends BaseAuditEntity implements Serializable {
 
     @Schema(defaultValue = "备注")
     private String remark;
-
 }

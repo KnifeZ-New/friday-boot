@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 
 /**
-@author KnifeZ
+ * @author KnifeZ
  */
 @SpringBootApplication
 @ComponentScan("org.knifez.**")

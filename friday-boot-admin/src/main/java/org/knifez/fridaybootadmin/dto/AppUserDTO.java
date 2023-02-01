@@ -4,18 +4,19 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import org.knifez.fridaybootadmin.entity.AppRole;
 import org.knifez.fridaybootcore.entity.BaseAuditEntity;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
-@author KnifeZ
+ * @author KnifeZ
  */
 @Getter
 @Setter
-public class AppUserResponse extends BaseAuditEntity {
+@ToString
+public class AppUserDTO extends BaseAuditEntity {
     @Schema(defaultValue = "主键id")
     private Long id;
 
@@ -41,5 +42,5 @@ public class AppUserResponse extends BaseAuditEntity {
     private String organizationName;
 
     @Schema(defaultValue = "角色")
-    private List<AppRole> roles = new ArrayList<>();
+    private List<AppRole> roles;
 }

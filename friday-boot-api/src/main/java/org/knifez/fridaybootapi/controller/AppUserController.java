@@ -3,8 +3,8 @@ package org.knifez.fridaybootapi.controller;
 import cn.hutool.core.bean.BeanUtil;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.knifez.fridaybootadmin.dto.AppUserDTO;
 import org.knifez.fridaybootadmin.dto.AppUserPagedQueryRequest;
-import org.knifez.fridaybootadmin.dto.AppUserResponse;
 import org.knifez.fridaybootadmin.entity.AppOrganizationUnit;
 import org.knifez.fridaybootadmin.entity.AppUser;
 import org.knifez.fridaybootadmin.service.IAppOrganizationUnitService;
@@ -58,18 +58,18 @@ public class AppUserController {
      */
     @Operation(summary = "分页列表")
     @PostMapping("list")
-    public PageResult<AppUserResponse> pagedList(@RequestBody AppUserPagedQueryRequest queryRequest) {
+    public PageResult<AppUserDTO> pagedList(@RequestBody AppUserPagedQueryRequest queryRequest) {
         //查询列表数据
         var ret = appUserService.listByPageQuery(queryRequest);
-        var responseList = BeanUtil.copyToList(ret.getItems(), AppUserResponse.class);
+        var responseList = BeanUtil.copyToList(ret.getItems(), AppUserDTO.class);
         var organizationList = organizationUnitService.list();
-        for (AppUserResponse user : responseList) {
+        for (AppUserDTO user : responseList) {
             user.setRoles(roleService.listByUserId(user.getId()));
             var organization = organizationList.stream()
                     .filter(x -> x.getId().equals(user.getOrganizationId())).map(AppOrganizationUnit::getName).collect(Collectors.joining());
             user.setOrganizationName(organization);
         }
-        var list = new PageResult<AppUserResponse>();
+        var list = new PageResult<AppUserDTO>();
         list.setTotal(ret.getTotal());
         list.setItems(responseList);
         return list;
@@ -80,13 +80,13 @@ public class AppUserController {
      * 通过id获取用户
      *
      * @param id id
-     * @return {@link AppUserResponse}
+     * @return {@link AppUserDTO}
      */
     @GetMapping("{id}")
     @Operation(summary = "根据id获取用户")
-    public AppUserResponse findById(@PathVariable Long id) {
+    public AppUserDTO findById(@PathVariable Long id) {
         var user = appUserService.getById(id);
-        AppUserResponse result = new AppUserResponse();
+        AppUserDTO result = new AppUserDTO();
         BeanUtils.copyProperties(user, result);
         return result;
     }

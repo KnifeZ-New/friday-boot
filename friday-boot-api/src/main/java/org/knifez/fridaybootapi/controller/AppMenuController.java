@@ -1,10 +1,12 @@
 package org.knifez.fridaybootapi.controller;
 
+import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.lang.tree.Tree;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.knifez.fridaybootadmin.dto.AppMenuButtonQueryRequest;
-import org.knifez.fridaybootadmin.dto.AppMenuButtonResponse;
+import org.knifez.fridaybootadmin.dto.AppMenuDTO;
+import org.knifez.fridaybootadmin.dto.AppMenuModifyRequest;
 import org.knifez.fridaybootadmin.dto.AppMenuQueryRequest;
 import org.knifez.fridaybootadmin.entity.AppMenu;
 import org.knifez.fridaybootadmin.service.IAppMenuService;
@@ -19,7 +21,7 @@ import java.util.List;
  * 菜单 前端控制器
  * </p>
  *
-@author KnifeZ
+ * @author KnifeZ
  * @since 2022-10-11
  */
 @AllowAuthenticated
@@ -44,7 +46,7 @@ public class AppMenuController {
 
     @Operation(summary = "菜单按钮列表")
     @PostMapping("button-list")
-    public List<AppMenuButtonResponse> menuButtonList(@RequestBody AppMenuButtonQueryRequest queryRequest) {
+    public List<AppMenuDTO> menuButtonList(@RequestBody AppMenuButtonQueryRequest queryRequest) {
         return appMenuService.getMenuButtons(queryRequest);
     }
 
@@ -68,8 +70,9 @@ public class AppMenuController {
      */
     @PostMapping
     @Operation(summary = "添加")
-    public Boolean create(@RequestBody AppMenu appMenu) {
-        return appMenuService.save(appMenu);
+    public Boolean create(@RequestBody AppMenuModifyRequest appMenu) {
+        var menu = BeanUtil.copyProperties(appMenu, AppMenu.class);
+        return appMenuService.save(menu);
     }
 
     /**
@@ -80,8 +83,9 @@ public class AppMenuController {
      */
     @PostMapping("{id}")
     @Operation(summary = "修改")
-    public Boolean update(@RequestBody AppMenu appMenu) {
-        return appMenuService.updateById(appMenu);
+    public Boolean update(@RequestBody AppMenuModifyRequest appMenu) {
+        var menu = BeanUtil.copyProperties(appMenu, AppMenu.class);
+        return appMenuService.updateById(menu);
     }
 
     /**

@@ -3,7 +3,7 @@ package org.knifez.fridaybootadmin.service;
 import cn.hutool.core.lang.tree.Tree;
 import com.baomidou.mybatisplus.extension.service.IService;
 import org.knifez.fridaybootadmin.dto.AppMenuButtonQueryRequest;
-import org.knifez.fridaybootadmin.dto.AppMenuButtonResponse;
+import org.knifez.fridaybootadmin.dto.AppMenuDTO;
 import org.knifez.fridaybootadmin.dto.AppMenuQueryRequest;
 import org.knifez.fridaybootadmin.entity.AppMenu;
 
@@ -32,7 +32,7 @@ public interface IAppMenuService extends IService<AppMenu> {
      * @param queryRequest 查询条件
      * @return 按钮集合
      */
-    List<AppMenuButtonResponse> getMenuButtons(AppMenuButtonQueryRequest queryRequest);
+    List<AppMenuDTO> getMenuButtons(AppMenuButtonQueryRequest queryRequest);
 
     /**
      * 获取菜单树

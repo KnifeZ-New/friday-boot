@@ -6,7 +6,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.0.0</version>
+        <version>3.0.2</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>org.knifez</groupId>
@@ -19,7 +19,7 @@
         <java.version>17</java.version>
         <jwt.version>0.11.5</jwt.version>
         <springboot.version>3.0.0</springboot.version>
-        <springdoc.version>1.6.14</springdoc.version>
+        <springdoc.version>2.0.2</springdoc.version>
         <mybatisplus.version>3.5.3</mybatisplus.version>
         <mysql.version>8.0.30</mysql.version>
         <hutool.version>5.8.11</hutool.version>
@@ -36,18 +36,6 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
-
-        <!--Spring doc-->
-        <dependency>
-            <groupId>org.springdoc</groupId>
-            <artifactId>springdoc-openapi-webmvc-core</artifactId>
-            <version>${springdoc.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springdoc</groupId>
-            <artifactId>springdoc-openapi-security</artifactId>
-            <version>${springdoc.version}</version>
         </dependency>
 
         <!--JWT-->
@@ -76,6 +64,13 @@
             <version>${mysql.version}</version>
             <scope>runtime</scope>
         </dependency>
+        <!--Spring doc-->
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-starter-webmvc-api</artifactId>
+            <version>${springdoc.version}</version>
+        </dependency>
+
 
         <!--lombok-->
         <dependency>
@@ -83,7 +78,6 @@
             <artifactId>lombok</artifactId>
             <optional>true</optional>
         </dependency>
-
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
@@ -94,6 +88,11 @@
     <dependencyManagement>
         <dependencies>
 
+            <dependency>
+                <groupId>org.springdoc</groupId>
+                <artifactId>springdoc-openapi-security</artifactId>
+                <version>${springdoc.version}</version>
+            </dependency>
 
             <!--security安全框架-->
             <dependency>

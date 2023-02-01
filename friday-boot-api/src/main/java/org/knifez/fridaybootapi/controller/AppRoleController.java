@@ -4,7 +4,7 @@ package org.knifez.fridaybootapi.controller;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.knifez.fridaybootadmin.dto.AppRolePagedQueryRequest;
-import org.knifez.fridaybootadmin.dto.AppUserResponse;
+import org.knifez.fridaybootadmin.dto.AppUserDTO;
 import org.knifez.fridaybootadmin.entity.AppRole;
 import org.knifez.fridaybootadmin.service.IAppPermissionGrantService;
 import org.knifez.fridaybootadmin.service.IAppRoleService;
@@ -76,7 +76,7 @@ public class AppRoleController {
      * 根据id获取角色
      *
      * @param id id
-     * @return {@link AppUserResponse}
+     * @return {@link AppUserDTO}
      */
     @GetMapping("{id}")
     @Operation(summary = "根据id获取角色")

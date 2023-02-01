@@ -8,7 +8,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.knifez.fridaybootadmin.dto.AppMenuButtonQueryRequest;
-import org.knifez.fridaybootadmin.dto.AppMenuButtonResponse;
+import org.knifez.fridaybootadmin.dto.AppMenuDTO;
 import org.knifez.fridaybootadmin.dto.AppMenuQueryRequest;
 import org.knifez.fridaybootadmin.entity.AppDictionaryConfig;
 import org.knifez.fridaybootadmin.entity.AppMenu;
@@ -57,18 +57,18 @@ public class AppMenuServiceImpl extends ServiceImpl<AppMenuMapper, AppMenu> impl
      * @return 按钮集合
      */
     @Override
-    public List<AppMenuButtonResponse> getMenuButtons(AppMenuButtonQueryRequest queryRequest) {
+    public List<AppMenuDTO> getMenuButtons(AppMenuButtonQueryRequest queryRequest) {
         LambdaQueryWrapper<AppMenu> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(AppMenu::getParentId, queryRequest.getMenuId());
         queryWrapper.eq(AppMenu::getType, 2);
         queryWrapper.like(StringUtils.hasText(queryRequest.getName()), AppMenu::getName, queryRequest.getName());
         queryWrapper.eq(queryRequest.getEnabled() != null, AppMenu::getEnabled, queryRequest.getEnabled());
         var list = baseMapper.selectList(queryWrapper);
-        var buttonList = bindButtonTageColor(list);
-        return BeanUtil.copyToList(buttonList, AppMenuButtonResponse.class);
+        var result = BeanUtil.copyToList(list, AppMenuDTO.class);
+        return bindButtonTageColor(result);
     }
 
-    private List<AppMenu> bindButtonTageColor(List<AppMenu> buttons) {
+    private List<AppMenuDTO> bindButtonTageColor(List<AppMenuDTO> buttons) {
         var systemButtons = dictionaryConfigService.listByDictCode("system_button");
         for (var button : buttons) {
             var labelLevel = systemButtons.stream().filter(x -> Objects.equals(x.getValue(), button.getRoute())).map(AppDictionaryConfig::getLabelLevel).findFirst();
@@ -96,8 +96,9 @@ public class AppMenuServiceImpl extends ServiceImpl<AppMenuMapper, AppMenu> impl
         queryWrapper.eq(queryRequest.getEnabled() != null, "is_enabled", queryRequest.getEnabled());
         queryWrapper.like(StringUtils.hasText(queryRequest.getName()), "name", queryRequest.getName());
         List<AppMenu> list = list(queryWrapper);
+        var result = BeanUtil.copyToList(list, AppMenuDTO.class);
         if (StringUtils.hasText(queryRequest.getName())) {
-            list = mixWithParentNodes(list);
+            result = mixWithParentNodes(result);
         }
         //重新加载菜单按钮
         if (Boolean.TRUE.equals(queryRequest.getIncludeButton())) {
@@ -106,27 +107,27 @@ public class AppMenuServiceImpl extends ServiceImpl<AppMenuMapper, AppMenu> impl
             buttonWrapper.in("parent_id", ids);
             buttonWrapper.eq("type", 2);
             List<AppMenu> buttons = list(buttonWrapper);
-            var buttonList = bindButtonTageColor(buttons);
-            List<AppMenu> mixdList = new ArrayList<>();
-            mixdList.addAll(list);
+            var buttonList = bindButtonTageColor(BeanUtil.copyToList(buttons, AppMenuDTO.class));
+            List<AppMenuDTO> mixdList = new ArrayList<>();
+            mixdList.addAll(BeanUtil.copyToList(list, AppMenuDTO.class));
             mixdList.addAll(buttonList);
-            list = mixdList;
+            result = mixdList;
         }
-        return menuListToTree(list);
+        return menuListToTree(result);
     }
 
 
-    private List<AppMenu> mixWithParentNodes(List<AppMenu> list) {
-        List<AppMenu> mixdList = new ArrayList<>();
+    private List<AppMenuDTO> mixWithParentNodes(List<AppMenuDTO> list) {
+        List<AppMenuDTO> mixdList = new ArrayList<>();
         for (var item : list) {
             if (item.getParentId() != null) {
                 List<AppMenu> parentNodes = new ArrayList<>();
                 parentNodes.add(item);
                 while (item.getParentId() != null) {
-                    item = getById(item.getParentId());
-                    parentNodes.add(item);
+                    var tmpItem = getById(item.getParentId());
+                    parentNodes.add(tmpItem);
                 }
-                mixdList.addAll(parentNodes);
+                mixdList.addAll(BeanUtil.copyToList(parentNodes, AppMenuDTO.class));
             } else {
                 mixdList.add(item);
             }
@@ -142,7 +143,7 @@ public class AppMenuServiceImpl extends ServiceImpl<AppMenuMapper, AppMenu> impl
         return baseMapper.selectList(queryWrapper).stream().map(AppMenu::getId).toList();
     }
 
-    private List<Tree<Integer>> menuListToTree(List<AppMenu> list) {
+    private List<Tree<Integer>> menuListToTree(List<AppMenuDTO> list) {
         TreeNodeConfig treeConfig = new TreeNodeConfig();
         treeConfig.setWeightKey("sort");
         return TreeUtil.build(list, null, treeConfig, (node, tree) -> {
