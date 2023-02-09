@@ -21,7 +21,7 @@ import org.springframework.util.StringUtils;
  * 用户表 服务实现类
  * </p>
  *
-@author KnifeZ
+ * @author KnifeZ
  * @since 2022-04-01
  */
 
@@ -52,7 +52,7 @@ public class AppUserServiceImpl extends ServiceImpl<AppUserMapper, AppUser> impl
         queryWrapper.eq(queryRequest.getLocked() != null, "is_locked", queryRequest.getLocked());
         queryWrapper.like(queryRequest.getUsername() != null, "username", queryRequest.getUsername());
         //获取所有子节点
-        if (!queryRequest.getOrganizationIds().isEmpty()) {
+        if (queryRequest.getOrganizationIds() != null && !queryRequest.getOrganizationIds().isEmpty()) {
             queryWrapper.in("organization_id", queryRequest.getOrganizationIds());
         }
         IPage<AppUser> page = new Page<>();

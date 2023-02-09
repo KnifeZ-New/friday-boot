@@ -35,7 +35,7 @@ public class PermissionInterceptor implements HandlerInterceptor {
      */
     @Override
     public boolean preHandle(HttpServletRequest request, @NotNull HttpServletResponse response, @NotNull Object handler) throws Exception {
-        String requestUri = request.getRequestURI();
+        String requestUri = (request.getRequestURI() + ":" + request.getMethod()).toLowerCase();
         log.debug("进入拦截器,用户请求:" + requestUri);
         if (handler instanceof HandlerMethod handlerMethod) {
             //验证接口权限

@@ -8,7 +8,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 
 /**
-@author KnifeZ
+ * @author KnifeZ
  */
 @Data
 public class JwtUser implements UserDetails {
@@ -79,7 +79,7 @@ public class JwtUser implements UserDetails {
 
     @Override
     public String toString() {
-        return "JwtUser{" +
+        return "{" +
                 "id=" + id +
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +

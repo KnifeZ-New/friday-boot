@@ -1,7 +1,6 @@
 package org.knifez.fridaybootadmin.service.impl;
 
 import cn.hutool.json.JSONUtil;
-import cn.hutool.jwt.JWTUtil;
 import org.knifez.fridaybootadmin.dto.JwtUser;
 import org.knifez.fridaybootadmin.dto.LoginRequest;
 import org.knifez.fridaybootadmin.dto.Token;
@@ -21,7 +20,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 /**
-@author KnifeZ
+ * @author KnifeZ
  */
 @Service
 public class AuthServiceImpl implements IAuthService {
@@ -48,17 +47,17 @@ public class AuthServiceImpl implements IAuthService {
                 .toList();
         Token token = JwtTokenUtils.createToken(user.getAccount(), user.getId().toString(), authorities, loginRequest.getRememberMe());
         //重复登录accessToken不变，防止帐号挤掉
-        if (Boolean.TRUE.equals(stringRedisTemplate.hasKey(user.getId().toString()))) {
-            token.setAccessToken(stringRedisTemplate.opsForValue().get(user.getId().toString()));
+        if (Boolean.TRUE.equals(stringRedisTemplate.hasKey(user.getAccount()))) {
+            token.setAccessToken(stringRedisTemplate.opsForValue().get(user.getAccount()));
         }
-        stringRedisTemplate.opsForValue().set(user.getId().toString(), token.getAccessToken());
+        stringRedisTemplate.opsForValue().set(user.getAccount(), token.getAccessToken());
         //绑定账户权限
-        stringRedisTemplate.opsForValue().set(AppConstants.CURRENT_USER_PERMISSION_PREFIX + user.getId().toString(), JSONUtil.toJsonStr(user.getPermissions()));
+        stringRedisTemplate.opsForValue().set(AppConstants.CURRENT_USER_PERMISSION_PREFIX + user.getAccount(), JSONUtil.toJsonStr(user.getPermissions()));
         return token;
     }
 
     public void removeToken() {
-        stringRedisTemplate.delete(getCurrentUser().getId().toString());
+        stringRedisTemplate.delete(getCurrentUser().getAccount());
     }
 
     /**
@@ -81,21 +80,6 @@ public class AuthServiceImpl implements IAuthService {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null && authentication.getPrincipal() != null) {
             return (String) authentication.getPrincipal();
-        }
-        return null;
-    }
-
-    /**
-     * 获得当前用户id
-     *
-     * @return {@link String}
-     */
-    @Override
-    public String getCurrentUserId() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication != null) {
-            var jwt = JWTUtil.parseToken(authentication.getCredentials().toString());
-            return jwt.getPayload("jti").toString();
         }
         return null;
     }

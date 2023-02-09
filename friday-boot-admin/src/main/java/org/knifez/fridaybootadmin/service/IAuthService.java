@@ -5,7 +5,7 @@ import org.knifez.fridaybootadmin.dto.Token;
 import org.knifez.fridaybootadmin.entity.AppUser;
 
 /**
-@author KnifeZ
+ * @author KnifeZ
  */
 public interface IAuthService {
     /**
@@ -34,11 +34,4 @@ public interface IAuthService {
      * @return {@link String}
      */
     String getCurrentUserName();
-
-    /**
-     * 获得当前用户id
-     *
-     * @return {@link String}
-     */
-    String getCurrentUserId();
 }
