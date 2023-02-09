@@ -28,4 +28,9 @@ public class AppConstants {
      * 包前缀
      */
     public static final String PACKAGE_PREFIX = "org.knifez.fridayboot";
+
+    /**
+     * Redis前缀文件夹
+     */
+    public static final String REDIS_PREFIX_FOLDER = "fridayboot:";
 }

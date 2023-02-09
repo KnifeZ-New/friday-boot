@@ -8,16 +8,17 @@ import org.knifez.fridaybootadmin.entity.AppUser;
 import org.knifez.fridaybootadmin.service.IAppUserService;
 import org.knifez.fridaybootadmin.service.IAuthService;
 import org.knifez.fridaybootadmin.utils.JwtTokenUtils;
+import org.knifez.fridaybootadmin.utils.RedisUtils;
 import org.knifez.fridaybootcore.constants.AppConstants;
 import org.knifez.fridaybootcore.enums.ResultStatus;
 import org.knifez.fridaybootcore.exception.FridayResultException;
-import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author KnifeZ
@@ -25,11 +26,11 @@ import java.util.List;
 @Service
 public class AuthServiceImpl implements IAuthService {
     private final IAppUserService userService;
-    private final StringRedisTemplate stringRedisTemplate;
+    private final RedisUtils redisUtils;
 
-    public AuthServiceImpl(IAppUserService userService, StringRedisTemplate stringRedisTemplate) {
+    public AuthServiceImpl(IAppUserService userService, RedisUtils redisUtils) {
         this.userService = userService;
-        this.stringRedisTemplate = stringRedisTemplate;
+        this.redisUtils = redisUtils;
     }
 
     public Token createToken(LoginRequest loginRequest) {
@@ -47,17 +48,16 @@ public class AuthServiceImpl implements IAuthService {
                 .toList();
         Token token = JwtTokenUtils.createToken(user.getAccount(), user.getId().toString(), authorities, loginRequest.getRememberMe());
         //重复登录accessToken不变，防止帐号挤掉
-        if (Boolean.TRUE.equals(stringRedisTemplate.hasKey(user.getAccount()))) {
-            token.setAccessToken(stringRedisTemplate.opsForValue().get(user.getAccount()));
+        if (Boolean.TRUE.equals(redisUtils.hasKey(user.getAccount()))) {
+            token.setAccessToken(redisUtils.get(user.getAccount()));
         }
-        stringRedisTemplate.opsForValue().set(user.getAccount(), token.getAccessToken());
-        //绑定账户权限
-        stringRedisTemplate.opsForValue().set(AppConstants.CURRENT_USER_PERMISSION_PREFIX + user.getAccount(), JSONUtil.toJsonStr(user.getPermissions()));
+        redisUtils.set(user.getAccount(), token.getAccessToken(), token.getExpires(), TimeUnit.SECONDS);
+        redisUtils.set(AppConstants.CURRENT_USER_PERMISSION_PREFIX + user.getAccount(), JSONUtil.toJsonStr(user.getPermissions()), token.getExpires(), TimeUnit.SECONDS);
         return token;
     }
 
     public void removeToken() {
-        stringRedisTemplate.delete(getCurrentUser().getAccount());
+        redisUtils.delete(getCurrentUser().getAccount());
     }
 
     /**

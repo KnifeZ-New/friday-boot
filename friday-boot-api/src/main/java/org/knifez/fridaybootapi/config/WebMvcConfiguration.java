@@ -1,10 +1,10 @@
 package org.knifez.fridaybootapi.config;
 
 import org.knifez.fridaybootadmin.interceptor.PermissionInterceptor;
+import org.knifez.fridaybootadmin.utils.RedisUtils;
 import org.knifez.fridaybootcore.annotation.ApiRestController;
 import org.knifez.fridaybootcore.constants.AppConstants;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.PathMatchConfigurer;
@@ -16,9 +16,9 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 public class WebMvcConfiguration implements WebMvcConfigurer {
 
-    private final StringRedisTemplate redisTemplate;
+    private final RedisUtils redisTemplate;
 
-    public WebMvcConfiguration(StringRedisTemplate redisTemplate) {
+    public WebMvcConfiguration(RedisUtils redisTemplate) {
         this.redisTemplate = redisTemplate;
     }
 

@@ -49,10 +49,12 @@ public class JwtTokenUtils {
         return new Token(token, expiration, "", 0L);
     }
 
-    public static String getId(String token) {
+    public static String getAccount(String token) {
         Claims claims = getClaims(token);
-        return claims.getId();
+
+        return claims.getSubject();
     }
+
 
     public static UsernamePasswordAuthenticationToken getAuthentication(String token) {
         Claims claims = getClaims(token);
