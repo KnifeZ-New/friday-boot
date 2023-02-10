@@ -27,11 +27,4 @@ public interface IAuthService {
      * @return {@link AppUser}
      */
     AppUser getCurrentUser();
-
-    /**
-     * 获得当前用户名
-     *
-     * @return {@link String}
-     */
-    String getCurrentUserName();
 }

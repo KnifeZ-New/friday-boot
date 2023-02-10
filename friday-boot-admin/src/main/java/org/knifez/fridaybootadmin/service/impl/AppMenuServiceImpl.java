@@ -10,6 +10,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.knifez.fridaybootadmin.dto.AppMenuButtonQueryRequest;
 import org.knifez.fridaybootadmin.dto.AppMenuDTO;
 import org.knifez.fridaybootadmin.dto.AppMenuQueryRequest;
+import org.knifez.fridaybootadmin.dto.AppMenuRouteDto;
 import org.knifez.fridaybootadmin.entity.AppDictionaryConfig;
 import org.knifez.fridaybootadmin.entity.AppMenu;
 import org.knifez.fridaybootadmin.mapper.AppMenuMapper;
@@ -27,7 +28,7 @@ import java.util.Objects;
  * 菜单 服务实现类
  * </p>
  *
-@author KnifeZ
+ * @author KnifeZ
  * @since 2022-10-11
  */
 @Service
@@ -116,6 +117,26 @@ public class AppMenuServiceImpl extends ServiceImpl<AppMenuMapper, AppMenu> impl
         return menuListToTree(result);
     }
 
+    /**
+     * 获取菜单路由
+     *
+     * @return {@link List}<{@link AppMenuRouteDto}>
+     */
+    @Override
+    public List<AppMenuRouteDto> getMenuRoutes() {
+        LambdaQueryWrapper<AppMenu> queryWrapper = new LambdaQueryWrapper<>();
+        //启用
+        queryWrapper.eq(AppMenu::getEnabled, true);
+        var list = list(queryWrapper);
+        List<AppMenuRouteDto> menuRoutes = new ArrayList<>();
+        var route = new AppMenuRouteDto();
+        // 筛选一级菜单
+
+//        route.set
+
+        return null;
+    }
+
 
     private List<AppMenuDTO> mixWithParentNodes(List<AppMenuDTO> list) {
         List<AppMenuDTO> mixdList = new ArrayList<>();
@@ -141,6 +162,17 @@ public class AppMenuServiceImpl extends ServiceImpl<AppMenuMapper, AppMenu> impl
         queryWrapper.select(AppMenu::getId);
         queryWrapper.eq(AppMenu::getParentId, id);
         return baseMapper.selectList(queryWrapper).stream().map(AppMenu::getId).toList();
+    }
+
+    @Override
+    public Boolean updateChildrenLevel(Integer id, Integer parentId) {
+        LambdaQueryWrapper<AppMenu> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(AppMenu::getParentId, id);
+        var children = list(queryWrapper);
+        for (var child : children) {
+            child.setParentId(parentId);
+        }
+        return updateBatchById(children);
     }
 
     private List<Tree<Integer>> menuListToTree(List<AppMenuDTO> list) {

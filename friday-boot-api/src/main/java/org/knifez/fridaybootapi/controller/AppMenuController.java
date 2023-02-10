@@ -4,10 +4,7 @@ import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.lang.tree.Tree;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.knifez.fridaybootadmin.dto.AppMenuButtonQueryRequest;
-import org.knifez.fridaybootadmin.dto.AppMenuDTO;
-import org.knifez.fridaybootadmin.dto.AppMenuModifyRequest;
-import org.knifez.fridaybootadmin.dto.AppMenuQueryRequest;
+import org.knifez.fridaybootadmin.dto.*;
 import org.knifez.fridaybootadmin.entity.AppMenu;
 import org.knifez.fridaybootadmin.service.IAppMenuService;
 import org.knifez.fridaybootcore.annotation.ApiRestController;
@@ -42,6 +39,12 @@ public class AppMenuController {
     @PostMapping("tree-list")
     public List<Tree<Integer>> treeList(@RequestBody AppMenuQueryRequest queryRequest) {
         return appMenuService.getTreeList(queryRequest);
+    }
+
+    @Operation(summary = "菜单路由")
+    @PostMapping("menu-routes")
+    public List<AppMenuRouteDto> list() {
+        return appMenuService.getMenuRoutes();
     }
 
     @Operation(summary = "菜单按钮列表")
@@ -96,8 +99,16 @@ public class AppMenuController {
      */
     @DeleteMapping("{id}")
     @Operation(summary = "删除")
-    public Boolean delete(@PathVariable Long id) {
-        return appMenuService.removeById(id);
+    public Boolean delete(@PathVariable Integer id) {
+        var currentMenu = appMenuService.getById(id);
+        var result = false;
+        // 删除当前数据
+        result = appMenuService.removeById(id);
+        if (result) {
+            // 设置children菜单父级菜单为当前菜单的父级
+            result = appMenuService.updateChildrenLevel(id, currentMenu.getParentId());
+        }
+        return result;
     }
 
 

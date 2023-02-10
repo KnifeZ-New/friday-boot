@@ -12,9 +12,7 @@ import org.knifez.fridaybootadmin.utils.RedisUtils;
 import org.knifez.fridaybootcore.constants.AppConstants;
 import org.knifez.fridaybootcore.enums.ResultStatus;
 import org.knifez.fridaybootcore.exception.FridayResultException;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -49,8 +47,12 @@ public class AuthServiceImpl implements IAuthService {
         Token token = JwtTokenUtils.createToken(user.getAccount(), user.getId().toString(), authorities, loginRequest.getRememberMe());
         //重复登录accessToken不变，防止帐号挤掉
         if (Boolean.TRUE.equals(redisUtils.hasKey(user.getAccount()))) {
-            token.setAccessToken(redisUtils.get(user.getAccount()));
+            //验证老token是否过期
+            if (!JwtTokenUtils.isExpired(redisUtils.get(user.getAccount()))) {
+                token.setAccessToken(redisUtils.get(user.getAccount()));
+            }
         }
+
         redisUtils.set(user.getAccount(), token.getAccessToken(), token.getExpires(), TimeUnit.SECONDS);
         redisUtils.set(AppConstants.CURRENT_USER_PERMISSION_PREFIX + user.getAccount(), JSONUtil.toJsonStr(user.getPermissions()), token.getExpires(), TimeUnit.SECONDS);
         return token;
@@ -67,21 +69,7 @@ public class AuthServiceImpl implements IAuthService {
      */
     @Override
     public AppUser getCurrentUser() {
-        return userService.findByAccount(getCurrentUserName());
-    }
-
-    /**
-     * 获得当前用户名
-     *
-     * @return {@link String}
-     */
-    @Override
-    public String getCurrentUserName() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication != null && authentication.getPrincipal() != null) {
-            return (String) authentication.getPrincipal();
-        }
-        return null;
+        return userService.findByAccount(JwtTokenUtils.getCurrentUserName());
     }
 
 }

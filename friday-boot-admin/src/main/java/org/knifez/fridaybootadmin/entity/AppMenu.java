@@ -7,7 +7,9 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
-import org.knifez.fridaybootcore.entity.BaseAuditEntity;
+import org.jetbrains.annotations.ApiStatus;
+import org.knifez.fridaybootadmin.common.MenuTypeEnum;
+import org.knifez.fridaybootcore.entity.BaseFullAuditEntity;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -17,14 +19,14 @@ import java.io.Serializable;
  * 菜单
  * </p>
  *
-@author KnifeZ
+ * @author KnifeZ
  * @since 2022-10-11
  */
 @Getter
 @Setter
 @TableName("app_menu")
 @Schema(defaultValue = "AppMenu对象", description = "菜单")
-public class AppMenu extends BaseAuditEntity implements Serializable {
+public class AppMenu extends BaseFullAuditEntity implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;
@@ -43,7 +45,7 @@ public class AppMenu extends BaseAuditEntity implements Serializable {
     private String route;
 
     @Schema(defaultValue = "菜单类型")
-    private String type;
+    private MenuTypeEnum type;
 
     @Schema(defaultValue = "排序")
     private Integer sort;
@@ -51,9 +53,11 @@ public class AppMenu extends BaseAuditEntity implements Serializable {
     @Schema(defaultValue = "图标")
     private String icon;
 
+    @ApiStatus.Obsolete
     @Schema(defaultValue = "过场动画")
     private String transition;
 
+    @ApiStatus.Obsolete
     @Schema(defaultValue = "徽章")
     private String badge;
 

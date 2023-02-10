@@ -9,7 +9,7 @@ import lombok.Setter;
 import java.time.LocalDateTime;
 
 /**
-@author KnifeZ
+ * @author KnifeZ
  */
 @Getter
 @Setter
@@ -17,7 +17,7 @@ public class BaseFullAuditEntity extends BaseAuditEntity {
 
     @TableField(value = "is_deleted")
     @Schema(defaultValue = "是否删除")
-    private int deleted;
+    private boolean deleted;
 
     @Schema(defaultValue = "删除人")
     @TableField(fill = FieldFill.UPDATE)

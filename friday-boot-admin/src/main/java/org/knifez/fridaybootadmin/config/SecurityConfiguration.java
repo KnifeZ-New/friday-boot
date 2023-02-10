@@ -1,7 +1,7 @@
 package org.knifez.fridaybootadmin.config;
 
 import lombok.extern.slf4j.Slf4j;
-import org.knifez.fridaybootadmin.constants.SecurityConstants;
+import org.knifez.fridaybootadmin.common.SecurityConstants;
 import org.knifez.fridaybootadmin.exception.JwtAccessDeniedHandler;
 import org.knifez.fridaybootadmin.exception.JwtAuthenticationEntryPoint;
 import org.knifez.fridaybootadmin.filter.JwtAuthorizationFilter;

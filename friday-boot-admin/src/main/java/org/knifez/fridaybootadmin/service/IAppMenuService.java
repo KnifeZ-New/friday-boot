@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import org.knifez.fridaybootadmin.dto.AppMenuButtonQueryRequest;
 import org.knifez.fridaybootadmin.dto.AppMenuDTO;
 import org.knifez.fridaybootadmin.dto.AppMenuQueryRequest;
+import org.knifez.fridaybootadmin.dto.AppMenuRouteDto;
 import org.knifez.fridaybootadmin.entity.AppMenu;
 
 import java.util.List;
@@ -14,7 +15,7 @@ import java.util.List;
  * 菜单 服务类
  * </p>
  *
-@author KnifeZ
+ * @author KnifeZ
  * @since 2022-10-11
  */
 public interface IAppMenuService extends IService<AppMenu> {
@@ -43,10 +44,19 @@ public interface IAppMenuService extends IService<AppMenu> {
     List<Tree<Integer>> getTreeList(AppMenuQueryRequest queryRequest);
 
     /**
+     * 获取菜单路由
+     *
+     * @return {@link List}<{@link AppMenuRouteDto}>
+     */
+    List<AppMenuRouteDto> getMenuRoutes();
+
+    /**
      * 获取所有子节点id
      *
      * @param id id
      * @return {@link List}<{@link Integer}>
      */
     List<Integer> getChildrenIds(Integer id);
+
+    Boolean updateChildrenLevel(Integer id, Integer parentId);
 }
