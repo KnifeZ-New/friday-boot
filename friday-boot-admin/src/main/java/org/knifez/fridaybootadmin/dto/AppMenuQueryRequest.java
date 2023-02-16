@@ -9,14 +9,15 @@ import lombok.Setter;
  */
 @Getter
 @Setter
+@Schema(title = "AppMenuQueryRequest")
 public class AppMenuQueryRequest {
 
-    @Schema(defaultValue = "名称")
+    @Schema(title = "名称")
     private String name;
 
-    @Schema(defaultValue = "状态")
+    @Schema(title = "状态")
     private Boolean enabled;
 
-    @Schema(defaultValue = "是否返回按钮")
+    @Schema(title = "是否返回按钮")
     private Boolean includeButton;
 }

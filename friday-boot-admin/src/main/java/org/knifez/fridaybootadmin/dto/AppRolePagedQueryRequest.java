@@ -10,14 +10,15 @@ import org.knifez.fridaybootcore.dto.PageRequest;
  */
 @Getter
 @Setter
+@Schema(title = "AppRolePagedQueryRequest")
 public class AppRolePagedQueryRequest extends PageRequest {
 
-    @Schema(defaultValue = "角色编码")
+    @Schema(title = "角色编码")
     private String name;
 
-    @Schema(defaultValue = "角色名称")
+    @Schema(title = "角色名称")
     private String displayName;
 
-    @Schema(defaultValue = "状态")
+    @Schema(title = "状态")
     private Boolean enabled;
 }

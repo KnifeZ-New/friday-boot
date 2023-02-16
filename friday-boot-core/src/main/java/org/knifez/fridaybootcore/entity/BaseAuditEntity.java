@@ -15,19 +15,19 @@ import java.time.LocalDateTime;
 @Setter
 public class BaseAuditEntity {
 
-    @Schema(defaultValue = "创建人")
+    @Schema(title = "创建人")
     @TableField(fill = FieldFill.INSERT)
     private String createBy;
 
-    @Schema(defaultValue = "创建时间")
+    @Schema(title = "创建时间")
     @TableField(fill = FieldFill.INSERT)
     private LocalDateTime createTime;
 
-    @Schema(defaultValue = "更新人")
+    @Schema(title = "更新人")
     @TableField(fill = FieldFill.INSERT_UPDATE)
     private String updateBy;
 
-    @Schema(defaultValue = "更新时间")
+    @Schema(title = "更新时间")
     @TableField(fill = FieldFill.INSERT_UPDATE)
     private LocalDateTime updateTime;
 

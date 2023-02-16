@@ -21,23 +21,23 @@ import java.io.Serializable;
 @Getter
 @Setter
 @TableName("app_permission_grant")
-@Schema(defaultValue = "AppPermissionGrant对象", description = "授权记录")
+@Schema(title = "AppPermissionGrant对象", description = "授权记录")
 public class AppPermissionGrant implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;
 
-    @Schema(defaultValue = "主键id")
+    @Schema(title = "主键id")
     @TableId(value = "id", type = IdType.AUTO)
     private Long id;
 
-    @Schema(defaultValue = "权限")
+    @Schema(title = "权限")
     private String name;
 
-    @Schema(defaultValue = "授权类型")
+    @Schema(title = "授权类型")
     private String provideName;
 
-    @Schema(defaultValue = "授权对象")
+    @Schema(title = "授权对象")
     private String provideFor;
 
 

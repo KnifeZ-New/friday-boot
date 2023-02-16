@@ -13,15 +13,16 @@ import java.util.List;
  */
 @Getter
 @Setter
+@Schema(title = "AppUserPagedQueryRequest")
 public class AppUserPagedQueryRequest extends PageRequest {
 
     @NotNull(message = "name 不能为空")
-    @Schema(defaultValue = "用户姓名")
+    @Schema(title = "用户姓名")
     private String username;
 
-    @Schema(defaultValue = "部门")
+    @Schema(title = "部门")
     private List<Long> organizationIds;
 
-    @Schema(defaultValue = "是否锁定")
+    @Schema(title = "是否锁定")
     private Boolean locked;
 }

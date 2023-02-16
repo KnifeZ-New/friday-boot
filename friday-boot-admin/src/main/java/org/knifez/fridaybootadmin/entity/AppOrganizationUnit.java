@@ -22,27 +22,27 @@ import java.io.Serializable;
 @Getter
 @Setter
 @TableName("app_organization_unit")
-@Schema(defaultValue = "AppOrganizationUnit对象", description = "组织机构")
+@Schema(title = "AppOrganizationUnit对象", description = "组织机构")
 public class AppOrganizationUnit extends BaseAuditEntity implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;
 
-    @Schema(defaultValue = "主键id")
+    @Schema(title = "主键id")
     @TableId(value = "id", type = IdType.AUTO)
     private Long id;
 
-    @Schema(defaultValue = "机构编码")
+    @Schema(title = "机构编码")
     private String unitCode;
 
 
-    @Schema(defaultValue = "父级节点")
+    @Schema(title = "父级节点")
     private Long parentId;
 
-    @Schema(defaultValue = "名称")
+    @Schema(title = "名称")
     private String name;
 
-    @Schema(defaultValue = "简介")
+    @Schema(title = "简介")
     private String description;
 
     @Override

@@ -1,9 +1,11 @@
 # FridayBoot
 
 #### 介绍
+
 一个基于Springboot开发的后台管理框架
 
 #### 软件架构
+
 - Java 17
 - Springboot 2.x
 - Spring Security
@@ -11,7 +13,15 @@
 - Mybatis-plus-generator
 - MySql
 - hutool
-- Swagger+Apifox
+- Springdoc+Apifox
+
+#### Git提交规范
+
+- wip:   正在开发
+- feat:  新增功能
+- fix:   修复缺陷
+- style: 代码格式
+- refactor: 重构
 
 #### 特别鸣谢
 

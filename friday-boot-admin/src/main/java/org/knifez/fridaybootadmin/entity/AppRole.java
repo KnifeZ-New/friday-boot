@@ -28,30 +28,30 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @TableName("app_role")
-@Schema(defaultValue = "AppRole对象", description = "角色")
+@Schema(title = "AppRole对象", description = "角色")
 public class AppRole extends BaseAuditEntity implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;
 
     @TableId(value = "id", type = IdType.AUTO)
-    @Schema(defaultValue = "主键id")
+    @Schema(title = "主键id")
     private Long id;
 
-    @Schema(defaultValue = "角色")
+    @Schema(title = "角色")
     private String name;
 
-    @Schema(defaultValue = "名称")
+    @Schema(title = "名称")
     private String displayName;
 
-    @Schema(defaultValue = "角色介绍")
+    @Schema(title = "角色介绍")
     private String description;
 
     @TableField(value = "is_enabled")
-    @Schema(defaultValue = "状态")
+    @Schema(title = "状态")
     private Boolean enabled;
     @TableField(exist = false)
-    @Schema(defaultValue = "角色权限")
+    @Schema(title = "角色权限")
     private List<Integer> permissions;
 
 }

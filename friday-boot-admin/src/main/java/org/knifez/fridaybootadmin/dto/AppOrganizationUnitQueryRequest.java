@@ -9,11 +9,12 @@ import lombok.Setter;
  */
 @Getter
 @Setter
+@Schema(title = "AppOrganizationUnitQueryRequest")
 public class AppOrganizationUnitQueryRequest {
 
-    @Schema(defaultValue = "机构编码")
+    @Schema(title = "机构编码")
     private String unitCode;
 
-    @Schema(defaultValue = "名称")
+    @Schema(title = "名称")
     private String name;
 }

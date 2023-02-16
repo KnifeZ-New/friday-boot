@@ -1,5 +1,6 @@
 package org.knifez.fridaybootadmin.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import org.knifez.fridaybootadmin.entity.AppUser;
 import org.springframework.security.core.GrantedAuthority;
@@ -11,6 +12,7 @@ import java.util.Collection;
  * @author KnifeZ
  */
 @Data
+@Schema(title = "JwtUser")
 public class JwtUser implements UserDetails {
     /**
      * id

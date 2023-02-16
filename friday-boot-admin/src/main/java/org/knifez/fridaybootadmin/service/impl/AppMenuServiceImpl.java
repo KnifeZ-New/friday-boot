@@ -7,10 +7,8 @@ import cn.hutool.core.lang.tree.TreeUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import org.knifez.fridaybootadmin.dto.AppMenuButtonQueryRequest;
-import org.knifez.fridaybootadmin.dto.AppMenuDTO;
-import org.knifez.fridaybootadmin.dto.AppMenuQueryRequest;
-import org.knifez.fridaybootadmin.dto.AppMenuRouteDto;
+import org.knifez.fridaybootadmin.common.MenuTypeEnum;
+import org.knifez.fridaybootadmin.dto.*;
 import org.knifez.fridaybootadmin.entity.AppDictionaryConfig;
 import org.knifez.fridaybootadmin.entity.AppMenu;
 import org.knifez.fridaybootadmin.mapper.AppMenuMapper;
@@ -120,23 +118,58 @@ public class AppMenuServiceImpl extends ServiceImpl<AppMenuMapper, AppMenu> impl
     /**
      * 获取菜单路由
      *
-     * @return {@link List}<{@link AppMenuRouteDto}>
+     * @return {@link List}<{@link AppMenuRouteDTO}>
      */
     @Override
-    public List<AppMenuRouteDto> getMenuRoutes() {
+    public List<AppMenuRouteDTO> getMenuRoutes() {
+        // 获取当前登录用户权限，
         LambdaQueryWrapper<AppMenu> queryWrapper = new LambdaQueryWrapper<>();
-        //启用
+        // 启用
         queryWrapper.eq(AppMenu::getEnabled, true);
+        // 不包含按钮
+        queryWrapper.lt(AppMenu::getType, MenuTypeEnum.BUTTON.getValue());
+        queryWrapper.orderByAsc(AppMenu::getSort);
+        // 所有菜单
         var list = list(queryWrapper);
-        List<AppMenuRouteDto> menuRoutes = new ArrayList<>();
-        var route = new AppMenuRouteDto();
-        // 筛选一级菜单
-
-//        route.set
-
-        return null;
+        List<AppMenuRouteDTO> menuRoutes = new ArrayList<>();
+        for (var menu : list) {
+            if (menu.getParentId() == null || menu.getParentId().equals(0)) {
+                var menuRoute = findMenuRouteChildren(list, menu);
+                menuRoutes.add(menuRoute);
+            }
+        }
+        return menuRoutes;
     }
 
+    private AppMenuRouteDTO convertToMenuRoute(AppMenu menu) {
+        var route = new AppMenuRouteDTO();
+        route.setPath(menu.getRoutePath());
+        route.setName(menu.getRoute());
+        route.setComponent(menu.getComponent());
+        RouteMeta meta = new RouteMeta();
+        meta.setTitle(menu.getName());
+        meta.setIcon(menu.getIcon());
+        meta.setOrderNo(menu.getSort());
+        // 是否隐藏菜单
+        meta.setHideMenu(!menu.getVisible());
+        // 是否启用缓存
+        meta.setIgnoreKeepAlive(menu.getKeepAlive());
+        // 权限KnifeZhang
+        meta.setGrantedPolicy(menu.getPermission());
+        route.setMeta(meta);
+        route.setChildren(new ArrayList<>());
+        return route;
+    }
+
+    private AppMenuRouteDTO findMenuRouteChildren(List<AppMenu> menus, AppMenu node) {
+        var menuRoute = convertToMenuRoute(node);
+        for (var menu : menus) {
+            if (menu.getParentId() != null && node.getId().equals(menu.getParentId())) {
+                menuRoute.getChildren().add(findMenuRouteChildren(menus, menu));
+            }
+        }
+        return menuRoute;
+    }
 
     private List<AppMenuDTO> mixWithParentNodes(List<AppMenuDTO> list) {
         List<AppMenuDTO> mixdList = new ArrayList<>();

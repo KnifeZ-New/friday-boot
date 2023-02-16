@@ -7,15 +7,16 @@ import lombok.Setter;
 /**
  * 分页请求参数
  *
-@author KnifeZ
+ * @author KnifeZ
  */
 @Getter
 @Setter
+@Schema(title = "PageRequest", description = "分页查询通用请求参数")
 public class PageRequest {
 
-    @Schema(defaultValue = "当前页码")
+    @Schema(title = "当前页码")
     private int page;
 
-    @Schema(defaultValue = "分页大小")
+    @Schema(title = "分页大小")
     private int pageSize;
 }

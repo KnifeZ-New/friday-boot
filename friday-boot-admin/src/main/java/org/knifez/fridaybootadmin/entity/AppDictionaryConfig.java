@@ -23,45 +23,45 @@ import java.io.Serializable;
 @Getter
 @Setter
 @TableName("app_dictionary_config")
-@Schema(defaultValue = "AppDictionaryConfig对象", description = "字典配置")
+@Schema(title = "AppDictionaryConfig对象", description = "字典配置")
 public class AppDictionaryConfig extends BaseAuditEntity implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;
 
-    @Schema(defaultValue = "主键id")
+    @Schema(title = "主键id")
     @TableId(value = "id", type = IdType.AUTO)
     private Long id;
 
-    @Schema(defaultValue = "字典编码")
+    @Schema(title = "字典编码")
     private String dictCode;
 
-    @Schema(defaultValue = "父级节点")
+    @Schema(title = "父级节点")
     private Long parentId;
 
-    @Schema(defaultValue = "名字")
+    @Schema(title = "名字")
     private String name;
 
-    @Schema(defaultValue = "数据类型")
+    @Schema(title = "数据类型")
     private String valueType;
 
-    @Schema(defaultValue = "数据值")
+    @Schema(title = "数据值")
     private String value;
 
-    @Schema(defaultValue = "标签等级")
+    @Schema(title = "标签等级")
     private String labelLevel;
 
-    @Schema(defaultValue = "图标")
+    @Schema(title = "图标")
     private String icon;
 
-    @Schema(defaultValue = "排序")
+    @Schema(title = "排序")
     private Integer sort;
 
-    @Schema(defaultValue = "备注")
+    @Schema(title = "备注")
     private String description;
 
     @TableField(value = "is_enabled")
-    @Schema(defaultValue = "是否启用")
+    @Schema(title = "是否启用")
     private Boolean enabled;
 
 

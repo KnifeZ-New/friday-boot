@@ -10,11 +10,12 @@ import org.knifez.fridaybootcore.dto.PageRequest;
  */
 @Getter
 @Setter
+@Schema(title = "AppDictionaryQueryRequest")
 public class AppDictionaryQueryRequest extends PageRequest {
 
-    @Schema(defaultValue = "字典名称")
+    @Schema(title = "字典名称")
     private String name;
 
-    @Schema(defaultValue = "是否启用")
+    @Schema(title = "是否启用")
     private Boolean enabled;
 }

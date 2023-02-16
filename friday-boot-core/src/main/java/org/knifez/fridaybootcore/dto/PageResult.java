@@ -9,16 +9,16 @@ import java.util.List;
 /**
  * 分页查询结果
  *
-@author KnifeZ
+ * @author KnifeZ
  */
 @Getter
 @Setter
 public class PageResult<T> {
 
-    @Schema(defaultValue = "总条数")
+    @Schema(title = "总条数")
     private long total;
 
-    @Schema(defaultValue = "返回数据")
+    @Schema(title = "返回数据")
     private List<T> items;
 
     public static <T> PageResult<T> builder(List<T> items, long total) {

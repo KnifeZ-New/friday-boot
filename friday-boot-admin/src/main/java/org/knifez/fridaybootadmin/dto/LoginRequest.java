@@ -10,20 +10,21 @@ import lombok.Data;
  */
 @Data
 @AllArgsConstructor
+@Schema(title = "LoginRequest")
 public class LoginRequest {
     /**
      * 用户名
      */
-    @Schema(defaultValue = "用户名")
+    @Schema(title = "用户名")
     private String username;
     /**
      * 密码
      */
-    @Schema(defaultValue = "密码")
+    @Schema(title = "密码")
     private String password;
     /**
      * 记住帐号
      */
-    @Schema(defaultValue = "记住帐号")
+    @Schema(title = "记住帐号")
     private Boolean rememberMe;
 }

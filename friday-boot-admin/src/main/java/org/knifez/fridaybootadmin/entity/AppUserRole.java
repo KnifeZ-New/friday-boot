@@ -22,7 +22,7 @@ import java.io.Serializable;
 @Getter
 @Setter
 @TableName("app_user_role")
-@Schema(defaultValue = "AppUserRole对象", description = "用户角色关联表")
+@Schema(title = "AppUserRole对象", description = "用户角色关联表")
 public class AppUserRole extends BaseAuditEntity implements Serializable {
 
     @Serial
@@ -31,10 +31,10 @@ public class AppUserRole extends BaseAuditEntity implements Serializable {
     @TableId(value = "id", type = IdType.AUTO)
     private Long id;
 
-    @Schema(defaultValue = "用户id")
+    @Schema(title = "用户id")
     private Long userId;
 
-    @Schema(defaultValue = "角色id")
+    @Schema(title = "角色id")
     private Long roleId;
 
 

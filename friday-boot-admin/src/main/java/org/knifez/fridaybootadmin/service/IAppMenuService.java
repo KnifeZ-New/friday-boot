@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import org.knifez.fridaybootadmin.dto.AppMenuButtonQueryRequest;
 import org.knifez.fridaybootadmin.dto.AppMenuDTO;
 import org.knifez.fridaybootadmin.dto.AppMenuQueryRequest;
-import org.knifez.fridaybootadmin.dto.AppMenuRouteDto;
+import org.knifez.fridaybootadmin.dto.AppMenuRouteDTO;
 import org.knifez.fridaybootadmin.entity.AppMenu;
 
 import java.util.List;
@@ -46,9 +46,9 @@ public interface IAppMenuService extends IService<AppMenu> {
     /**
      * 获取菜单路由
      *
-     * @return {@link List}<{@link AppMenuRouteDto}>
+     * @return {@link List}<{@link AppMenuRouteDTO}>
      */
-    List<AppMenuRouteDto> getMenuRoutes();
+    List<AppMenuRouteDTO> getMenuRoutes();
 
     /**
      * 获取所有子节点id

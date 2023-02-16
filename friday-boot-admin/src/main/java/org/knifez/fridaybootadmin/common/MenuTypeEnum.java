@@ -1,6 +1,7 @@
 package org.knifez.fridaybootadmin.common;
 
 import com.baomidou.mybatisplus.annotation.EnumValue;
+import com.baomidou.mybatisplus.annotation.IEnum;
 import lombok.Getter;
 
 /**
@@ -10,7 +11,7 @@ import lombok.Getter;
  * @date 2023/02/10
  */
 @Getter
-public enum MenuTypeEnum {
+public enum MenuTypeEnum implements IEnum<Integer> {
     /**
      * 目录
      */

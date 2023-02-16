@@ -12,9 +12,9 @@ import org.knifez.fridaybootadmin.entity.AppMenu;
 @Getter
 @Setter
 @ToString
-@Schema(defaultValue = "AppMenuDTO")
+@Schema(title = "AppMenuDTO")
 public class AppMenuDTO extends AppMenu {
 
-    @Schema(defaultValue = "标签颜色")
+    @Schema(title = "标签颜色")
     private String tagColor;
 }

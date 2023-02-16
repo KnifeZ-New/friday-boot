@@ -31,54 +31,54 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @TableName("app_user")
-@Schema(defaultValue = "AppUser对象", description = "用户")
+@Schema(title = "AppUser对象", description = "用户")
 public class AppUser extends BaseAuditEntity implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;
 
     @TableId(value = "id", type = IdType.AUTO)
-    @Schema(defaultValue = "主键id")
+    @Schema(title = "主键id")
     private Long id;
 
-    @Schema(defaultValue = "账号")
+    @Schema(title = "账号")
     private String account;
 
-    @Schema(defaultValue = "姓名")
+    @Schema(title = "姓名")
     private String username;
 
-    @Schema(defaultValue = "密码")
+    @Schema(title = "密码")
     private String password;
 
-    @Schema(defaultValue = "邮箱")
+    @Schema(title = "邮箱")
     private String email;
 
     @TableField(value = "is_locked")
-    @Schema(defaultValue = "是否启锁定")
+    @Schema(title = "是否启锁定")
     private Boolean locked;
 
-    @Schema(defaultValue = "所属部门id")
+    @Schema(title = "所属部门id")
     private Long organizationId;
 
     /**
      * 部门名称
      */
-    @Schema(defaultValue = "所属部门")
+    @Schema(title = "所属部门")
     @TableField(exist = false)
     private String organizationName;
 
     @TableField(exist = false)
-    @Schema(defaultValue = "角色")
+    @Schema(title = "角色")
     private List<Long> roles = new ArrayList<>();
 
     @TableField(exist = false)
     @JsonIgnore
-    @Schema(defaultValue = "角色")
+    @Schema(title = "角色")
     private List<String> userRoles = new ArrayList<>();
 
     @TableField(exist = false)
     @JsonIgnore
-    @Schema(defaultValue = "权限")
+    @Schema(title = "权限")
     private List<String> permissions = new ArrayList<>();
 
     public List<SimpleGrantedAuthority> getGrantRoles() {

@@ -43,9 +43,10 @@ public class AppMenuController {
 
     @Operation(summary = "菜单路由")
     @PostMapping("menu-routes")
-    public List<AppMenuRouteDto> list() {
+    public List<AppMenuRouteDTO> list() {
         return appMenuService.getMenuRoutes();
     }
+
 
     @Operation(summary = "菜单按钮列表")
     @PostMapping("button-list")

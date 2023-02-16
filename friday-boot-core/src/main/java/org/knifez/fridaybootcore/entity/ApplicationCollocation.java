@@ -12,22 +12,22 @@ import java.util.List;
 @Getter
 @Setter
 public class ApplicationCollocation {
-    @Schema(defaultValue = "当前用户id")
+    @Schema(title = "当前用户id")
     private String userId;
-    @Schema(defaultValue = "所属租户id")
+    @Schema(title = "所属租户id")
     private String tenantId;
-    @Schema(defaultValue = "角色")
+    @Schema(title = "角色")
     private List<String> roles;
-    @Schema(defaultValue = "权限")
+    @Schema(title = "权限")
     private List<String> permissions;
 
-    @Schema(defaultValue = "语言")
+    @Schema(title = "语言")
     private String language;
 
-    @Schema(defaultValue = "暗黑模式")
+    @Schema(title = "暗黑模式")
     private Boolean darkMode;
 
-    @Schema(defaultValue = "所有权限")
+    @Schema(title = "所有权限")
     private List<String> grantedPolicies;
 
 }

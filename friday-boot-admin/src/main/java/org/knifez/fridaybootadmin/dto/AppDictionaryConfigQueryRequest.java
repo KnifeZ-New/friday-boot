@@ -9,10 +9,11 @@ import lombok.Setter;
  */
 @Getter
 @Setter
+@Schema(title = "AppDictionaryConfigQueryRequest")
 public class AppDictionaryConfigQueryRequest {
-    @Schema(defaultValue = "字典名称")
+    @Schema(title = "字典名称")
     private String name;
 
-    @Schema(defaultValue = "是否启用")
+    @Schema(title = "是否启用")
     private Boolean enabled;
 }

@@ -15,20 +15,20 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 public class FridayResult<T> {
-    @Schema(defaultValue = "状态码")
+    @Schema(title = "状态码")
     private Integer code;
 
-    @Schema(defaultValue = "操作消息")
+    @Schema(title = "操作消息")
     private String message;
 
-    @Schema(defaultValue = "返回结果")
+    @Schema(title = "返回结果")
     private T data;
 
-    @Schema(defaultValue = "是否成功")
+    @Schema(title = "是否成功")
     private Boolean success;
 
 
-    @Schema(defaultValue = "请求时间")
+    @Schema(title = "请求时间")
     private LocalDateTime timestamp = LocalDateTime.now();
 
     private FridayResult(ResultStatus resultStatus, T data) {

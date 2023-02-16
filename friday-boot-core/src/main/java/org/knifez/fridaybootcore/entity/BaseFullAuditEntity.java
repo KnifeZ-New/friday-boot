@@ -16,14 +16,14 @@ import java.time.LocalDateTime;
 public class BaseFullAuditEntity extends BaseAuditEntity {
 
     @TableField(value = "is_deleted")
-    @Schema(defaultValue = "是否删除")
+    @Schema(title = "是否删除")
     private boolean deleted;
 
-    @Schema(defaultValue = "删除人")
+    @Schema(title = "删除人")
     @TableField(fill = FieldFill.UPDATE)
     private String deleteBy;
 
-    @Schema(defaultValue = "删除时间")
+    @Schema(title = "删除时间")
     @TableField(fill = FieldFill.UPDATE)
     private LocalDateTime deleteTime;
 

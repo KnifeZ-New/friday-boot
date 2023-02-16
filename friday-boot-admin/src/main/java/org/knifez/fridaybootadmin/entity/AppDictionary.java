@@ -23,27 +23,27 @@ import java.io.Serializable;
 @Getter
 @Setter
 @TableName("app_dictionary")
-@Schema(defaultValue = "AppDictionary对象", description = "字典")
+@Schema(title = "AppDictionary对象", description = "字典")
 public class AppDictionary extends BaseAuditEntity implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;
 
-    @Schema(defaultValue = "主键id")
+    @Schema(title = "主键id")
     @TableId(value = "id", type = IdType.AUTO)
     private Long id;
 
-    @Schema(defaultValue = "字典名称")
+    @Schema(title = "字典名称")
     private String name;
 
-    @Schema(defaultValue = "字典编码")
+    @Schema(title = "字典编码")
     private String code;
 
-    @Schema(defaultValue = "备注")
+    @Schema(title = "备注")
     private String description;
 
     @TableField(value = "is_enabled")
-    @Schema(defaultValue = "是否启用")
+    @Schema(title = "是否启用", description = "是否启用")
     private Boolean enabled;
 
 }
