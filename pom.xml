@@ -29,7 +29,6 @@
         <module>friday-boot-core</module>
         <module>friday-boot-admin</module>
         <module>friday-boot-api</module>
-        <module>fridayboot-generator</module>
     </modules>
 
     <dependencies>

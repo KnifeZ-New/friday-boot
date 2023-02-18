@@ -75,7 +75,7 @@ public class MybatisPlusGenerator {
     protected static String getOutputPath(String packageName) {
         var path = System.getProperty("user.dir") + "/fridayboot-" + packageName + "/src/main/java";
         log.info(path);
-        packagePath = "com.knifez." + PROJECT_NAME + packageName;
+        packagePath = "org.knifez." + PROJECT_NAME + packageName;
         log.info(packagePath);
         return path;
     }

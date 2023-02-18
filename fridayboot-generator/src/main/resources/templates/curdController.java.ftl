@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.*;
 
 import io.swagger.v3.oas.annotations.Operation;
 <#if restControllerStyle>
-    import com.knifez.fridaybootcore.annotation.ApiRestController;
+    import org.knifez.fridaybootcore.annotation.ApiRestController;
 <#else>
     import org.springframework.stereotype.Controller;
 </#if>
