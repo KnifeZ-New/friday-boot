@@ -27,10 +27,11 @@ public class RouteMeta {
     @Schema(title = "菜单动效")
     private String transitionName;
 
+    @Schema(title = "忽略权限")
+    private Boolean ignoreAuth;
 //    @Schema(title = "排序")
 //    private Integer dynamicLevel;
 
-//    private Boolean ignoreRoute;
 
 //    private Boolean affix;
 

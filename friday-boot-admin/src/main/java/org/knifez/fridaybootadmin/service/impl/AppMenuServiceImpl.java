@@ -154,8 +154,9 @@ public class AppMenuServiceImpl extends ServiceImpl<AppMenuMapper, AppMenu> impl
         meta.setHideMenu(!menu.getVisible());
         // 是否启用缓存
         meta.setIgnoreKeepAlive(menu.getKeepAlive());
-        // 权限KnifeZhang
+        // 权限
         meta.setGrantedPolicy(menu.getPermission());
+        meta.setIgnoreAuth(!StringUtils.hasText(menu.getPermission()));
         route.setMeta(meta);
         route.setChildren(new ArrayList<>());
         return route;
