@@ -67,7 +67,8 @@ public class ${table.controllerName} {
     @PostMapping
     @Operation(summary = "添加")
     public Boolean create(@RequestBody ${table.entityName} ${table.entityPath}) {
-        return ${table.entityPath}Service.save(${table.entityPath});
+    ${table.entityPath}.setId(null);
+    return ${table.entityPath}Service.save(${table.entityPath});
     }
 
     /**
