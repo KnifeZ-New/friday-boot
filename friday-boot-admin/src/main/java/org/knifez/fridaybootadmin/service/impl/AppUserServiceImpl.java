@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.knifez.fridaybootadmin.dto.AppUserDTO;
+import org.knifez.fridaybootadmin.dto.AppUserModifyDTO;
 import org.knifez.fridaybootadmin.dto.AppUserPagedQueryRequest;
 import org.knifez.fridaybootadmin.entity.AppUser;
 import org.knifez.fridaybootadmin.mapper.AppUserMapper;
@@ -12,6 +14,7 @@ import org.knifez.fridaybootadmin.service.IAppRoleService;
 import org.knifez.fridaybootadmin.service.IAppUserRoleService;
 import org.knifez.fridaybootadmin.service.IAppUserService;
 import org.knifez.fridaybootcore.dto.PageResult;
+import org.springframework.beans.BeanUtils;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -63,36 +66,49 @@ public class AppUserServiceImpl extends ServiceImpl<AppUserMapper, AppUser> impl
     }
 
     @Override
-    public AppUser findByAccount(String account) {
+    public AppUserDTO findByAccount(String account) {
+        AppUserDTO userDTO = new AppUserDTO();
         var wrapper = new QueryWrapper<AppUser>();
         wrapper.eq("account", account);
         var user = baseMapper.selectOne(wrapper);
-        if (user == null) {
-            user = new AppUser();
-        } else {
+        if (user != null) {
+            BeanUtils.copyProperties(user, userDTO);
             var roles = roleService.listRoleNameByUserId(user.getId());
             if (!roles.isEmpty()) {
                 var permissions = permissionService.listByRoles(roles);
-                user.setPermissions(permissions);
+                userDTO.setPermissions(permissions);
             }
-            user.setUserRoles(roles);
+            userDTO.setUserRoles(roles);
         }
-        return user;
+        return userDTO;
+    }
+
+    /**
+     * 账户是否存在
+     *
+     * @param account 账户
+     * @return {@link Boolean}
+     */
+    @Override
+    public Boolean accountExist(String account) {
+        var wrapper = new QueryWrapper<AppUser>();
+        wrapper.eq("account", account);
+        var accountCount = baseMapper.selectCount(wrapper);
+        return accountCount > 0;
     }
 
     @Override
-    public Boolean saveWithUserRoles(AppUser user, boolean isUpdate) {
+    public Boolean saveWithUserRoles(AppUserModifyDTO user, boolean isNew) {
         var result = false;
         if (StringUtils.hasText(user.getPassword())) {
             BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
             String password = bCryptPasswordEncoder.encode(user.getPassword());
             user.setPassword(password);
         }
-        if (isUpdate) {
-            result = updateById(user);
-        } else {
-            result = save(user);
+        if (isNew) {
+            user.setId(null);
         }
+        result = saveOrUpdate(user);
         if (result) {
             result = userRoleService.saveRolesByUserId(user.getId(), user.getRoles());
         }

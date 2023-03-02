@@ -2,7 +2,6 @@ package org.knifez.fridaybootadmin.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
-import org.knifez.fridaybootadmin.entity.AppUser;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -35,7 +34,7 @@ public class JwtUser implements UserDetails {
      */
     private Collection<? extends GrantedAuthority> authorities;
 
-    public JwtUser(AppUser user) {
+    public JwtUser(AppUserDTO user) {
         id = user.getId();
         username = user.getUsername();
         password = user.getPassword();

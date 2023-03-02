@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
  * 授权记录 前端控制器
  * </p>
  *
-@author KnifeZ
+ * @author KnifeZ
  * @since 2022-07-25
  */
 @Tag(name = "授权记录管理")
@@ -51,6 +51,7 @@ public class AppPermissionGrantController {
     @PostMapping
     @Operation(summary = "新增")
     public Boolean create(@RequestBody AppPermissionGrant appPermissionGrant) {
+        appPermissionGrant.setId(null);
         return appPermissionGrantService.save(appPermissionGrant);
     }
 

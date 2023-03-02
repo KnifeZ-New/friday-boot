@@ -20,7 +20,7 @@ import java.util.List;
  * 前端控制器
  * </p>
  *
-@author KnifeZ
+ * @author KnifeZ
  * @since 2022-07-06
  */
 @AllowAuthenticated
@@ -94,6 +94,7 @@ public class AppRoleController {
     @Operation(summary = "新增角色")
     public Boolean create(@RequestBody AppRole role) {
         permissionService.saveByRole(role.getPermissions(), role.getName());
+        role.setId(null);
         return roleService.save(role);
     }
 

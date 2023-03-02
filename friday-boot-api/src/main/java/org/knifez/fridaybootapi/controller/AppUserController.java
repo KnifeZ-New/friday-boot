@@ -4,11 +4,11 @@ import cn.hutool.core.bean.BeanUtil;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.knifez.fridaybootadmin.dto.AppUserDTO;
+import org.knifez.fridaybootadmin.dto.AppUserModifyDTO;
 import org.knifez.fridaybootadmin.dto.AppUserPagedQueryRequest;
 import org.knifez.fridaybootadmin.entity.AppOrganizationUnit;
 import org.knifez.fridaybootadmin.entity.AppUser;
 import org.knifez.fridaybootadmin.service.IAppOrganizationUnitService;
-import org.knifez.fridaybootadmin.service.IAppRoleService;
 import org.knifez.fridaybootadmin.service.IAppUserRoleService;
 import org.knifez.fridaybootadmin.service.IAppUserService;
 import org.knifez.fridaybootcore.annotation.ApiRestController;
@@ -27,7 +27,7 @@ import java.util.stream.Collectors;
  * 用户表 前端控制器
  * </p>
  *
-@author KnifeZ
+ * @author KnifeZ
  * @since 2022-04-01
  */
 @AllowAuthenticated
@@ -39,14 +39,11 @@ public class AppUserController {
 
     private final IAppUserRoleService userRoleService;
 
-    private final IAppRoleService roleService;
-
     private final IAppOrganizationUnitService organizationUnitService;
 
-    public AppUserController(IAppUserService appUserService, IAppUserRoleService userRoleService, IAppRoleService roleService, IAppOrganizationUnitService organizationUnitService) {
+    public AppUserController(IAppUserService appUserService, IAppUserRoleService userRoleService, IAppOrganizationUnitService organizationUnitService) {
         this.appUserService = appUserService;
         this.userRoleService = userRoleService;
-        this.roleService = roleService;
         this.organizationUnitService = organizationUnitService;
     }
 
@@ -64,7 +61,6 @@ public class AppUserController {
         var responseList = BeanUtil.copyToList(ret.getItems(), AppUserDTO.class);
         var organizationList = organizationUnitService.list();
         for (AppUserDTO user : responseList) {
-            user.setRoles(roleService.listByUserId(user.getId()));
             var organization = organizationList.stream()
                     .filter(x -> x.getId().equals(user.getOrganizationId())).map(AppOrganizationUnit::getName).collect(Collectors.joining());
             user.setOrganizationName(organization);
@@ -99,8 +95,8 @@ public class AppUserController {
      */
     @PostMapping
     @Operation(summary = "新增用户")
-    public Boolean create(@RequestBody AppUser user) {
-        return appUserService.saveWithUserRoles(user, false);
+    public Boolean create(@RequestBody AppUserModifyDTO user) {
+        return appUserService.saveWithUserRoles(user, true);
     }
 
     /**
@@ -111,8 +107,8 @@ public class AppUserController {
      */
     @PostMapping("{id}")
     @Operation(summary = "修改用户")
-    public Boolean update(@RequestBody AppUser user) {
-        return appUserService.saveWithUserRoles(user, true);
+    public Boolean update(@RequestBody AppUserModifyDTO user) {
+        return appUserService.saveWithUserRoles(user, false);
     }
 
     /**
@@ -138,11 +134,11 @@ public class AppUserController {
     @GetMapping("account-exist/{account}")
     @Operation(summary = "检查帐号是否存在")
     public FridayResult<String> exist(@PathVariable String account) {
-        var user = appUserService.findByAccount(account);
-        if (user.getId() == null) {
-            return FridayResult.ok(account + "可使用");
-        } else {
+        var user = appUserService.accountExist(account);
+        if (user) {
             return FridayResult.fail(ResultStatus.FORBIDDEN_003);
+        } else {
+            return FridayResult.ok(account + "可使用");
         }
     }
 

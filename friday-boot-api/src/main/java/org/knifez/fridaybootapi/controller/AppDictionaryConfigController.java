@@ -21,7 +21,7 @@ import java.util.List;
  * 字典配置 前端控制器
  * </p>
  *
-@author KnifeZ
+ * @author KnifeZ
  * @since 2022-10-09
  */
 @AllowAuthenticated
@@ -106,6 +106,7 @@ public class AppDictionaryConfigController {
     @PostMapping
     @Operation(summary = "添加")
     public Boolean create(@RequestBody AppDictionaryConfig appDictionaryConfig) {
+        appDictionaryConfig.setId(null);
         return appDictionaryConfigService.save(appDictionaryConfig);
     }
 

@@ -90,5 +90,4 @@ public class AppMenu extends BaseFullAuditEntity implements Serializable {
 
     @Schema(title = "备注")
     private String remark;
-
 }

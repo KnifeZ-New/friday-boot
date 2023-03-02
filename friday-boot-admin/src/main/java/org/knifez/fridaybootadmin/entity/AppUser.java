@@ -4,26 +4,22 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.knifez.fridaybootcore.entity.BaseAuditEntity;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * <p>
  * 用户表
  * </p>
  *
-@author KnifeZ
+ * @author KnifeZ
  * @since 2022-04-01
  */
 @Getter
@@ -37,7 +33,7 @@ public class AppUser extends BaseAuditEntity implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
-    @TableId(value = "id", type = IdType.AUTO)
+    @TableId(value = "id", type = IdType.ASSIGN_ID)
     @Schema(title = "主键id")
     private Long id;
 
@@ -59,34 +55,4 @@ public class AppUser extends BaseAuditEntity implements Serializable {
 
     @Schema(title = "所属部门id")
     private Long organizationId;
-
-    /**
-     * 部门名称
-     */
-    @Schema(title = "所属部门")
-    @TableField(exist = false)
-    private String organizationName;
-
-    @TableField(exist = false)
-    @Schema(title = "角色")
-    private List<Long> roles = new ArrayList<>();
-
-    @TableField(exist = false)
-    @JsonIgnore
-    @Schema(title = "角色")
-    private List<String> userRoles = new ArrayList<>();
-
-    @TableField(exist = false)
-    @JsonIgnore
-    @Schema(title = "权限")
-    private List<String> permissions = new ArrayList<>();
-
-    public List<SimpleGrantedAuthority> getGrantRoles() {
-        List<SimpleGrantedAuthority> authorities = new ArrayList<>();
-        userRoles.forEach(role -> authorities.add(new SimpleGrantedAuthority("ROLE_" + role)));
-        if (authorities.isEmpty()) {
-            authorities.add(new SimpleGrantedAuthority("ROLE_GUEST"));
-        }
-        return authorities;
-    }
 }

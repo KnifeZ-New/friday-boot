@@ -20,7 +20,7 @@ import java.util.List;
  * 组织机构 前端控制器
  * </p>
  *
-@author KnifeZ
+ * @author KnifeZ
  * @since 2022-09-01
  */
 
@@ -74,6 +74,7 @@ public class AppOrganizationUnitController {
     @PostMapping
     @Operation(summary = "添加")
     public Boolean create(@RequestBody AppOrganizationUnit appOrganizationUnit) {
+        appOrganizationUnit.setId(null);
         return appOrganizationUnitService.save(appOrganizationUnit);
     }
 

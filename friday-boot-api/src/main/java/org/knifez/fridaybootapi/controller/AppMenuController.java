@@ -1,6 +1,5 @@
 package org.knifez.fridaybootapi.controller;
 
-import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.lang.tree.Tree;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -75,8 +74,8 @@ public class AppMenuController {
     @PostMapping
     @Operation(summary = "添加")
     public Boolean create(@RequestBody AppMenuModifyRequest appMenu) {
-        var menu = BeanUtil.copyProperties(appMenu, AppMenu.class);
-        return appMenuService.save(menu);
+        appMenu.setId(null);
+        return appMenuService.save(appMenu);
     }
 
     /**
@@ -88,8 +87,7 @@ public class AppMenuController {
     @PostMapping("{id}")
     @Operation(summary = "修改")
     public Boolean update(@RequestBody AppMenuModifyRequest appMenu) {
-        var menu = BeanUtil.copyProperties(appMenu, AppMenu.class);
-        return appMenuService.updateById(menu);
+        return appMenuService.updateById(appMenu);
     }
 
     /**

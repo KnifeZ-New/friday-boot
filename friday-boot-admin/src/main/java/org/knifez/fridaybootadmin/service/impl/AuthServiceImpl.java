@@ -1,6 +1,7 @@
 package org.knifez.fridaybootadmin.service.impl;
 
 import cn.hutool.json.JSONUtil;
+import org.knifez.fridaybootadmin.dto.AppUserDTO;
 import org.knifez.fridaybootadmin.dto.JwtUser;
 import org.knifez.fridaybootadmin.dto.LoginRequest;
 import org.knifez.fridaybootadmin.dto.Token;
@@ -32,7 +33,7 @@ public class AuthServiceImpl implements IAuthService {
     }
 
     public Token createToken(LoginRequest loginRequest) {
-        AppUser user = userService.findByAccount(loginRequest.getUsername());
+        AppUserDTO user = userService.findByAccount(loginRequest.getUsername());
         if (!JwtTokenUtils.checkLogin(loginRequest.getPassword(), user.getPassword())) {
             throw new FridayResultException(ResultStatus.UNAUTHORIZED_001);
         }
@@ -68,7 +69,7 @@ public class AuthServiceImpl implements IAuthService {
      * @return {@link AppUser}
      */
     @Override
-    public AppUser getCurrentUser() {
+    public AppUserDTO getCurrentUser() {
         return userService.findByAccount(JwtTokenUtils.getCurrentUserName());
     }
 

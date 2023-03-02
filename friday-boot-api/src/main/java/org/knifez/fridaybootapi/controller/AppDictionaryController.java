@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
  * 字典 前端控制器
  * </p>
  *
-@author KnifeZ
+ * @author KnifeZ
  * @since 2022-10-09
  */
 @AllowAuthenticated
@@ -60,6 +60,7 @@ public class AppDictionaryController {
     @PostMapping
     @Operation(summary = "添加")
     public Boolean create(@RequestBody AppDictionary appDictionary) {
+        appDictionary.setId(null);
         return appDictionaryService.save(appDictionary);
     }
 

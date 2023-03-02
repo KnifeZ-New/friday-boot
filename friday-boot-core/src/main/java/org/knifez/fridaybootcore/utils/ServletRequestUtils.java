@@ -15,6 +15,10 @@ public class ServletRequestUtils {
         ServletRequestAttributes requestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         assert requestAttributes != null;
         HttpServletRequest request = requestAttributes.getRequest();
+        // 过滤80端口
+        if (request.getServerPort() == 80) {
+            return request.getScheme() + "://" + request.getServerName();
+        }
         return request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort();
     }
 }
