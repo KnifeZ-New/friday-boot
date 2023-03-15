@@ -7,7 +7,7 @@
 #### 软件架构
 
 - Java 17
-- Springboot 2.x
+- Springboot 3.x
 - Spring Security
 - Mybatis-plus
 - Mybatis-plus-generator
