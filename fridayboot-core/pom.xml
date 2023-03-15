@@ -9,7 +9,7 @@
     </parent>
     <artifactId>fridayboot-core</artifactId>
     <packaging>jar</packaging>
-    <name>friday-boot-core</name>
+    <name>fridayboot-core</name>
     <description>friday-boot-core</description>
     <properties>
         <java.version>17</java.version>

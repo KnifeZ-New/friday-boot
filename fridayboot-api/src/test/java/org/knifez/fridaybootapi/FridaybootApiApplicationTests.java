@@ -1,10 +1,10 @@
-package org.knifez.fridaybootcore;
+package org.knifez.fridaybootapi;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class FridayBootCoreApplicationTests {
+class FridaybootApiApplicationTests {
 
     @Test
     void contextLoads() {

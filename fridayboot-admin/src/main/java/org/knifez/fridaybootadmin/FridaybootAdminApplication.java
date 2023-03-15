@@ -5,14 +5,14 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /**
-@author KnifeZ
+ * @author KnifeZ
  */
 @SpringBootApplication
 @MapperScan("org.knifez.fridaybootadmin.mapper")
-public class FridayBootAdminApplication {
+public class FridaybootAdminApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(FridayBootAdminApplication.class, args);
+        SpringApplication.run(FridaybootAdminApplication.class, args);
     }
 
 }

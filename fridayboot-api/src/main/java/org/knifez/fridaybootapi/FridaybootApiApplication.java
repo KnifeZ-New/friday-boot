@@ -9,10 +9,10 @@ import org.springframework.context.annotation.ComponentScan;
  */
 @SpringBootApplication
 @ComponentScan("org.knifez.**")
-public class FridayBootApiApplication {
+public class FridaybootApiApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(FridayBootApiApplication.class, args);
+        SpringApplication.run(FridaybootApiApplication.class, args);
     }
 
 }

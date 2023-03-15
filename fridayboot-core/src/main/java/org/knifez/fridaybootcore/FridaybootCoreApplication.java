@@ -4,13 +4,13 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /**
-@author KnifeZ
+ * @author KnifeZ
  */
 @SpringBootApplication
-public class FridayBootCoreApplication {
+public class FridaybootCoreApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(FridayBootCoreApplication.class, args);
+        SpringApplication.run(FridaybootCoreApplication.class, args);
     }
 
 }
