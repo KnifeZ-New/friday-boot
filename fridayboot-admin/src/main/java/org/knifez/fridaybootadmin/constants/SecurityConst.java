@@ -1,12 +1,12 @@
-package org.knifez.fridaybootadmin.common;
+package org.knifez.fridaybootadmin.constants;
 
 
 /**
  * @author KnifeZ
  */
-public class SecurityConstants {
-    private SecurityConstants() {
-        throw new IllegalStateException("SecurityConstants class");
+public class SecurityConst {
+    private SecurityConst() {
+        throw new IllegalStateException("SecurityConst class");
     }
 
     /**

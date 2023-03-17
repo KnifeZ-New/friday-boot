@@ -6,7 +6,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
-import org.knifez.fridaybootadmin.common.SecurityConstants;
+import org.knifez.fridaybootadmin.constants.SecurityConst;
 import org.knifez.fridaybootadmin.utils.JwtTokenUtils;
 import org.knifez.fridaybootadmin.utils.RedisUtils;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -33,13 +33,13 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
-        String token = request.getHeader(SecurityConstants.TOKEN_HEADER);
-        if (token == null || !token.startsWith(SecurityConstants.TOKEN_PREFIX)) {
+        String token = request.getHeader(SecurityConst.TOKEN_HEADER);
+        if (token == null || !token.startsWith(SecurityConst.TOKEN_PREFIX)) {
             SecurityContextHolder.clearContext();
             chain.doFilter(request, response);
             return;
         }
-        String tokenValue = token.replace(SecurityConstants.TOKEN_PREFIX, "");
+        String tokenValue = token.replace(SecurityConst.TOKEN_PREFIX, "");
         UsernamePasswordAuthenticationToken authenticationToken = null;
         try {
             String previousToken = redisUtils.get(JwtTokenUtils.getAccount(tokenValue));

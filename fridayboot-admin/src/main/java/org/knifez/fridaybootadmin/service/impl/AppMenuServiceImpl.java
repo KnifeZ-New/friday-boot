@@ -7,10 +7,10 @@ import cn.hutool.core.lang.tree.TreeUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import org.knifez.fridaybootadmin.common.MenuTypeEnum;
 import org.knifez.fridaybootadmin.dto.*;
 import org.knifez.fridaybootadmin.entity.AppDictionaryConfig;
 import org.knifez.fridaybootadmin.entity.AppMenu;
+import org.knifez.fridaybootadmin.enums.MenuTypeEnum;
 import org.knifez.fridaybootadmin.mapper.AppMenuMapper;
 import org.knifez.fridaybootadmin.service.IAppDictionaryConfigService;
 import org.knifez.fridaybootadmin.service.IAppMenuService;
@@ -59,7 +59,7 @@ public class AppMenuServiceImpl extends ServiceImpl<AppMenuMapper, AppMenu> impl
     public List<AppMenuDTO> getMenuButtons(AppMenuButtonQueryRequest queryRequest) {
         LambdaQueryWrapper<AppMenu> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(AppMenu::getParentId, queryRequest.getMenuId());
-        queryWrapper.eq(AppMenu::getType, 2);
+        queryWrapper.eq(AppMenu::getType, MenuTypeEnum.MENU_BUTTON.getValue());
         queryWrapper.like(StringUtils.hasText(queryRequest.getName()), AppMenu::getName, queryRequest.getName());
         queryWrapper.eq(queryRequest.getEnabled() != null, AppMenu::getEnabled, queryRequest.getEnabled());
         var list = baseMapper.selectList(queryWrapper);
@@ -104,7 +104,7 @@ public class AppMenuServiceImpl extends ServiceImpl<AppMenuMapper, AppMenu> impl
             var ids = list.stream().map(AppMenu::getId).toList();
             QueryWrapper<AppMenu> buttonWrapper = new QueryWrapper<>();
             buttonWrapper.in("parent_id", ids);
-            buttonWrapper.eq("type", 2);
+            buttonWrapper.eq("type", MenuTypeEnum.MENU_BUTTON.getValue());
             List<AppMenu> buttons = list(buttonWrapper);
             var buttonList = bindButtonTageColor(BeanUtil.copyToList(buttons, AppMenuDTO.class));
             List<AppMenuDTO> mixdList = new ArrayList<>();
@@ -127,7 +127,7 @@ public class AppMenuServiceImpl extends ServiceImpl<AppMenuMapper, AppMenu> impl
         // 启用
         queryWrapper.eq(AppMenu::getEnabled, true);
         // 不包含按钮
-        queryWrapper.lt(AppMenu::getType, MenuTypeEnum.BUTTON.getValue());
+        queryWrapper.lt(AppMenu::getType, MenuTypeEnum.MENU_BUTTON.getValue());
         queryWrapper.orderByAsc(AppMenu::getSort);
         // 所有菜单
         var list = list(queryWrapper);

@@ -1,8 +1,12 @@
-package org.knifez.fridaybootadmin.common;
+package org.knifez.fridaybootadmin.enums;
 
 import com.baomidou.mybatisplus.annotation.EnumValue;
 import com.baomidou.mybatisplus.annotation.IEnum;
 import lombok.Getter;
+import org.knifez.fridaybootcore.dto.TextValuePair;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 菜单类型
@@ -15,7 +19,7 @@ public enum MenuTypeEnum implements IEnum<Integer> {
     /**
      * 目录
      */
-    FOLDER(0, "目录"),
+    MENU_FOLDER(0, "目录"),
     /**
      * 菜单
      */
@@ -23,7 +27,7 @@ public enum MenuTypeEnum implements IEnum<Integer> {
     /**
      * 按钮
      */
-    BUTTON(2, "按钮");
+    MENU_BUTTON(2, "按钮");
 
     @EnumValue
     private final Integer value;
@@ -33,5 +37,13 @@ public enum MenuTypeEnum implements IEnum<Integer> {
     MenuTypeEnum(Integer value, String text) {
         this.value = value;
         this.text = text;
+    }
+
+    public static List<TextValuePair> toList() {
+        List<TextValuePair> list = new ArrayList<>();
+        for (MenuTypeEnum item : MenuTypeEnum.values()) {
+            list.add(new TextValuePair(item.getText(), item.getValue()));
+        }
+        return list;
     }
 }

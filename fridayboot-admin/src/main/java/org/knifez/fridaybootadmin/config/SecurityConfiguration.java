@@ -1,7 +1,7 @@
 package org.knifez.fridaybootadmin.config;
 
 import lombok.extern.slf4j.Slf4j;
-import org.knifez.fridaybootadmin.common.SecurityConstants;
+import org.knifez.fridaybootadmin.constants.SecurityConst;
 import org.knifez.fridaybootadmin.exception.JwtAccessDeniedHandler;
 import org.knifez.fridaybootadmin.exception.JwtAuthenticationEntryPoint;
 import org.knifez.fridaybootadmin.filter.JwtAuthorizationFilter;
@@ -86,7 +86,7 @@ public class SecurityConfiguration {
         configuration.setAllowedOrigins(singletonList("*"));
         configuration.setAllowedHeaders(singletonList("*"));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "DELETE", "PUT", "OPTIONS"));
-        configuration.setExposedHeaders(singletonList(SecurityConstants.TOKEN_HEADER));
+        configuration.setExposedHeaders(singletonList(SecurityConst.TOKEN_HEADER));
         configuration.setAllowCredentials(false);
         configuration.setMaxAge(3600L);
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
