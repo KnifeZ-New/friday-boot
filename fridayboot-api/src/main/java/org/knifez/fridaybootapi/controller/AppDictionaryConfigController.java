@@ -85,7 +85,6 @@ public class AppDictionaryConfigController {
             tree.setId(node.getId());
             tree.setName(node.getName());
             tree.setParentId(node.getParentId());
-            tree.putExtra("name", node.getName());
             tree.putExtra("dictCode", node.getDictCode());
             tree.putExtra("value", node.getValue());
             tree.putExtra("icon", node.getIcon());
