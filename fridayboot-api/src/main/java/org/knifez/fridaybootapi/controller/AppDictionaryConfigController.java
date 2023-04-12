@@ -6,11 +6,11 @@ import cn.hutool.core.lang.tree.TreeUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.knifez.fridaybootadmin.dto.AppDictionaryConfigQueryRequest;
-import org.knifez.fridaybootadmin.entity.AppDictionaryConfig;
-import org.knifez.fridaybootadmin.service.IAppDictionaryConfigService;
 import org.knifez.fridaybootcore.annotation.ApiRestController;
 import org.knifez.fridaybootcore.annotation.permission.AllowAuthenticated;
+import org.knifez.fridaybootcore.dto.AppDictionaryConfigQueryRequest;
+import org.knifez.fridaybootcore.entity.AppDictionaryConfig;
+import org.knifez.fridaybootcore.service.IAppDictionaryConfigService;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,7 +29,6 @@ import java.util.List;
 @ApiRestController
 @RequestMapping("/dictionary-config")
 public class AppDictionaryConfigController {
-
 
     private final IAppDictionaryConfigService appDictionaryConfigService;
 

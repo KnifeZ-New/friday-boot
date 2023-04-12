@@ -64,7 +64,7 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         //system whitelist
-        var whitelist = AnnotationUtils.getAllUrlsByAnnotations(resourcePatternResolver, "classpath:org/knifez/**/controller/**.class", AllowAnonymous.class);
+        var whitelist = AnnotationUtils.getAllUrlsByAnnotations(resourcePatternResolver, "classpath:org/knifez/**/controller/**/**.class", AllowAnonymous.class);
         http.csrf(AbstractHttpConfigurer::disable)
                 .cors(Customizer.withDefaults())
                 .authorizeHttpRequests(auth -> auth.requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()

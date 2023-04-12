@@ -7,7 +7,7 @@ import org.springframework.http.HttpStatus;
 /**
  * 结果状态
  *
-@author KnifeZ
+ * @author KnifeZ
  */
 @Getter
 public enum ResultStatus {
@@ -29,9 +29,15 @@ public enum ResultStatus {
     FORBIDDEN_003(403003, "该帐号已存在"),
 
 
-    //    400 0001 - 400 9999 业务状态码
-    CHECK_PARAMS_FAILED(400001, "参数校验失败");
-    //    400 end
+    CHECK_PARAMS_FAILED(400001, "参数校验失败"),
+
+    UPLOAD_NO_DIR(400101, "不存在上传目录"),
+
+    UPLOAD_OVER_LIMIT(400102, "文件大小超出上传最大限制"),
+
+    UPLOAD_TYPE_FORBIDDEN(400103, "未声明的附件类型"),
+
+    ENTITY_NOT_FOUND(404001, "操作对象不存在");
 
     /**
      * 状态码

@@ -1,9 +1,9 @@
-package org.knifez.fridaybootadmin.service;
+package org.knifez.fridaybootcore.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import org.knifez.fridaybootadmin.dto.AppDictionaryQueryRequest;
-import org.knifez.fridaybootadmin.entity.AppDictionary;
+import org.knifez.fridaybootcore.dto.AppDictionaryQueryRequest;
 import org.knifez.fridaybootcore.dto.PageResult;
+import org.knifez.fridaybootcore.entity.AppDictionary;
 
 /**
  * <p>

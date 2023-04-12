@@ -1,7 +1,7 @@
-package org.knifez.fridaybootadmin.service;
+package org.knifez.fridaybootcore.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import org.knifez.fridaybootadmin.entity.AppDictionaryConfig;
+import org.knifez.fridaybootcore.entity.AppDictionaryConfig;
 
 import java.util.List;
 

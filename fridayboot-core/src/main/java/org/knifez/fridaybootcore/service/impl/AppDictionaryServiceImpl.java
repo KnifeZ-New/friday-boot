@@ -1,14 +1,14 @@
-package org.knifez.fridaybootadmin.service.impl;
+package org.knifez.fridaybootcore.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import org.knifez.fridaybootadmin.dto.AppDictionaryQueryRequest;
-import org.knifez.fridaybootadmin.entity.AppDictionary;
-import org.knifez.fridaybootadmin.mapper.AppDictionaryMapper;
-import org.knifez.fridaybootadmin.service.IAppDictionaryService;
+import org.knifez.fridaybootcore.dto.AppDictionaryQueryRequest;
 import org.knifez.fridaybootcore.dto.PageResult;
+import org.knifez.fridaybootcore.entity.AppDictionary;
+import org.knifez.fridaybootcore.mapper.AppDictionaryMapper;
+import org.knifez.fridaybootcore.service.IAppDictionaryService;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 

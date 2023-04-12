@@ -13,7 +13,6 @@ import java.time.LocalDateTime;
 @Component
 @RequiredArgsConstructor
 public class MyMetaObjectHandler implements MetaObjectHandler {
-
     @Override
     public void insertFill(MetaObject metaObject) {
         var userName = JwtTokenUtils.getCurrentUserName();

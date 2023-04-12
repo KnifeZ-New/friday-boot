@@ -1,7 +1,7 @@
-package org.knifez.fridaybootadmin.mapper;
+package org.knifez.fridaybootcore.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import org.knifez.fridaybootadmin.entity.AppDictionaryConfig;
+import org.knifez.fridaybootcore.entity.AppDictionaryConfig;
 
 /**
  * <p>

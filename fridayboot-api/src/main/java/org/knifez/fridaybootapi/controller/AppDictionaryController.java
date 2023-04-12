@@ -4,12 +4,12 @@ package org.knifez.fridaybootapi.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.knifez.fridaybootadmin.dto.AppDictionaryQueryRequest;
-import org.knifez.fridaybootadmin.entity.AppDictionary;
-import org.knifez.fridaybootadmin.service.IAppDictionaryService;
 import org.knifez.fridaybootcore.annotation.ApiRestController;
 import org.knifez.fridaybootcore.annotation.permission.AllowAuthenticated;
+import org.knifez.fridaybootcore.dto.AppDictionaryQueryRequest;
 import org.knifez.fridaybootcore.dto.PageResult;
+import org.knifez.fridaybootcore.entity.AppDictionary;
+import org.knifez.fridaybootcore.service.IAppDictionaryService;
 import org.springframework.web.bind.annotation.*;
 
 /**

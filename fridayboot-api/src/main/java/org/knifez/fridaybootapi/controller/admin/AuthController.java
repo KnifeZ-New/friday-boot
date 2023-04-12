@@ -1,4 +1,4 @@
-package org.knifez.fridaybootapi.controller;
+package org.knifez.fridaybootapi.controller.admin;
 
 
 import io.swagger.v3.oas.annotations.Operation;

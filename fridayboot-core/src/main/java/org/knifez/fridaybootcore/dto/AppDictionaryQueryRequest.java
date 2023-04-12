@@ -1,9 +1,8 @@
-package org.knifez.fridaybootadmin.dto;
+package org.knifez.fridaybootcore.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
-import org.knifez.fridaybootcore.dto.PageRequest;
 
 /**
  * @author KnifeZ

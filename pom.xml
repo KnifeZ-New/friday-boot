@@ -64,6 +64,14 @@
             <version>${mysql.version}</version>
             <scope>runtime</scope>
         </dependency>
+
+        <!-- Mybatis plus -->
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-boot-starter</artifactId>
+            <version>${mybatisplus.version}</version>
+        </dependency>
+
         <!--Spring doc-->
         <dependency>
             <groupId>org.springdoc</groupId>
@@ -111,13 +119,6 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-data-redis</artifactId>
                 <version>${springboot.version}</version>
-            </dependency>
-
-            <!-- Mybatis plus -->
-            <dependency>
-                <groupId>com.baomidou</groupId>
-                <artifactId>mybatis-plus-boot-starter</artifactId>
-                <version>${mybatisplus.version}</version>
             </dependency>
 
             <!--代码生成器-->

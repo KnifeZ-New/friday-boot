@@ -8,12 +8,12 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.knifez.fridaybootadmin.dto.*;
-import org.knifez.fridaybootadmin.entity.AppDictionaryConfig;
 import org.knifez.fridaybootadmin.entity.AppMenu;
 import org.knifez.fridaybootadmin.enums.MenuTypeEnum;
 import org.knifez.fridaybootadmin.mapper.AppMenuMapper;
-import org.knifez.fridaybootadmin.service.IAppDictionaryConfigService;
 import org.knifez.fridaybootadmin.service.IAppMenuService;
+import org.knifez.fridaybootcore.entity.AppDictionaryConfig;
+import org.knifez.fridaybootcore.service.IAppDictionaryConfigService;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
