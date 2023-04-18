@@ -14,7 +14,7 @@ import org.knifez.fridaybootadmin.service.IAppUserService;
 import org.knifez.fridaybootcore.annotation.ApiRestController;
 import org.knifez.fridaybootcore.annotation.permission.AllowAuthenticated;
 import org.knifez.fridaybootcore.dto.FridayResult;
-import org.knifez.fridaybootcore.dto.PageResult;
+import org.knifez.fridaybootcore.dto.PagedResult;
 import org.knifez.fridaybootcore.enums.ResultStatus;
 import org.springframework.beans.BeanUtils;
 import org.springframework.web.bind.annotation.*;
@@ -51,11 +51,11 @@ public class AppUserController {
      * 分页列表
      *
      * @param queryRequest 查询请求
-     * @return <{@link PageResult}<{@link AppUser}>
+     * @return <{@link PagedResult}<{@link AppUser}>
      */
     @Operation(summary = "分页列表")
     @PostMapping("list")
-    public PageResult<AppUserDTO> pagedList(@RequestBody AppUserPagedQueryRequest queryRequest) {
+    public PagedResult<AppUserDTO> pagedList(@RequestBody AppUserPagedQueryRequest queryRequest) {
         //查询列表数据
         var ret = appUserService.listByPageQuery(queryRequest);
         var responseList = BeanUtil.copyToList(ret.getItems(), AppUserDTO.class);
@@ -65,7 +65,7 @@ public class AppUserController {
                     .filter(x -> x.getId().equals(user.getOrganizationId())).map(AppOrganizationUnit::getName).collect(Collectors.joining());
             user.setOrganizationName(organization);
         }
-        var list = new PageResult<AppUserDTO>();
+        var list = new PagedResult<AppUserDTO>();
         list.setTotal(ret.getTotal());
         list.setItems(responseList);
         return list;

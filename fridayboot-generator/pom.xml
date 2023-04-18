@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>org.knifez</groupId>
-        <artifactId>friday-boot</artifactId>
+        <artifactId>fridayboot</artifactId>
         <version>0.1.0-SNAPSHOT</version>
     </parent>
     <artifactId>fridayboot-generator</artifactId>
@@ -21,10 +21,6 @@
             <artifactId>spring-boot-starter-freemarker</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>com.baomidou</groupId>
-            <artifactId>mybatis-plus-boot-starter</artifactId>
-        </dependency>
         <dependency>
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus-generator</artifactId>

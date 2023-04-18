@@ -7,7 +7,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.knifez.fridaybootcore.annotation.ApiRestController;
 import org.knifez.fridaybootcore.annotation.permission.AllowAuthenticated;
 import org.knifez.fridaybootcore.dto.AppDictionaryQueryRequest;
-import org.knifez.fridaybootcore.dto.PageResult;
+import org.knifez.fridaybootcore.dto.PagedResult;
 import org.knifez.fridaybootcore.entity.AppDictionary;
 import org.knifez.fridaybootcore.service.IAppDictionaryService;
 import org.springframework.web.bind.annotation.*;
@@ -33,9 +33,15 @@ public class AppDictionaryController {
         this.appDictionaryService = appDictionaryService;
     }
 
+    /**
+     * 分页列表
+     *
+     * @param queryRequest 查询请求
+     * @return {@link PagedResult}<{@link AppDictionary}>
+     */
     @PostMapping("list")
     @Operation(summary = "分页列表")
-    public PageResult<AppDictionary> pagedList(@RequestBody AppDictionaryQueryRequest queryRequest) {
+    public PagedResult<AppDictionary> pagedList(@RequestBody AppDictionaryQueryRequest queryRequest) {
         return appDictionaryService.listByPageQuery(queryRequest);
     }
 

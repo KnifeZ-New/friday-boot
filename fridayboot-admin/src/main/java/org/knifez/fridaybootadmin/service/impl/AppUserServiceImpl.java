@@ -13,7 +13,7 @@ import org.knifez.fridaybootadmin.service.IAppPermissionGrantService;
 import org.knifez.fridaybootadmin.service.IAppRoleService;
 import org.knifez.fridaybootadmin.service.IAppUserRoleService;
 import org.knifez.fridaybootadmin.service.IAppUserService;
-import org.knifez.fridaybootcore.dto.PageResult;
+import org.knifez.fridaybootcore.dto.PagedResult;
 import org.springframework.beans.BeanUtils;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -47,10 +47,10 @@ public class AppUserServiceImpl extends ServiceImpl<AppUserMapper, AppUser> impl
      * 分页列表查询
      *
      * @param queryRequest 查询请求
-     * @return {@link PageResult}<{@link AppUser}>
+     * @return {@link PagedResult}<{@link AppUser}>
      */
     @Override
-    public PageResult<AppUser> listByPageQuery(AppUserPagedQueryRequest queryRequest) {
+    public PagedResult<AppUser> listByPageQuery(AppUserPagedQueryRequest queryRequest) {
         QueryWrapper<AppUser> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq(queryRequest.getLocked() != null, "is_locked", queryRequest.getLocked());
         queryWrapper.like(queryRequest.getUsername() != null, "username", queryRequest.getUsername());
@@ -62,7 +62,7 @@ public class AppUserServiceImpl extends ServiceImpl<AppUserMapper, AppUser> impl
         page.setCurrent(queryRequest.getPage());
         page.setSize(queryRequest.getPageSize());
         page = getBaseMapper().selectPage(page, queryWrapper);
-        return PageResult.builder(page.getRecords(), page.getTotal());
+        return PagedResult.builder(page.getRecords(), page.getTotal());
     }
 
     @Override

@@ -5,13 +5,10 @@ import com.baomidou.mybatisplus.generator.config.TemplateType;
 import com.baomidou.mybatisplus.generator.engine.FreemarkerTemplateEngine;
 import lombok.extern.slf4j.Slf4j;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 /**
-@author KnifeZ
+ * @author KnifeZ
  */
 @Slf4j
 public class MybatisPlusGenerator {
@@ -40,8 +37,14 @@ public class MybatisPlusGenerator {
                 .strategyConfig((scanner, builder) -> builder.addInclude(getTables(scanner.apply("请输入表名，多个表名用,隔开")))
                         .entityBuilder().enableLombok()
                         .controllerBuilder().enableRestStyle())
+                .injectionConfig(consumer -> {
+                    Map<String, String> customFile = new HashMap<>();
+                    // DTO
+                    customFile.put("PagedRequest.java", "/templates/entityPagedRequestDTO.java.ftl");
+                    consumer.customFile(customFile);
+                })
                 .templateConfig(builder -> builder.disable(TemplateType.CONTROLLER))
-                .templateEngine(new FreemarkerTemplateEngine())
+                .templateEngine(new EnhanceFreemarkerTemplateEngine())
                 .execute();
         boolean isGenerateController = false;
         Scanner sc = new Scanner(System.in);
@@ -63,9 +66,9 @@ public class MybatisPlusGenerator {
                     .templateConfig(builder -> builder.disable(TemplateType.ENTITY)
                             .disable(TemplateType.MAPPER)
                             .disable(TemplateType.XML)
-                            .disable(TemplateType.SERVICE)
                             .disable(TemplateType.SERVICE_IMPL)
                             .controller("/templates/curdController.java")
+                            .service("/templates/service.java")
                     )
                     .templateEngine(new FreemarkerTemplateEngine())
                     .execute();

@@ -4,17 +4,17 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
-import org.knifez.fridaybootcore.dto.PageRequest;
+import org.knifez.fridaybootcore.dto.PagedRequest;
 
 import java.util.List;
 
 /**
-@author KnifeZ
+ * @author KnifeZ
  */
 @Getter
 @Setter
 @Schema(title = "AppUserPagedQueryRequest")
-public class AppUserPagedQueryRequest extends PageRequest {
+public class AppUserPagedQueryRequest extends PagedRequest {
 
     @NotNull(message = "name 不能为空")
     @Schema(title = "用户姓名")

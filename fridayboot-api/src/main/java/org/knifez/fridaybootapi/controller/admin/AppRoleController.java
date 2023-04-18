@@ -10,7 +10,7 @@ import org.knifez.fridaybootadmin.service.IAppPermissionGrantService;
 import org.knifez.fridaybootadmin.service.IAppRoleService;
 import org.knifez.fridaybootcore.annotation.ApiRestController;
 import org.knifez.fridaybootcore.annotation.permission.AllowAuthenticated;
-import org.knifez.fridaybootcore.dto.PageResult;
+import org.knifez.fridaybootcore.dto.PagedResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -44,11 +44,11 @@ public class AppRoleController {
      * 分页列表
      *
      * @param queryRequest 查询请求
-     * @return {@link PageResult}<{@link AppRole}>
+     * @return {@link PagedResult}<{@link AppRole}>
      */
     @PostMapping("list")
     @Operation(summary = "分页列表")
-    public PageResult<AppRole> pagedList(@RequestBody AppRolePagedQueryRequest queryRequest) {
+    public PagedResult<AppRole> pagedList(@RequestBody AppRolePagedQueryRequest queryRequest) {
         return roleService.listByPageQuery(queryRequest);
     }
 

@@ -5,7 +5,7 @@ import org.knifez.fridaybootadmin.dto.AppUserDTO;
 import org.knifez.fridaybootadmin.dto.AppUserModifyDTO;
 import org.knifez.fridaybootadmin.dto.AppUserPagedQueryRequest;
 import org.knifez.fridaybootadmin.entity.AppUser;
-import org.knifez.fridaybootcore.dto.PageResult;
+import org.knifez.fridaybootcore.dto.PagedResult;
 
 /**
  * <p>
@@ -22,9 +22,9 @@ public interface IAppUserService extends IService<AppUser> {
      * 分页列表查询
      *
      * @param queryRequest 查询请求
-     * @return {@link PageResult}<{@link AppUser}>
+     * @return {@link PagedResult}<{@link AppUser}>
      */
-    PageResult<AppUser> listByPageQuery(AppUserPagedQueryRequest queryRequest);
+    PagedResult<AppUser> listByPageQuery(AppUserPagedQueryRequest queryRequest);
 
     /**
      * 找到账户

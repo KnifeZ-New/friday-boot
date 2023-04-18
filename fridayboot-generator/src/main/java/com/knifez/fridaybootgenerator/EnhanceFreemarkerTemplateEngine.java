@@ -1,0 +1,23 @@
+package com.knifez.fridaybootgenerator;
+
+import com.baomidou.mybatisplus.generator.config.OutputFile;
+import com.baomidou.mybatisplus.generator.config.builder.CustomFile;
+import com.baomidou.mybatisplus.generator.config.po.TableInfo;
+import com.baomidou.mybatisplus.generator.engine.FreemarkerTemplateEngine;
+import jakarta.validation.constraints.NotNull;
+
+import java.io.File;
+import java.util.List;
+import java.util.Map;
+
+public class EnhanceFreemarkerTemplateEngine extends FreemarkerTemplateEngine {
+    @Override
+    protected void outputCustomFile(@NotNull List<CustomFile> customFiles, @NotNull TableInfo tableInfo, @NotNull Map<String, Object> objectMap) {
+        String entityName = tableInfo.getEntityName();
+        String otherPath = this.getPathInfo(OutputFile.other);
+        customFiles.forEach((key) -> {
+            String fileName = String.format(otherPath + File.separator + entityName + "%s", key);
+            this.outputFile(new File(fileName), objectMap, key.getTemplatePath(), false);
+        });
+    }
+}

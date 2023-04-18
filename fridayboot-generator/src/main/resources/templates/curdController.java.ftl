@@ -2,7 +2,6 @@
 package ${package.Controller};
 
 import org.springframework.web.bind.annotation.*;
-
 import io.swagger.v3.oas.annotations.Operation;
 <#if restControllerStyle>
     import org.knifez.fridaybootcore.annotation.ApiRestController;
@@ -45,6 +44,17 @@ public class ${table.controllerName} {
     this.${table.entityPath}Service = ${table.entityPath}Service;
     }
 
+    /**
+    * 分页列表
+    *
+    * @param queryRequest 查询请求
+    * @return {@link PagedResult}<{@link  ${table.entityName}}>
+    */
+    @PostMapping("list")
+    @Operation(summary = "分页列表")
+    public PagedResult<${table.entityName}> pagedList(@RequestBody  ${table.entityName}PagedRequest queryRequest) {
+    return ${table.entityPath}Service.listByPage(queryRequest);
+    }
 
     /**
     * 根据id获取${table.comment!}

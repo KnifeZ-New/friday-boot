@@ -9,7 +9,7 @@ import org.knifez.fridaybootadmin.entity.AppRole;
 import org.knifez.fridaybootadmin.mapper.AppRoleMapper;
 import org.knifez.fridaybootadmin.service.IAppRoleService;
 import org.knifez.fridaybootadmin.service.IAppUserRoleService;
-import org.knifez.fridaybootcore.dto.PageResult;
+import org.knifez.fridaybootcore.dto.PagedResult;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -70,7 +70,7 @@ public class AppRoleServiceImpl extends ServiceImpl<AppRoleMapper, AppRole> impl
      * @return {@link List}<{@link AppRole}>
      */
     @Override
-    public PageResult<AppRole> listByPageQuery(AppRolePagedQueryRequest queryRequest) {
+    public PagedResult<AppRole> listByPageQuery(AppRolePagedQueryRequest queryRequest) {
         QueryWrapper<AppRole> queryWrapper = new QueryWrapper<>();
         queryWrapper.like(StringUtils.hasText(queryRequest.getDisplayName()), "display_name", queryRequest.getDisplayName());
         queryWrapper.like(StringUtils.hasText(queryRequest.getName()), "name", queryRequest.getName());
@@ -78,6 +78,6 @@ public class AppRoleServiceImpl extends ServiceImpl<AppRoleMapper, AppRole> impl
         page.setCurrent(queryRequest.getPage());
         page.setSize(queryRequest.getPageSize());
         page = getBaseMapper().selectPage(page, queryWrapper);
-        return PageResult.builder(page.getRecords(), page.getTotal());
+        return PagedResult.builder(page.getRecords(), page.getTotal());
     }
 }

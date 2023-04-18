@@ -1,11 +1,11 @@
 package org.knifez.fridaybootcore.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.knifez.fridaybootcore.dto.AppDictionaryQueryRequest;
-import org.knifez.fridaybootcore.dto.PageResult;
+import org.knifez.fridaybootcore.dto.PagedResult;
 import org.knifez.fridaybootcore.entity.AppDictionary;
 import org.knifez.fridaybootcore.mapper.AppDictionaryMapper;
 import org.knifez.fridaybootcore.service.IAppDictionaryService;
@@ -17,7 +17,7 @@ import org.springframework.util.StringUtils;
  * 字典 服务实现类
  * </p>
  *
-@author KnifeZ
+ * @author KnifeZ
  * @since 2022-10-09
  */
 @Service
@@ -27,17 +27,17 @@ public class AppDictionaryServiceImpl extends ServiceImpl<AppDictionaryMapper, A
      * 列表页面查询
      *
      * @param queryRequest 查询请求
-     * @return {@link PageResult}<{@link AppDictionary}>
+     * @return {@link PagedResult}<{@link AppDictionary}>
      */
     @Override
-    public PageResult<AppDictionary> listByPageQuery(AppDictionaryQueryRequest queryRequest) {
-        QueryWrapper<AppDictionary> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq(queryRequest.getEnabled() != null, "is_enabled", queryRequest.getEnabled());
-        queryWrapper.like(StringUtils.hasText(queryRequest.getName()), "name", queryRequest.getName());
+    public PagedResult<AppDictionary> listByPageQuery(AppDictionaryQueryRequest queryRequest) {
+        LambdaQueryWrapper<AppDictionary> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(queryRequest.getEnabled() != null, AppDictionary::getEnabled, queryRequest.getEnabled());
+        queryWrapper.like(StringUtils.hasText(queryRequest.getName()), AppDictionary::getName, queryRequest.getName());
         IPage<AppDictionary> page = new Page<>();
         page.setCurrent(queryRequest.getPage());
         page.setSize(queryRequest.getPageSize());
         page = getBaseMapper().selectPage(page, queryWrapper);
-        return PageResult.builder(page.getRecords(), page.getTotal());
+        return PagedResult.builder(page.getRecords(), page.getTotal());
     }
 }

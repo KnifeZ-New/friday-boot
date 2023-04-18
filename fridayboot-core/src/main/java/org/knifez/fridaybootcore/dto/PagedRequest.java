@@ -11,8 +11,8 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-@Schema(title = "PageRequest", description = "分页查询通用请求参数")
-public class PageRequest {
+@Schema(title = "PagedRequest", description = "分页查询通用请求参数")
+public class PagedRequest {
 
     @Schema(title = "当前页码")
     private int page;
