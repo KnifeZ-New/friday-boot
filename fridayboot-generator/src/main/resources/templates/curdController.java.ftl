@@ -11,6 +11,8 @@ import io.swagger.v3.oas.annotations.Operation;
 <#if superControllerClassPackage??>
     import ${superControllerClassPackage};
 </#if>
+import ${package.Parent}.dto.${entity}PagedRequest;
+import org.knifez.fridaybootcore.dto.PagedResult;
 
 /**
 * <p>

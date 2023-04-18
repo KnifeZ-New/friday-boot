@@ -1,8 +1,9 @@
 package ${package.Service};
 
-import org.knifez.fridaybootcore.service.IMybatisPlusService;
 import ${package.Entity}.${entity};
-import ${superServiceClassPackage};
+import ${package.Parent}.dto.${entity}PagedRequest;
+import org.knifez.fridaybootcore.service.IMybatisPlusService;
+import org.knifez.fridaybootcore.dto.PagedResult;
 
 /**
 * <p>
@@ -20,8 +21,8 @@ import ${superServiceClassPackage};
     * 列表页面查询
     *
     * @param queryRequest 查询请求
-    * @return {@link List}<{@link ${entity}}>
+    * @return {@link PagedResult}<{@link ${entity}}>
     */
-    PageResult<${entity}> listByPage(${entity}PagedRequest queryRequest);
+    PagedResult<${entity}> listByPage(${entity}PagedRequest queryRequest);
     }
 </#if>

@@ -1,11 +1,15 @@
 package ${package.ServiceImpl};
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import ${package.Entity}.${entity};
 import ${package.Mapper}.${table.mapperName};
 <#if table.serviceInterface>
     import ${package.Service}.${table.serviceName};
 </#if>
 import ${superServiceImplClassPackage};
+import org.knifez.fridaybootcore.dto.PagedResult;
 import org.springframework.stereotype.Service;
 
 /**

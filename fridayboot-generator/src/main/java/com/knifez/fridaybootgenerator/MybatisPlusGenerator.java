@@ -18,8 +18,8 @@ public class MybatisPlusGenerator {
     private static String packagePath;
 
     private static final String PROJECT_NAME = "fridayboot";
-
     private static final String DATABASE_URL = "jdbc:mysql://127.0.0.1:3306/fridayboot";
+    private static final String DATABASE_USER = "fridayboot";
     private static final String DATABASE_PASSWORD = "fridayboot";
     /**
      * 表列表
@@ -27,10 +27,11 @@ public class MybatisPlusGenerator {
     private static List<String> tableList = new ArrayList<>();
 
     public static void main(String[] args) {
-        FastAutoGenerator.create(DATABASE_URL, PROJECT_NAME, DATABASE_PASSWORD)
+        FastAutoGenerator.create(DATABASE_URL, DATABASE_USER, DATABASE_PASSWORD)
                 .globalConfig((scanner, builder) ->
                         builder.author("KnifeZ")
-                                .enableSwagger()
+                                .enableSpringdoc()
+                                .disableOpenDir()
                                 .outputDir(getOutputPath(scanner.apply("请输入模块名称"))
                                 ))
                 .packageConfig((scanner, builder) -> builder.parent(packagePath))
@@ -57,7 +58,7 @@ public class MybatisPlusGenerator {
         if (isGenerateController) {
             FastAutoGenerator.create(DATABASE_URL, PROJECT_NAME, DATABASE_PASSWORD)
                     .globalConfig(builder -> builder.author("KnifeZ")
-                            .enableSwagger()
+                            .enableSpringdoc()
                             .outputDir(getOutputPath("api")))
                     .packageConfig((scanner, builder) -> builder.parent(packagePath))
                     .strategyConfig((scanner, builder) -> builder.addInclude(tableList)

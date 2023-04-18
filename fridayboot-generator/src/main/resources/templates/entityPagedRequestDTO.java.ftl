@@ -1,8 +1,5 @@
-package ${package.Entity};
+package ${package.Parent}.dto;
 
-<#list table.importPackages as pkg>
-    import ${pkg};
-</#list>
 <#if springdoc>
     import io.swagger.v3.oas.annotations.media.Schema;
 <#elseif swagger>
@@ -16,7 +13,7 @@ package ${package.Entity};
 import org.knifez.fridaybootcore.dto.PagedRequest;
 /**
 * <p>
-    * ${table.comment!}
+    * ${table.comment!} 分页请求
     * </p>
 *
 * @author ${author}
