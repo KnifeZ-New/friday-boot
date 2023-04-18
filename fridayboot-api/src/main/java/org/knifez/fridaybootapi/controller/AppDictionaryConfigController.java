@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.knifez.fridaybootcore.annotation.ApiRestController;
 import org.knifez.fridaybootcore.annotation.permission.AllowAuthenticated;
 import org.knifez.fridaybootcore.dto.AppDictionaryConfigQueryRequest;
+import org.knifez.fridaybootcore.dto.AppDictionaryConfigTreeSetQueryRequest;
 import org.knifez.fridaybootcore.entity.AppDictionaryConfig;
 import org.knifez.fridaybootcore.service.IAppDictionaryConfigService;
 import org.springframework.util.StringUtils;
@@ -65,6 +66,25 @@ public class AppDictionaryConfigController {
         return appDictionaryConfigService.list(queryWrapper);
     }
 
+    @PostMapping("tree-sets")
+    @Operation(summary = "获取字典属性树集合")
+    public List<Tree<Long>> treeListByDictCodes(@RequestBody AppDictionaryConfigTreeSetQueryRequest queryRequest) {
+        QueryWrapper<AppDictionaryConfig> queryWrapper = new QueryWrapper<>();
+        queryWrapper.in("dict_code", queryRequest.getDictCodes());
+        queryWrapper.eq("is_enabled", true);
+        var list = appDictionaryConfigService.list(queryWrapper);
+        TreeNodeConfig treeConfig = new TreeNodeConfig();
+        treeConfig.setWeightKey("sort");
+        return TreeUtil.build(list, null, treeConfig, (node, tree) -> {
+            tree.setId(node.getId());
+            tree.setName(node.getName());
+            tree.setParentId(node.getParentId());
+            tree.putExtra("sort", node.getSort());
+            tree.putExtra("dictCode", node.getDictCode());
+            tree.putExtra("value", node.getValue());
+        });
+    }
+
     /**
      * 根据code获取字典属性列表
      *
@@ -80,6 +100,7 @@ public class AppDictionaryConfigController {
         queryWrapper.like(StringUtils.hasText(queryRequest.getName()), "name", queryRequest.getName());
         var list = appDictionaryConfigService.list(queryWrapper);
         TreeNodeConfig treeConfig = new TreeNodeConfig();
+        treeConfig.setWeightKey("sort");
         return TreeUtil.build(list, null, treeConfig, (node, tree) -> {
             tree.setId(node.getId());
             tree.setName(node.getName());

@@ -1,7 +1,7 @@
 package org.knifez.fridaybootcore.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import org.knifez.fridaybootcore.dto.AppDictionaryQueryRequest;
+import org.knifez.fridaybootcore.dto.AppDictionaryPagedRequest;
 import org.knifez.fridaybootcore.dto.PagedResult;
 import org.knifez.fridaybootcore.entity.AppDictionary;
 
@@ -21,5 +21,5 @@ public interface IAppDictionaryService extends IService<AppDictionary> {
      * @param queryRequest 查询请求
      * @return {@link PagedResult}<{@link AppDictionary}>
      */
-    PagedResult<AppDictionary> listByPageQuery(AppDictionaryQueryRequest queryRequest);
+    PagedResult<AppDictionary> listByPageQuery(AppDictionaryPagedRequest queryRequest);
 }

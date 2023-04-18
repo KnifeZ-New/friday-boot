@@ -10,7 +10,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Schema(title = "AppDictionaryQueryRequest")
-public class AppDictionaryQueryRequest extends PagedRequest {
+public class AppDictionaryPagedRequest extends PagedRequest {
 
     @Schema(title = "字典名称")
     private String name;
