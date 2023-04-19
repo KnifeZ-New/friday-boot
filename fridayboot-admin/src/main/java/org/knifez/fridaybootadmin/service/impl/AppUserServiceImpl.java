@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.knifez.fridaybootadmin.dto.AppUserDTO;
 import org.knifez.fridaybootadmin.dto.AppUserModifyDTO;
-import org.knifez.fridaybootadmin.dto.AppUserPagedQueryRequest;
+import org.knifez.fridaybootadmin.dto.AppUserPagedRequest;
 import org.knifez.fridaybootadmin.entity.AppUser;
 import org.knifez.fridaybootadmin.mapper.AppUserMapper;
 import org.knifez.fridaybootadmin.service.IAppPermissionGrantService;
@@ -50,7 +50,7 @@ public class AppUserServiceImpl extends ServiceImpl<AppUserMapper, AppUser> impl
      * @return {@link PagedResult}<{@link AppUser}>
      */
     @Override
-    public PagedResult<AppUser> listByPageQuery(AppUserPagedQueryRequest queryRequest) {
+    public PagedResult<AppUser> listByPageQuery(AppUserPagedRequest queryRequest) {
         QueryWrapper<AppUser> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq(queryRequest.getLocked() != null, "is_locked", queryRequest.getLocked());
         queryWrapper.like(queryRequest.getUsername() != null, "username", queryRequest.getUsername());

@@ -3,7 +3,7 @@ package org.knifez.fridaybootapi.controller.admin;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.knifez.fridaybootadmin.dto.AppRolePagedQueryRequest;
+import org.knifez.fridaybootadmin.dto.AppRolePagedRequest;
 import org.knifez.fridaybootadmin.dto.AppUserDTO;
 import org.knifez.fridaybootadmin.entity.AppRole;
 import org.knifez.fridaybootadmin.service.IAppPermissionGrantService;
@@ -48,7 +48,7 @@ public class AppRoleController {
      */
     @PostMapping("list")
     @Operation(summary = "分页列表")
-    public PagedResult<AppRole> pagedList(@RequestBody AppRolePagedQueryRequest queryRequest) {
+    public PagedResult<AppRole> pagedList(@RequestBody AppRolePagedRequest queryRequest) {
         return roleService.listByPageQuery(queryRequest);
     }
 

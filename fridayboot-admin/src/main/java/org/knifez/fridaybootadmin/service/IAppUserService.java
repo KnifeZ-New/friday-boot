@@ -3,7 +3,7 @@ package org.knifez.fridaybootadmin.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import org.knifez.fridaybootadmin.dto.AppUserDTO;
 import org.knifez.fridaybootadmin.dto.AppUserModifyDTO;
-import org.knifez.fridaybootadmin.dto.AppUserPagedQueryRequest;
+import org.knifez.fridaybootadmin.dto.AppUserPagedRequest;
 import org.knifez.fridaybootadmin.entity.AppUser;
 import org.knifez.fridaybootcore.dto.PagedResult;
 
@@ -24,7 +24,7 @@ public interface IAppUserService extends IService<AppUser> {
      * @param queryRequest 查询请求
      * @return {@link PagedResult}<{@link AppUser}>
      */
-    PagedResult<AppUser> listByPageQuery(AppUserPagedQueryRequest queryRequest);
+    PagedResult<AppUser> listByPageQuery(AppUserPagedRequest queryRequest);
 
     /**
      * 找到账户

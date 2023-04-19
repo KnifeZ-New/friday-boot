@@ -29,6 +29,7 @@ public class RouteMeta {
 
     @Schema(title = "忽略权限")
     private Boolean ignoreAuth;
+
 //    @Schema(title = "排序")
 //    private Integer dynamicLevel;
 

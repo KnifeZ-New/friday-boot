@@ -1,7 +1,7 @@
 package org.knifez.fridaybootadmin.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import org.knifez.fridaybootadmin.dto.AppRolePagedQueryRequest;
+import org.knifez.fridaybootadmin.dto.AppRolePagedRequest;
 import org.knifez.fridaybootadmin.entity.AppRole;
 import org.knifez.fridaybootcore.dto.PagedResult;
 
@@ -40,5 +40,5 @@ public interface IAppRoleService extends IService<AppRole> {
      * @param queryRequest 查询请求
      * @return {@link List}<{@link AppRole}>
      */
-    PagedResult<AppRole> listByPageQuery(AppRolePagedQueryRequest queryRequest);
+    PagedResult<AppRole> listByPageQuery(AppRolePagedRequest queryRequest);
 }

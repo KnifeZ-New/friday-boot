@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import org.knifez.fridaybootadmin.dto.AppRolePagedQueryRequest;
+import org.knifez.fridaybootadmin.dto.AppRolePagedRequest;
 import org.knifez.fridaybootadmin.entity.AppRole;
 import org.knifez.fridaybootadmin.mapper.AppRoleMapper;
 import org.knifez.fridaybootadmin.service.IAppRoleService;
@@ -70,7 +70,7 @@ public class AppRoleServiceImpl extends ServiceImpl<AppRoleMapper, AppRole> impl
      * @return {@link List}<{@link AppRole}>
      */
     @Override
-    public PagedResult<AppRole> listByPageQuery(AppRolePagedQueryRequest queryRequest) {
+    public PagedResult<AppRole> listByPageQuery(AppRolePagedRequest queryRequest) {
         QueryWrapper<AppRole> queryWrapper = new QueryWrapper<>();
         queryWrapper.like(StringUtils.hasText(queryRequest.getDisplayName()), "display_name", queryRequest.getDisplayName());
         queryWrapper.like(StringUtils.hasText(queryRequest.getName()), "name", queryRequest.getName());

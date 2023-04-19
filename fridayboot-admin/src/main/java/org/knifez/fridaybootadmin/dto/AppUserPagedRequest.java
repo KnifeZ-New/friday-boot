@@ -13,8 +13,8 @@ import java.util.List;
  */
 @Getter
 @Setter
-@Schema(title = "AppUserPagedQueryRequest")
-public class AppUserPagedQueryRequest extends PagedRequest {
+@Schema(title = "AppUserPagedRequest")
+public class AppUserPagedRequest extends PagedRequest {
 
     @NotNull(message = "name 不能为空")
     @Schema(title = "用户姓名")

@@ -10,8 +10,8 @@ import org.knifez.fridaybootcore.dto.PagedRequest;
  */
 @Getter
 @Setter
-@Schema(title = "AppRolePagedQueryRequest")
-public class AppRolePagedQueryRequest extends PagedRequest {
+@Schema(title = "AppRolePagedRequest")
+public class AppRolePagedRequest extends PagedRequest {
 
     @Schema(title = "角色编码")
     private String name;

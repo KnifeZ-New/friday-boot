@@ -5,7 +5,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.knifez.fridaybootadmin.dto.AppUserDTO;
 import org.knifez.fridaybootadmin.dto.AppUserModifyDTO;
-import org.knifez.fridaybootadmin.dto.AppUserPagedQueryRequest;
+import org.knifez.fridaybootadmin.dto.AppUserPagedRequest;
 import org.knifez.fridaybootadmin.dto.AppUserResetPasswordRequest;
 import org.knifez.fridaybootadmin.entity.AppOrganizationUnit;
 import org.knifez.fridaybootadmin.entity.AppUser;
@@ -60,7 +60,7 @@ public class AppUserController {
      */
     @Operation(summary = "分页列表")
     @PostMapping("list")
-    public PagedResult<AppUserDTO> pagedList(@RequestBody AppUserPagedQueryRequest queryRequest) {
+    public PagedResult<AppUserDTO> pagedList(@RequestBody AppUserPagedRequest queryRequest) {
         //查询列表数据
         var ret = appUserService.listByPageQuery(queryRequest);
         var responseList = BeanUtil.copyToList(ret.getItems(), AppUserDTO.class);
