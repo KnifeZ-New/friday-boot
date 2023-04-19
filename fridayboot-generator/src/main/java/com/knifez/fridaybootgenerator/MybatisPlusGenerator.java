@@ -44,7 +44,8 @@ public class MybatisPlusGenerator {
                     customFile.put("PagedRequest.java", "/templates/entityPagedRequestDTO.java.ftl");
                     consumer.customFile(customFile);
                 })
-                .templateConfig(builder -> builder.disable(TemplateType.CONTROLLER))
+                .templateConfig(builder -> builder.disable(TemplateType.CONTROLLER)
+                        .service("/templates/service.java"))
                 .templateEngine(new EnhanceFreemarkerTemplateEngine())
                 .execute();
         boolean isGenerateController = false;
@@ -67,9 +68,9 @@ public class MybatisPlusGenerator {
                     .templateConfig(builder -> builder.disable(TemplateType.ENTITY)
                             .disable(TemplateType.MAPPER)
                             .disable(TemplateType.XML)
+                            .disable(TemplateType.SERVICE)
                             .disable(TemplateType.SERVICE_IMPL)
-                            .controller("/templates/curdController.java")
-                            .service("/templates/service.java")
+                            .controller("/templates/controller.java")
                     )
                     .templateEngine(new FreemarkerTemplateEngine())
                     .execute();
@@ -77,9 +78,9 @@ public class MybatisPlusGenerator {
     }
 
     protected static String getOutputPath(String packageName) {
-        var path = System.getProperty("user.dir") + "/fridayboot-" + packageName + "/src/main/java";
+        var path = System.getProperty("user.dir") + "/" + PROJECT_NAME + "-" + packageName + "/src/main/java";
         log.info(path);
-        packagePath = "org.knifez." + PROJECT_NAME + packageName;
+        packagePath = "org.knifez." + PROJECT_NAME + packageName.replace("-", "");
         log.info(packagePath);
         return path;
     }

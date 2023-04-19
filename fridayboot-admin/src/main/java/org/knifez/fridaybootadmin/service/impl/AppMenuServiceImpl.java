@@ -7,6 +7,7 @@ import cn.hutool.core.lang.tree.TreeUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import lombok.RequiredArgsConstructor;
 import org.knifez.fridaybootadmin.dto.*;
 import org.knifez.fridaybootadmin.entity.AppMenu;
 import org.knifez.fridaybootadmin.enums.MenuTypeEnum;
@@ -30,13 +31,10 @@ import java.util.Objects;
  * @since 2022-10-11
  */
 @Service
+@RequiredArgsConstructor
 public class AppMenuServiceImpl extends ServiceImpl<AppMenuMapper, AppMenu> implements IAppMenuService {
 
     private final IAppDictionaryConfigService dictionaryConfigService;
-
-    public AppMenuServiceImpl(IAppDictionaryConfigService dictionaryConfigService) {
-        this.dictionaryConfigService = dictionaryConfigService;
-    }
 
     /**
      * 获取菜单权限
@@ -115,6 +113,62 @@ public class AppMenuServiceImpl extends ServiceImpl<AppMenuMapper, AppMenu> impl
         return menuListToTree(result);
     }
 
+    private List<AppMenuDTO> mixWithParentNodes(List<AppMenuDTO> list) {
+        List<AppMenuDTO> mixdList = new ArrayList<>();
+        for (var item : list) {
+            if (item.getParentId() != null) {
+                List<AppMenu> parentNodes = new ArrayList<>();
+                parentNodes.add(item);
+                while (item.getParentId() != null) {
+                    var tmpItem = getById(item.getParentId());
+                    parentNodes.add(tmpItem);
+                }
+                mixdList.addAll(BeanUtil.copyToList(parentNodes, AppMenuDTO.class));
+            } else {
+                mixdList.add(item);
+            }
+        }
+        return mixdList.stream().distinct().toList();
+    }
+
+    @Override
+    public List<Integer> getChildrenIds(Integer id) {
+        LambdaQueryWrapper<AppMenu> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.select(AppMenu::getId);
+        queryWrapper.eq(AppMenu::getParentId, id);
+        return baseMapper.selectList(queryWrapper).stream().map(AppMenu::getId).toList();
+    }
+
+
+    private List<Tree<Integer>> menuListToTree(List<AppMenuDTO> list) {
+        TreeNodeConfig treeConfig = new TreeNodeConfig();
+        treeConfig.setWeightKey("sort");
+        return TreeUtil.build(list, null, treeConfig, (node, tree) -> {
+            tree.setId(node.getId());
+            tree.setName(node.getName());
+            tree.setParentId(node.getParentId());
+            tree.putExtra("name", node.getName());
+            tree.putExtra("route", node.getRoute());
+            tree.putExtra("type", node.getType());
+            tree.putExtra("enabled", node.getEnabled());
+            tree.putExtra("fixed", node.getFixed());
+            tree.putExtra("hot", node.getHot());
+            tree.putExtra("visible", node.getVisible());
+            tree.putExtra("keepAlive", node.getKeepAlive());
+            tree.putExtra("icon", node.getIcon());
+            tree.putExtra("badge", node.getBadge());
+            tree.putExtra("tagColor", node.getTagColor());
+            tree.putExtra("transition", node.getTransition());
+            tree.putExtra("sort", node.getSort());
+            tree.putExtra("permission", node.getPermission());
+            tree.putExtra("routePath", node.getRoutePath());
+            tree.putExtra("component", node.getComponent());
+            tree.putExtra("remark", node.getRemark());
+            tree.putExtra("createTime", node.getCreateTime());
+        });
+    }
+
+
     /**
      * 获取菜单路由
      *
@@ -172,32 +226,6 @@ public class AppMenuServiceImpl extends ServiceImpl<AppMenuMapper, AppMenu> impl
         return menuRoute;
     }
 
-    private List<AppMenuDTO> mixWithParentNodes(List<AppMenuDTO> list) {
-        List<AppMenuDTO> mixdList = new ArrayList<>();
-        for (var item : list) {
-            if (item.getParentId() != null) {
-                List<AppMenu> parentNodes = new ArrayList<>();
-                parentNodes.add(item);
-                while (item.getParentId() != null) {
-                    var tmpItem = getById(item.getParentId());
-                    parentNodes.add(tmpItem);
-                }
-                mixdList.addAll(BeanUtil.copyToList(parentNodes, AppMenuDTO.class));
-            } else {
-                mixdList.add(item);
-            }
-        }
-        return mixdList.stream().distinct().toList();
-    }
-
-    @Override
-    public List<Integer> getChildrenIds(Integer id) {
-        LambdaQueryWrapper<AppMenu> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.select(AppMenu::getId);
-        queryWrapper.eq(AppMenu::getParentId, id);
-        return baseMapper.selectList(queryWrapper).stream().map(AppMenu::getId).toList();
-    }
-
     @Override
     public Boolean updateChildrenLevel(Integer id, Integer parentId) {
         LambdaQueryWrapper<AppMenu> queryWrapper = new LambdaQueryWrapper<>();
@@ -207,33 +235,5 @@ public class AppMenuServiceImpl extends ServiceImpl<AppMenuMapper, AppMenu> impl
             child.setParentId(parentId);
         }
         return updateBatchById(children);
-    }
-
-    private List<Tree<Integer>> menuListToTree(List<AppMenuDTO> list) {
-        TreeNodeConfig treeConfig = new TreeNodeConfig();
-        treeConfig.setWeightKey("sort");
-        return TreeUtil.build(list, null, treeConfig, (node, tree) -> {
-            tree.setId(node.getId());
-            tree.setName(node.getName());
-            tree.setParentId(node.getParentId());
-            tree.putExtra("name", node.getName());
-            tree.putExtra("route", node.getRoute());
-            tree.putExtra("type", node.getType());
-            tree.putExtra("enabled", node.getEnabled());
-            tree.putExtra("fixed", node.getFixed());
-            tree.putExtra("hot", node.getHot());
-            tree.putExtra("visible", node.getVisible());
-            tree.putExtra("keepAlive", node.getKeepAlive());
-            tree.putExtra("icon", node.getIcon());
-            tree.putExtra("badge", node.getBadge());
-            tree.putExtra("tagColor", node.getTagColor());
-            tree.putExtra("transition", node.getTransition());
-            tree.putExtra("sort", node.getSort());
-            tree.putExtra("permission", node.getPermission());
-            tree.putExtra("routePath", node.getRoutePath());
-            tree.putExtra("component", node.getComponent());
-            tree.putExtra("remark", node.getRemark());
-            tree.putExtra("createTime", node.getCreateTime());
-        });
     }
 }

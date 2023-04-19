@@ -54,7 +54,6 @@ public class JwtTokenUtils {
 
     public static String getAccount(String token) {
         Claims claims = getClaims(token);
-
         return claims.getSubject();
     }
 

@@ -72,5 +72,4 @@ public class AuthServiceImpl implements IAuthService {
     public AppUserDTO getCurrentUser() {
         return userService.findByAccount(JwtTokenUtils.getCurrentUserName());
     }
-
 }

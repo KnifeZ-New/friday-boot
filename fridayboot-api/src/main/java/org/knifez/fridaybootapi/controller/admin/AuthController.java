@@ -3,6 +3,7 @@ package org.knifez.fridaybootapi.controller.admin;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.extern.slf4j.Slf4j;
 import org.knifez.fridaybootadmin.dto.AppUserInfoDTO;
 import org.knifez.fridaybootadmin.dto.LoginRequest;
 import org.knifez.fridaybootadmin.dto.Token;
@@ -22,14 +23,17 @@ import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 
 /**
-@author KnifeZ
+ * @author KnifeZ
  */
+@Slf4j
 @Tag(name = "认证")
 @ApiRestController
 @RequestMapping("/auth")
@@ -103,4 +107,14 @@ public class AuthController {
         authService.removeToken();
     }
 
+    @AllowAnonymous
+    @Operation(summary = "重启服务")
+    @GetMapping("reboot")
+    public void reboot() throws IOException {
+        log.info("springboot reboot");
+        // 执行重启shell脚本
+        String projectPath = System.getProperty("user.dir");
+        var file = new File(projectPath);
+        Runtime.getRuntime().exec("sh restart.sh", new String[]{}, file);
+    }
 }

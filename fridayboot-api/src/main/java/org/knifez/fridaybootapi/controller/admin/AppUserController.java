@@ -6,9 +6,11 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.knifez.fridaybootadmin.dto.AppUserDTO;
 import org.knifez.fridaybootadmin.dto.AppUserModifyDTO;
 import org.knifez.fridaybootadmin.dto.AppUserPagedQueryRequest;
+import org.knifez.fridaybootadmin.dto.AppUserResetPasswordRequest;
 import org.knifez.fridaybootadmin.entity.AppOrganizationUnit;
 import org.knifez.fridaybootadmin.entity.AppUser;
 import org.knifez.fridaybootadmin.service.IAppOrganizationUnitService;
+import org.knifez.fridaybootadmin.service.IAppRoleService;
 import org.knifez.fridaybootadmin.service.IAppUserRoleService;
 import org.knifez.fridaybootadmin.service.IAppUserService;
 import org.knifez.fridaybootcore.annotation.ApiRestController;
@@ -16,6 +18,7 @@ import org.knifez.fridaybootcore.annotation.permission.AllowAuthenticated;
 import org.knifez.fridaybootcore.dto.FridayResult;
 import org.knifez.fridaybootcore.dto.PagedResult;
 import org.knifez.fridaybootcore.enums.ResultStatus;
+import org.knifez.fridaybootcore.exception.FridayResultException;
 import org.springframework.beans.BeanUtils;
 import org.springframework.web.bind.annotation.*;
 
@@ -38,12 +41,14 @@ public class AppUserController {
     private final IAppUserService appUserService;
 
     private final IAppUserRoleService userRoleService;
+    private final IAppRoleService roleService;
 
     private final IAppOrganizationUnitService organizationUnitService;
 
-    public AppUserController(IAppUserService appUserService, IAppUserRoleService userRoleService, IAppOrganizationUnitService organizationUnitService) {
+    public AppUserController(IAppUserService appUserService, IAppUserRoleService userRoleService, IAppRoleService roleService, IAppOrganizationUnitService organizationUnitService) {
         this.appUserService = appUserService;
         this.userRoleService = userRoleService;
+        this.roleService = roleService;
         this.organizationUnitService = organizationUnitService;
     }
 
@@ -61,6 +66,7 @@ public class AppUserController {
         var responseList = BeanUtil.copyToList(ret.getItems(), AppUserDTO.class);
         var organizationList = organizationUnitService.list();
         for (AppUserDTO user : responseList) {
+            user.setRoles(roleService.listByUserId(user.getId()));
             var organization = organizationList.stream()
                     .filter(x -> x.getId().equals(user.getOrganizationId())).map(AppOrganizationUnit::getName).collect(Collectors.joining());
             user.setOrganizationName(organization);
@@ -139,6 +145,16 @@ public class AppUserController {
             return FridayResult.fail(ResultStatus.FORBIDDEN_003);
         } else {
             return FridayResult.ok(account + "可使用");
+        }
+    }
+
+    @PostMapping("reset-password")
+    @Operation(summary = "重置密码")
+    public Boolean resetPassword(@RequestBody AppUserResetPasswordRequest user) {
+        if (appUserService.checkOriginPassword(user.getId(), user.getOriginPassword()) || user.getSkipCheckPassword()) {
+            return appUserService.updatePassword(user.getId(), user.getNewPassword());
+        } else {
+            throw new FridayResultException(ResultStatus.UNAUTHORIZED_002);
         }
     }
 

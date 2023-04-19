@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
+import org.knifez.fridaybootadmin.entity.AppRole;
 import org.knifez.fridaybootadmin.entity.AppUser;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
@@ -22,7 +23,7 @@ public class AppUserDTO extends AppUser {
     private String organizationName;
 
     @Schema(title = "角色")
-    private List<Long> roles = new ArrayList<>();
+    private List<AppRole> roles = new ArrayList<>();
 
     @TableField(exist = false)
     @JsonIgnore

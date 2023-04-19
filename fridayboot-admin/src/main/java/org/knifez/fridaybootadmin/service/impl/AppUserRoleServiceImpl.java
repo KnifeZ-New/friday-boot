@@ -1,7 +1,6 @@
 package org.knifez.fridaybootadmin.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.knifez.fridaybootadmin.entity.AppUserRole;
 import org.knifez.fridaybootadmin.mapper.AppUserRoleMapper;
@@ -16,7 +15,7 @@ import java.util.List;
  * 服务实现类
  * </p>
  *
-@author KnifeZ
+ * @author KnifeZ
  * @since 2022-07-07
  */
 @Service
@@ -30,8 +29,8 @@ public class AppUserRoleServiceImpl extends ServiceImpl<AppUserRoleMapper, AppUs
      */
     @Override
     public List<Long> listRolesByUserId(Long userId) {
-        var wrapper = new QueryWrapper<AppUserRole>();
-        wrapper.eq("user_id", userId);
+        LambdaQueryWrapper<AppUserRole> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(AppUserRole::getUserId, userId);
         return baseMapper.selectList(wrapper).stream().map(AppUserRole::getRoleId).toList();
     }
 

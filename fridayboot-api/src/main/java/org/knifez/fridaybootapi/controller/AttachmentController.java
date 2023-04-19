@@ -21,7 +21,7 @@ import java.io.IOException;
 @AllowAuthenticated
 @Tag(name = "附件管理")
 @ApiRestController
-@RequestMapping("/attachment")
+@RequestMapping("/file")
 public class AttachmentController {
     @PostMapping("/upload")
     @Operation(summary = "单文件上传")
@@ -32,6 +32,7 @@ public class AttachmentController {
         assert originalFileName != null;
         var fileNameArray = originalFileName.split("\\.");
         String uploadFileName = System.currentTimeMillis() + String.valueOf(file.getSize()) + "." + fileNameArray[fileNameArray.length - 1];
+        // todo 动态读取配置
         String uploadPath = "/uploads";
         try {
             if (!FileUtil.exist(projectPath + uploadPath)) {

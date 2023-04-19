@@ -114,4 +114,34 @@ public class AppUserServiceImpl extends ServiceImpl<AppUserMapper, AppUser> impl
         }
         return result;
     }
+
+    /**
+     * 检查原始密码
+     *
+     * @param id       id
+     * @param password 密码
+     * @return {@link Boolean}
+     */
+    @Override
+    public Boolean checkOriginPassword(Long id, String password) {
+        var user = getById(id);
+        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+        return bCryptPasswordEncoder.matches(password, user.getPassword());
+    }
+
+    /**
+     * 更新密码
+     *
+     * @param id       id
+     * @param password 密码
+     * @return {@link Boolean}
+     */
+    @Override
+    public Boolean updatePassword(Long id, String password) {
+        var user = getById(id);
+        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+        String pass = bCryptPasswordEncoder.encode(password);
+        user.setPassword(pass);
+        return updateById(user);
+    }
 }
