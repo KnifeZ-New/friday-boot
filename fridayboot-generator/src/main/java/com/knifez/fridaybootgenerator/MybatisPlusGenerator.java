@@ -2,7 +2,6 @@ package com.knifez.fridaybootgenerator;
 
 import com.baomidou.mybatisplus.generator.FastAutoGenerator;
 import com.baomidou.mybatisplus.generator.config.TemplateType;
-import com.baomidou.mybatisplus.generator.engine.FreemarkerTemplateEngine;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.*;
@@ -21,10 +20,6 @@ public class MybatisPlusGenerator {
     private static final String DATABASE_URL = "jdbc:mysql://127.0.0.1:3306/fridayboot";
     private static final String DATABASE_USER = "fridayboot";
     private static final String DATABASE_PASSWORD = "fridayboot";
-    /**
-     * 表列表
-     */
-    private static List<String> tableList = new ArrayList<>();
 
     public static void main(String[] args) {
         FastAutoGenerator.create(DATABASE_URL, DATABASE_USER, DATABASE_PASSWORD)
@@ -44,37 +39,15 @@ public class MybatisPlusGenerator {
                     customFile.put("PagedRequest.java", "/templates/entityPagedRequestDTO.java.ftl");
                     consumer.customFile(customFile);
                 })
-                .templateConfig(builder -> builder.disable(TemplateType.CONTROLLER)
-                        .service("/templates/service.java"))
+                .templateConfig((scanner, builder) -> {
+                    builder.controller("/templates/controller.java")
+                            .service("/templates/service.java");
+                    if (scanner.apply("是否生成Controller（yes/no）：").equals("yes")) {
+                        builder.disable(TemplateType.CONTROLLER);
+                    }
+                })
                 .templateEngine(new EnhanceFreemarkerTemplateEngine())
                 .execute();
-        boolean isGenerateController = false;
-        Scanner sc = new Scanner(System.in);
-        String str;
-        log.info("是否生成Controller（yes/no）：");
-        str = sc.nextLine();
-        if ("yes".equals(str)) {
-            isGenerateController = true;
-        }
-        if (isGenerateController) {
-            FastAutoGenerator.create(DATABASE_URL, PROJECT_NAME, DATABASE_PASSWORD)
-                    .globalConfig(builder -> builder.author("KnifeZ")
-                            .enableSpringdoc()
-                            .outputDir(getOutputPath("api")))
-                    .packageConfig((scanner, builder) -> builder.parent(packagePath))
-                    .strategyConfig((scanner, builder) -> builder.addInclude(tableList)
-                            .entityBuilder().enableLombok()
-                            .controllerBuilder().enableRestStyle())
-                    .templateConfig(builder -> builder.disable(TemplateType.ENTITY)
-                            .disable(TemplateType.MAPPER)
-                            .disable(TemplateType.XML)
-                            .disable(TemplateType.SERVICE)
-                            .disable(TemplateType.SERVICE_IMPL)
-                            .controller("/templates/controller.java")
-                    )
-                    .templateEngine(new FreemarkerTemplateEngine())
-                    .execute();
-        }
     }
 
     protected static String getOutputPath(String packageName) {
@@ -92,6 +65,7 @@ public class MybatisPlusGenerator {
      * @return {@link List}<{@link String}>
      */
     protected static List<String> getTables(String tables) {
+        List<String> tableList;
         if ("all".equals(tables)) {
             tableList = new ArrayList<>();
         } else {

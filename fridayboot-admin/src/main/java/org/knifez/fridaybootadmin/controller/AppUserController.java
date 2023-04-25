@@ -1,4 +1,4 @@
-package org.knifez.fridaybootapi.controller.admin;
+package org.knifez.fridaybootadmin.controller;
 
 import cn.hutool.core.bean.BeanUtil;
 import io.swagger.v3.oas.annotations.Operation;

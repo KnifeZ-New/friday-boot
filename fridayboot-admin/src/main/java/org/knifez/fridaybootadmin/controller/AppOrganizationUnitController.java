@@ -1,5 +1,5 @@
 
-package org.knifez.fridaybootapi.controller.admin;
+package org.knifez.fridaybootadmin.controller;
 
 import cn.hutool.core.lang.tree.Tree;
 import cn.hutool.core.lang.tree.TreeNodeConfig;

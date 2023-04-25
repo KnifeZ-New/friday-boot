@@ -29,7 +29,6 @@
         <module>fridayboot-core</module>
         <module>fridayboot-admin</module>
         <module>fridayboot-api</module>
-        <module>fridayboot-generator</module>
     </modules>
 
     <dependencies>
@@ -80,6 +79,12 @@
             <version>${springdoc.version}</version>
         </dependency>
 
+        <!--常用工具集-->
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-all</artifactId>
+            <version>${hutool.version}</version>
+        </dependency>
 
         <!--lombok-->
         <dependency>
@@ -120,20 +125,6 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-data-redis</artifactId>
                 <version>${springboot.version}</version>
-            </dependency>
-
-            <!--代码生成器-->
-            <dependency>
-                <groupId>com.baomidou</groupId>
-                <artifactId>mybatis-plus-generator</artifactId>
-                <version>${mybatisplus.version}</version>
-            </dependency>
-
-            <!--常用工具集-->
-            <dependency>
-                <groupId>cn.hutool</groupId>
-                <artifactId>hutool-all</artifactId>
-                <version>${hutool.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

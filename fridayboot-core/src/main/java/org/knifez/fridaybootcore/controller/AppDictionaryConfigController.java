@@ -1,4 +1,4 @@
-package org.knifez.fridaybootapi.controller;
+package org.knifez.fridaybootcore.controller;
 
 import cn.hutool.core.lang.tree.Tree;
 import cn.hutool.core.lang.tree.TreeNodeConfig;

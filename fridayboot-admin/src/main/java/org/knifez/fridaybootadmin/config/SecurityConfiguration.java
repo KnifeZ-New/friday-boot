@@ -5,13 +5,13 @@ import org.knifez.fridaybootadmin.constants.SecurityConst;
 import org.knifez.fridaybootadmin.exception.JwtAccessDeniedHandler;
 import org.knifez.fridaybootadmin.exception.JwtAuthenticationEntryPoint;
 import org.knifez.fridaybootadmin.filter.JwtAuthorizationFilter;
-import org.knifez.fridaybootadmin.utils.RedisUtils;
 import org.knifez.fridaybootcore.annotation.permission.AllowAnonymous;
 import org.knifez.fridaybootcore.constants.AppConstants;
 import org.knifez.fridaybootcore.utils.AnnotationUtils;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.support.ResourcePatternResolver;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.Customizer;
@@ -39,12 +39,12 @@ import static java.util.Collections.singletonList;
 public class SecurityConfiguration {
 
 
-    private final RedisUtils redisUtils;
+    private final StringRedisTemplate redisTemplate;
 
     private final ResourcePatternResolver resourcePatternResolver;
 
-    public SecurityConfiguration(RedisUtils redisUtils, ResourcePatternResolver resourcePatternResolver) {
-        this.redisUtils = redisUtils;
+    public SecurityConfiguration(StringRedisTemplate redisTemplate, ResourcePatternResolver resourcePatternResolver) {
+        this.redisTemplate = redisTemplate;
         this.resourcePatternResolver = resourcePatternResolver;
     }
 
@@ -71,7 +71,7 @@ public class SecurityConfiguration {
                         .requestMatchers(whitelist.toArray(new String[0])).permitAll()
                         .requestMatchers(AppConstants.API_PREFIX + "/**").authenticated()
                         .anyRequest().permitAll())
-                .addFilter(new JwtAuthorizationFilter(authentication -> authentication, redisUtils))
+                .addFilter(new JwtAuthorizationFilter(authentication -> authentication, redisTemplate))
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .exceptionHandling().authenticationEntryPoint(new JwtAuthenticationEntryPoint())

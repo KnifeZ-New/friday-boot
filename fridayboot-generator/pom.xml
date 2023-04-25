@@ -3,27 +3,71 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>org.knifez</groupId>
-        <artifactId>fridayboot</artifactId>
-        <version>0.1.0-SNAPSHOT</version>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>3.0.4</version>
+        <relativePath/> <!-- lookup parent from repository -->
     </parent>
+    <groupId>org.knifez</groupId>
     <artifactId>fridayboot-generator</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>fridayboot-generator</name>
     <description>fridayboot-generator</description>
     <properties>
         <java.version>17</java.version>
+        <mybatisplus.version>3.5.3.1</mybatisplus.version>
+        <mysql.version>8.0.30</mysql.version>
+        <hutool.version>5.8.11</hutool.version>
     </properties>
     <dependencies>
+        <!--数据库驱动-->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>${mysql.version}</version>
+            <scope>runtime</scope>
+        </dependency>
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-freemarker</artifactId>
+            <version>3.0.4</version>
         </dependency>
 
+
+        <!-- Mybatis plus -->
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-boot-starter</artifactId>
+            <version>${mybatisplus.version}</version>
+        </dependency>
+
+        <!--常用工具集-->
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-all</artifactId>
+            <version>${hutool.version}</version>
+        </dependency>
+
+        <!--lombok-->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <optional>true</optional>
+        </dependency>
+
+        <!--代码生成器-->
         <dependency>
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus-generator</artifactId>
+            <version>${mybatisplus.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.jetbrains</groupId>
+            <artifactId>annotations</artifactId>
+            <version>24.0.1</version>
+            <scope>compile</scope>
         </dependency>
     </dependencies>
 

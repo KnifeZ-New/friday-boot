@@ -1,4 +1,4 @@
-package org.knifez.fridaybootadmin.config;
+package org.knifez.fridaybootapi.config;
 
 import com.baomidou.mybatisplus.annotation.DbType;
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
