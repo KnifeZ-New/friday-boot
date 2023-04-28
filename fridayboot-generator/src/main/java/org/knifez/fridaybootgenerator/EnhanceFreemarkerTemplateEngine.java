@@ -1,4 +1,4 @@
-package com.knifez.fridaybootgenerator;
+package org.knifez.fridaybootgenerator;
 
 import com.baomidou.mybatisplus.generator.config.OutputFile;
 import com.baomidou.mybatisplus.generator.config.builder.CustomFile;

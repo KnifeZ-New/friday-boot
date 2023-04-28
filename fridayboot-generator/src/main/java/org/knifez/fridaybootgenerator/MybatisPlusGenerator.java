@@ -1,4 +1,4 @@
-package com.knifez.fridaybootgenerator;
+package org.knifez.fridaybootgenerator;
 
 import com.baomidou.mybatisplus.generator.FastAutoGenerator;
 import com.baomidou.mybatisplus.generator.config.TemplateType;
@@ -17,9 +17,9 @@ public class MybatisPlusGenerator {
     private static String packagePath;
 
     private static final String PROJECT_NAME = "fridayboot";
-    private static final String DATABASE_URL = "jdbc:mysql://127.0.0.1:3306/fridayboot";
+    private static final String DATABASE_URL = "jdbc:mysql://124.222.142.22:3306/fridayboot?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai";
     private static final String DATABASE_USER = "fridayboot";
-    private static final String DATABASE_PASSWORD = "fridayboot";
+    private static final String DATABASE_PASSWORD = "7rdfS6rEyHZDFBJd";
 
     public static void main(String[] args) {
         FastAutoGenerator.create(DATABASE_URL, DATABASE_USER, DATABASE_PASSWORD)
@@ -41,10 +41,8 @@ public class MybatisPlusGenerator {
                 })
                 .templateConfig((scanner, builder) -> {
                     builder.controller("/templates/controller.java")
-                            .service("/templates/service.java");
-                    if (scanner.apply("是否生成Controller（yes/no）：").equals("yes")) {
-                        builder.disable(TemplateType.CONTROLLER);
-                    }
+                            .service("/templates/service.java")
+                            .disable(TemplateType.XML);
                 })
                 .templateEngine(new EnhanceFreemarkerTemplateEngine())
                 .execute();

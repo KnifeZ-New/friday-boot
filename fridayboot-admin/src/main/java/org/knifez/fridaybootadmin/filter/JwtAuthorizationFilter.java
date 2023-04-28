@@ -8,6 +8,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.knifez.fridaybootadmin.constants.SecurityConst;
 import org.knifez.fridaybootadmin.utils.JwtTokenUtils;
+import org.knifez.fridaybootcore.constants.AppConstants;
+import org.knifez.fridaybootcore.utils.JwtUtils;
 import org.knifez.fridaybootcore.utils.RedisUtils;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -34,16 +36,16 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
-        String token = request.getHeader(SecurityConst.TOKEN_HEADER);
-        if (token == null || !token.startsWith(SecurityConst.TOKEN_PREFIX)) {
+        String token = request.getHeader(AppConstants.JWT_TOKEN_HEADER);
+        if (token == null || !token.startsWith(AppConstants.JWT_TOKEN_PREFIX)) {
             SecurityContextHolder.clearContext();
             chain.doFilter(request, response);
             return;
         }
-        String tokenValue = token.replace(SecurityConst.TOKEN_PREFIX, "");
+        String tokenValue = token.replace(AppConstants.JWT_TOKEN_PREFIX, "");
         UsernamePasswordAuthenticationToken authenticationToken = null;
         try {
-            String previousToken = redisTemplate.opsForValue().get(RedisUtils.formatKey(JwtTokenUtils.getAccount(tokenValue)));
+            String previousToken = redisTemplate.opsForValue().get(RedisUtils.formatKey(JwtUtils.getCurrentUser()));
             if (!token.equals(previousToken)) {
                 SecurityContextHolder.clearContext();
                 chain.doFilter(request, response);

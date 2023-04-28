@@ -7,6 +7,8 @@ import io.jsonwebtoken.security.Keys;
 import jakarta.xml.bind.DatatypeConverter;
 import org.knifez.fridaybootadmin.constants.SecurityConst;
 import org.knifez.fridaybootadmin.dto.Token;
+import org.knifez.fridaybootcore.constants.AppConstants;
+import org.knifez.fridaybootcore.utils.JwtUtils;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -26,7 +28,7 @@ public class JwtTokenUtils {
     /**
      * 生成足够的安全随机密钥，以适合符合规范的签名
      */
-    private static final byte[] API_KEY_SECRET_BYTES = DatatypeConverter.parseBase64Binary(SecurityConst.JWT_SECRET_KEY);
+    private static final byte[] API_KEY_SECRET_BYTES = DatatypeConverter.parseBase64Binary(AppConstants.JWT_SECRET_KEY);
     private static final SecretKey SECRET_KEY = Keys.hmacShaKeyFor(API_KEY_SECRET_BYTES);
 
     private JwtTokenUtils() {
@@ -38,7 +40,7 @@ public class JwtTokenUtils {
         final Date createdDate = new Date();
         final Date expirationDate = new Date(createdDate.getTime() + expiration * 1000);
         String tokenPrefix = Jwts.builder()
-                .setHeaderParam("type", SecurityConst.TOKEN_TYPE)
+                .setHeaderParam("type", AppConstants.JWT_TOKEN_TYPE)
                 .signWith(SECRET_KEY, SignatureAlgorithm.HS256)
                 .claim(SecurityConst.ROLE_CLAIMS, String.join(",", roles))
                 .setId(id)
@@ -48,29 +50,13 @@ public class JwtTokenUtils {
                 .setExpiration(expirationDate)
                 .compact();
 
-        String token = SecurityConst.TOKEN_PREFIX + tokenPrefix;
+        String token = AppConstants.JWT_TOKEN_PREFIX + tokenPrefix;
         return new Token(token, expiration, "", 0L);
     }
 
-    public static String getAccount(String token) {
-        Claims claims = getClaims(token);
-        return claims.getSubject();
-    }
-
-    public static Boolean isExpired(String token) {
-        try {
-            token = token.replace(SecurityConst.TOKEN_PREFIX, "");
-            var jwt = Jwts.parserBuilder().setSigningKey(SECRET_KEY).build()
-                    .parse(token);
-        } catch (Exception exception) {
-            exception.printStackTrace();
-            return true;
-        }
-        return false;
-    }
 
     public static UsernamePasswordAuthenticationToken getAuthentication(String token) {
-        Claims claims = getClaims(token);
+        Claims claims = JwtUtils.getClaims();
         List<SimpleGrantedAuthority> authorities = getAuthorities(claims);
         String userName = claims.getSubject();
         return new UsernamePasswordAuthenticationToken(userName, token, authorities);
@@ -81,12 +67,6 @@ public class JwtTokenUtils {
         return Arrays.stream(role.split(","))
                 .map(SimpleGrantedAuthority::new)
                 .toList();
-    }
-
-    private static Claims getClaims(String token) {
-        return Jwts.parserBuilder().setSigningKey(SECRET_KEY).build()
-                .parseClaimsJws(token)
-                .getBody();
     }
 
     public static boolean checkLogin(String currentPassword, String password) {

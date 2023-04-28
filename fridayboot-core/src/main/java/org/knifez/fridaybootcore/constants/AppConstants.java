@@ -33,4 +33,9 @@ public class AppConstants {
      * Redis前缀文件夹
      */
     public static final String REDIS_PREFIX_FOLDER = "fridayboot:";
+
+    public static final String JWT_TOKEN_HEADER = "Authorization";
+    public static final String JWT_TOKEN_PREFIX = "Bearer ";
+    public static final String JWT_TOKEN_TYPE = "JWT";
+    public static final String JWT_SECRET_KEY = "C*F-JaNdRgUkXn2r5u8x/A?D(G+KbPeShVmYq3s6v9y$B&E)H@McQfTjWnZr4u7w";
 }

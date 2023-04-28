@@ -86,7 +86,7 @@ public class SecurityConfiguration {
         configuration.setAllowedOrigins(singletonList("*"));
         configuration.setAllowedHeaders(singletonList("*"));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "DELETE", "PUT", "OPTIONS"));
-        configuration.setExposedHeaders(singletonList(SecurityConst.TOKEN_HEADER));
+        configuration.setExposedHeaders(singletonList(AppConstants.JWT_TOKEN_HEADER));
         configuration.setAllowCredentials(false);
         configuration.setMaxAge(3600L);
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();

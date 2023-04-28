@@ -107,8 +107,10 @@ public class AppUserServiceImpl extends ServiceImpl<AppUserMapper, AppUser> impl
         }
         if (isNew) {
             user.setId(null);
+            result = save(user);
+        } else {
+            result = updateById(user);
         }
-        result = saveOrUpdate(user);
         if (result) {
             result = userRoleService.saveRolesByUserId(user.getId(), user.getRoles());
         }

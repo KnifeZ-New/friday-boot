@@ -12,6 +12,8 @@ import io.swagger.v3.oas.annotations.Operation;
     import ${superControllerClassPackage};
 </#if>
 import ${package.Parent}.dto.${entity}PagedRequest;
+import ${package.Entity}.${entity};
+import ${package.Service}.${table.serviceName};
 import org.knifez.fridaybootcore.dto.PagedResult;
 
 /**
@@ -25,9 +27,9 @@ import org.knifez.fridaybootcore.dto.PagedResult;
 
 @Tag(name = "${table.comment!}管理")
 <#if restControllerStyle>
-    @ApiRestController
+@ApiRestController
 <#else>
-    @Controller
+@Controller
 </#if>
 @RequestMapping("<#if package.ModuleName?? && package.ModuleName != "">/${package.ModuleName}</#if>/<#if controllerMappingHyphenStyle>${controllerMappingHyphen}<#else>${table.entityPath}</#if>")
 <#if kotlin>

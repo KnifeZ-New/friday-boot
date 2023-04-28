@@ -12,6 +12,7 @@ import org.knifez.fridaybootadmin.utils.JwtTokenUtils;
 import org.knifez.fridaybootcore.constants.AppConstants;
 import org.knifez.fridaybootcore.enums.ResultStatus;
 import org.knifez.fridaybootcore.exception.FridayResultException;
+import org.knifez.fridaybootcore.utils.JwtUtils;
 import org.knifez.fridaybootcore.utils.RedisUtils;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.security.core.GrantedAuthority;
@@ -52,7 +53,7 @@ public class AuthServiceImpl implements IAuthService {
         if (Boolean.TRUE.equals(redisTemplate.hasKey(redisKey))) {
             //验证老token是否过期
             var userRedisValue = redisTemplate.opsForValue().get(redisKey);
-            if (!JwtTokenUtils.isExpired(userRedisValue)) {
+            if (!JwtUtils.isExpired(userRedisValue)) {
                 token.setAccessToken(userRedisValue);
             }
         }
