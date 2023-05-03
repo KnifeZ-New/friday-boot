@@ -7,7 +7,6 @@ import cn.hutool.core.lang.tree.TreeUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import lombok.RequiredArgsConstructor;
 import org.knifez.fridaybootadmin.dto.*;
 import org.knifez.fridaybootadmin.entity.AppMenu;
 import org.knifez.fridaybootadmin.enums.MenuTypeEnum;
@@ -31,10 +30,12 @@ import java.util.Objects;
  * @since 2022-10-11
  */
 @Service
-@RequiredArgsConstructor
 public class AppMenuServiceImpl extends ServiceImpl<AppMenuMapper, AppMenu> implements IAppMenuService {
-
     private final IAppDictionaryConfigService dictionaryConfigService;
+
+    public AppMenuServiceImpl(IAppDictionaryConfigService dictionaryConfigService) {
+        this.dictionaryConfigService = dictionaryConfigService;
+    }
 
     /**
      * 获取菜单权限
@@ -161,6 +162,7 @@ public class AppMenuServiceImpl extends ServiceImpl<AppMenuMapper, AppMenu> impl
             tree.putExtra("transition", node.getTransition());
             tree.putExtra("sort", node.getSort());
             tree.putExtra("permission", node.getPermission());
+            tree.putExtra("redirect", node.getRedirect());
             tree.putExtra("routePath", node.getRoutePath());
             tree.putExtra("component", node.getComponent());
             tree.putExtra("remark", node.getRemark());

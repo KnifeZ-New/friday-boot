@@ -50,10 +50,10 @@ public class AppAuditLog implements Serializable {
     @Schema(description = "异常信息")
     private String exception;
 
+    @Schema(description = "状态码")
     private Integer resultCode;
 
-    private String resultData;
-
+    @Schema(description = "返回消息")
     private String resultMessage;
 
     private String ip;

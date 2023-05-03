@@ -69,6 +69,9 @@ public class AppMenu extends BaseFullAuditEntity implements Serializable {
     @Schema(title = "权限标识")
     private String permission;
 
+    @Schema(title = "重定向")
+    private String redirect;
+
     @Schema(title = "是否缓存")
     private Boolean keepAlive;
 

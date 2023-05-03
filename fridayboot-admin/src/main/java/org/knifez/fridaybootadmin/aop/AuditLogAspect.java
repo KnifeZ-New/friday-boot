@@ -130,7 +130,7 @@ public class AuditLogAspect {
         HttpServletRequest request = ServletRequestUtils.getRequest();
         // 补全请求信息
         logEntity.setActionName(request.getMethod());
-        logEntity.setIp("");
+        logEntity.setIp(ServletRequestUtils.getRemoteAddr(request));
     }
 
     private static void fillMethodFields(AppAuditLog logEntity,
@@ -138,12 +138,10 @@ public class AuditLogAspect {
                                          AuditLog auditLog,
                                          LocalDateTime startTime, Object result, Throwable exception) {
         MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
-        logEntity.setActionName(methodSignature.toString());
+        logEntity.setServiceName(methodSignature.getDeclaringTypeName());
+        logEntity.setActionName(methodSignature.getMethod().getDeclaredAnnotation(Operation.class).summary());
         if (auditLog == null || auditLog.logArgs()) {
             logEntity.setParameters(obtainMethodArgs(joinPoint));
-        }
-        if (auditLog == null || auditLog.logResultData()) {
-            logEntity.setResultData(obtainResultData(result));
         }
         logEntity.setDuration(LocalDateTimeUtil.between(startTime, LocalDateTime.now()).toMillis());
         // （正常）
@@ -152,6 +150,7 @@ public class AuditLogAspect {
             logEntity.setResultMessage(fridayResult.getMessage());
         } else {
             logEntity.setResultCode(ResultStatus.SUCCESS.getCode());
+            logEntity.setResultMessage(ResultStatus.SUCCESS.getMessage());
         }
         // （异常）处理 resultCode 和 resultMsg 字段
         if (exception != null) {
@@ -174,14 +173,6 @@ public class AuditLogAspect {
             args.put(argName, !isIgnoreArgs(argValue) ? argValue : "[ignore]");
         }
         return JSONUtil.toJsonStr(args);
-    }
-
-    private static String obtainResultData(Object result) {
-        // TODO 提升：结果脱敏和忽略
-        if (result instanceof FridayResult) {
-            result = ((FridayResult<?>) result).getData();
-        }
-        return JSONUtil.toJsonStr(result);
     }
 
     private static boolean isLogEnable(ProceedingJoinPoint joinPoint, AuditLog auditLog) {

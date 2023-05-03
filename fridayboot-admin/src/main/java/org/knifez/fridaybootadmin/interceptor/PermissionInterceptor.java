@@ -42,8 +42,8 @@ public class PermissionInterceptor implements HandlerInterceptor {
             //验证接口权限
             if (handlerMethod.hasMethodAnnotation(AllowAuthenticated.class)
                     || handlerMethod.hasMethodAnnotation(AllowAnonymous.class)
-                    || handlerMethod.getBean().getClass().getAnnotation(AllowAuthenticated.class) != null
-                    || handlerMethod.getBean().getClass().getAnnotation(AllowAnonymous.class) != null) {
+                    || handlerMethod.getMethod().getDeclaringClass().getAnnotation(AllowAuthenticated.class) != null
+                    || handlerMethod.getMethod().getDeclaringClass().getAnnotation(AllowAnonymous.class) != null) {
                 log.info("跳过鉴权，接口为公共接口:" + requestUri);
                 return true;
             }

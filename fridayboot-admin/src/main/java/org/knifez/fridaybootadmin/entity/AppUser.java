@@ -50,6 +50,12 @@ public class AppUser extends BaseFullAuditEntity implements Serializable {
     @Schema(title = "邮箱")
     private String email;
 
+    @Schema(title = "电话")
+    private String phone;
+
+    @Schema(title = "头像")
+    private String avatar;
+
     @TableField(value = "is_locked")
     @Schema(title = "是否启锁定")
     private Boolean locked;

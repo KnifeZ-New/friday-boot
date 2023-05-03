@@ -8,6 +8,7 @@ import org.knifez.fridaybootadmin.filter.JwtAuthorizationFilter;
 import org.knifez.fridaybootcore.annotation.permission.AllowAnonymous;
 import org.knifez.fridaybootcore.constants.AppConstants;
 import org.knifez.fridaybootcore.utils.AnnotationUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.support.ResourcePatternResolver;
@@ -38,7 +39,6 @@ import static java.util.Collections.singletonList;
 @EnableWebSecurity
 public class SecurityConfiguration {
 
-
     private final StringRedisTemplate redisTemplate;
 
     private final ResourcePatternResolver resourcePatternResolver;
@@ -64,7 +64,7 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         //system whitelist
-        var whitelist = AnnotationUtils.getAllUrlsByAnnotations(resourcePatternResolver, "classpath:org/knifez/**/controller/**/**.class", AllowAnonymous.class);
+        var whitelist = AnnotationUtils.getAllUrlsByAnnotations(resourcePatternResolver, ResourcePatternResolver.CLASSPATH_ALL_URL_PREFIX + "**/controller/**.class", AllowAnonymous.class);
         http.csrf(AbstractHttpConfigurer::disable)
                 .cors(Customizer.withDefaults())
                 .authorizeHttpRequests(auth -> auth.requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()

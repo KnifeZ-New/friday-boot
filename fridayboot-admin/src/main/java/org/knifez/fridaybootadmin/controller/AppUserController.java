@@ -90,6 +90,8 @@ public class AppUserController {
         var user = appUserService.getById(id);
         AppUserDTO result = new AppUserDTO();
         BeanUtils.copyProperties(user, result);
+        var organization = organizationUnitService.getById(user.getOrganizationId());
+        result.setOrganizationName(organization.getName());
         return result;
     }
 

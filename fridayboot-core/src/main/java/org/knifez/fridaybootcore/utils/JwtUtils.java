@@ -14,12 +14,14 @@ public class JwtUtils {
 
     public static String getJWTToken() {
         var token = ServletRequestUtils.getRequest().getHeader(AppConstants.JWT_TOKEN_HEADER);
+        if (token == null) return null;
         token = token.replace(AppConstants.JWT_TOKEN_PREFIX, "");
         return token;
     }
 
     public static Claims getClaims() {
         var token = getJWTToken();
+        if (token == null) return null;
         return Jwts.parserBuilder().setSigningKey(SECRET_KEY).build()
                 .parseClaimsJws(token)
                 .getBody();
@@ -27,6 +29,9 @@ public class JwtUtils {
 
     public static String getCurrentUser() {
         Claims claims = getClaims();
+        if (claims == null) {
+            return "";
+        }
         return claims.getSubject();
     }
 
