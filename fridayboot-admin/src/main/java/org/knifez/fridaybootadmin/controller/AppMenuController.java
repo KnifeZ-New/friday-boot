@@ -5,12 +5,14 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.knifez.fridaybootadmin.dto.*;
 import org.knifez.fridaybootadmin.entity.AppMenu;
+import org.knifez.fridaybootadmin.enums.MenuTypeEnum;
 import org.knifez.fridaybootadmin.service.IAppMenuService;
 import org.knifez.fridaybootcore.annotation.ApiRestController;
 import org.knifez.fridaybootcore.annotation.permission.AllowAuthenticated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Objects;
 
 /**
  * <p>
@@ -75,6 +77,10 @@ public class AppMenuController {
     @Operation(summary = "添加")
     public Boolean create(@RequestBody AppMenuModifyRequest appMenu) {
         appMenu.setId(null);
+        if (Objects.equals(appMenu.getType(), MenuTypeEnum.MENU_BUTTON.getValue())) {
+            var parentMenu = appMenuService.getById(appMenu.getParentId());
+            appMenu.setRoutePath(parentMenu.getRoute() + "/" + appMenu.getRoute());
+        }
         return appMenuService.save(appMenu);
     }
 
@@ -87,6 +93,10 @@ public class AppMenuController {
     @PostMapping("{id}")
     @Operation(summary = "修改")
     public Boolean update(@RequestBody AppMenuModifyRequest appMenu) {
+        if (Objects.equals(appMenu.getType(), MenuTypeEnum.MENU_BUTTON.getValue())) {
+            var parentMenu = appMenuService.getById(appMenu.getParentId());
+            appMenu.setRoutePath(parentMenu.getRoute() + "/" + appMenu.getRoute());
+        }
         return appMenuService.updateById(appMenu);
     }
 
