@@ -7,11 +7,13 @@ import cn.hutool.core.lang.tree.TreeUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import lombok.RequiredArgsConstructor;
 import org.knifez.fridaybootadmin.dto.*;
 import org.knifez.fridaybootadmin.entity.AppMenu;
 import org.knifez.fridaybootadmin.enums.MenuTypeEnum;
 import org.knifez.fridaybootadmin.mapper.AppMenuMapper;
 import org.knifez.fridaybootadmin.service.IAppMenuService;
+import org.knifez.fridaybootcore.dto.TextValuePair;
 import org.knifez.fridaybootcore.entity.AppDictionaryConfig;
 import org.knifez.fridaybootcore.service.IAppDictionaryConfigService;
 import org.springframework.stereotype.Service;
@@ -30,12 +32,10 @@ import java.util.Objects;
  * @since 2022-10-11
  */
 @Service
+@RequiredArgsConstructor
 public class AppMenuServiceImpl extends ServiceImpl<AppMenuMapper, AppMenu> implements IAppMenuService {
-    private final IAppDictionaryConfigService dictionaryConfigService;
 
-    public AppMenuServiceImpl(IAppDictionaryConfigService dictionaryConfigService) {
-        this.dictionaryConfigService = dictionaryConfigService;
-    }
+    private final IAppDictionaryConfigService dictionaryConfigService;
 
     /**
      * 获取菜单权限
@@ -44,8 +44,18 @@ public class AppMenuServiceImpl extends ServiceImpl<AppMenuMapper, AppMenu> impl
      * @return 菜单权限集合
      */
     @Override
-    public List<String> getMenuPermissions(List<String> ids) {
-        return listByIds(ids).stream().map(AppMenu::getPermission).filter(Objects::nonNull).toList();
+    public List<TextValuePair> getMenuPermissions(List<String> ids) {
+        var menus = listByIds(ids);
+        List<TextValuePair> result = new ArrayList<>();
+        for (var menu : menus) {
+            if (StringUtils.hasText(menu.getPermission())) {
+                result.add(TextValuePair.from("API", menu.getPermission()));
+            }
+            if (StringUtils.hasText(menu.getRoutePath())) {
+                result.add(TextValuePair.from("WEB", menu.getRoutePath()));
+            }
+        }
+        return result;
     }
 
     /**

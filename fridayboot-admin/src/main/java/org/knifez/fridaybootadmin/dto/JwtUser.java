@@ -34,7 +34,7 @@ public class JwtUser implements UserDetails {
      */
     private Collection<? extends GrantedAuthority> authorities;
 
-    public JwtUser(AppUserDTO user) {
+    public JwtUser(AppUserInfoDTO user) {
         id = user.getId();
         username = user.getUsername();
         password = user.getPassword();

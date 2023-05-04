@@ -74,7 +74,7 @@ public class JwtTokenUtils {
         return bCryptPasswordEncoder.matches(currentPassword, password);
     }
 
-    public static String getCurrentUserName() {
+    public static String getCurrentUserAccount() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null && authentication.getPrincipal() != null) {
             return (String) authentication.getPrincipal();

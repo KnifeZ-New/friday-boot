@@ -11,7 +11,7 @@ import java.util.List;
  * 组织机构 服务类
  * </p>
  *
-@author KnifeZ
+ * @author KnifeZ
  * @since 2022-09-01
  */
 public interface IAppOrganizationUnitService extends IService<AppOrganizationUnit> {

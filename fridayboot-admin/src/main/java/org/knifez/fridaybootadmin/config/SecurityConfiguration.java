@@ -1,14 +1,12 @@
 package org.knifez.fridaybootadmin.config;
 
 import lombok.extern.slf4j.Slf4j;
-import org.knifez.fridaybootadmin.constants.SecurityConst;
 import org.knifez.fridaybootadmin.exception.JwtAccessDeniedHandler;
 import org.knifez.fridaybootadmin.exception.JwtAuthenticationEntryPoint;
 import org.knifez.fridaybootadmin.filter.JwtAuthorizationFilter;
 import org.knifez.fridaybootcore.annotation.permission.AllowAnonymous;
 import org.knifez.fridaybootcore.constants.AppConstants;
 import org.knifez.fridaybootcore.utils.AnnotationUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.support.ResourcePatternResolver;
@@ -64,7 +62,7 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         //system whitelist
-        var whitelist = AnnotationUtils.getAllUrlsByAnnotations(resourcePatternResolver, ResourcePatternResolver.CLASSPATH_ALL_URL_PREFIX + "**/controller/**.class", AllowAnonymous.class);
+        var whitelist = AnnotationUtils.getAllUrlsByAnnotations(resourcePatternResolver, ResourcePatternResolver.CLASSPATH_ALL_URL_PREFIX + "**/controller/**/**.class", AllowAnonymous.class);
         http.csrf(AbstractHttpConfigurer::disable)
                 .cors(Customizer.withDefaults())
                 .authorizeHttpRequests(auth -> auth.requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()

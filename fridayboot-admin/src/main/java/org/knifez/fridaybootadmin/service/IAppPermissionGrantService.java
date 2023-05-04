@@ -1,7 +1,9 @@
 package org.knifez.fridaybootadmin.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import org.knifez.fridaybootadmin.dto.AppPermissionDTO;
 import org.knifez.fridaybootadmin.entity.AppPermissionGrant;
+import org.knifez.fridaybootcore.dto.TextValuePair;
 
 import java.util.List;
 
@@ -10,7 +12,7 @@ import java.util.List;
  * 授权记录 服务类
  * </p>
  *
-@author KnifeZ
+ * @author KnifeZ
  * @since 2022-07-23
  */
 public interface IAppPermissionGrantService extends IService<AppPermissionGrant> {
@@ -38,5 +40,5 @@ public interface IAppPermissionGrantService extends IService<AppPermissionGrant>
      * @param roleNames 角色名
      * @return {@link List}<{@link String}>
      */
-    List<String> listByRoles(List<String> roleNames);
+    AppPermissionDTO listByRoles(List<String> roleNames);
 }

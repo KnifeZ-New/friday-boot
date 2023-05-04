@@ -15,18 +15,17 @@ import java.time.LocalDateTime;
 public class MyMetaObjectHandler implements MetaObjectHandler {
     @Override
     public void insertFill(MetaObject metaObject) {
-        var userName = JwtTokenUtils.getCurrentUserName();
-        this.strictInsertFill(metaObject, "createBy", String.class, userName);
+        var userAccount = JwtTokenUtils.getCurrentUserAccount();
+        this.strictInsertFill(metaObject, "createBy", String.class, userAccount);
         this.strictInsertFill(metaObject, "createTime", LocalDateTime::now, LocalDateTime.class);
-        this.strictInsertFill(metaObject, "updateBy", String.class, userName);
+        this.strictInsertFill(metaObject, "updateBy", String.class, userAccount);
         this.strictUpdateFill(metaObject, "updateTime", LocalDateTime::now, LocalDateTime.class);
     }
 
     @Override
     public void updateFill(MetaObject metaObject) {
         log.info("start update fill ....");
-        var userName = JwtTokenUtils.getCurrentUserName();
-        this.strictInsertFill(metaObject, "updateBy", String.class, userName);
+        this.strictInsertFill(metaObject, "updateBy", String.class, JwtTokenUtils.getCurrentUserAccount());
         this.strictUpdateFill(metaObject, "updateTime", LocalDateTime::now, LocalDateTime.class);
     }
 }

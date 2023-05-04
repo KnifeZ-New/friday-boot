@@ -8,7 +8,7 @@ import org.knifez.fridaybootadmin.entity.AppPermissionGrant;
  * 授权记录 Mapper 接口
  * </p>
  *
-@author KnifeZ
+ * @author KnifeZ
  * @since 2022-07-23
  */
 public interface AppPermissionGrantMapper extends BaseMapper<AppPermissionGrant> {

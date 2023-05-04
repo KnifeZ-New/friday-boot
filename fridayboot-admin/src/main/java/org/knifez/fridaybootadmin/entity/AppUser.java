@@ -9,7 +9,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.knifez.fridaybootcore.entity.BaseAuditEntity;
 import org.knifez.fridaybootcore.entity.BaseFullAuditEntity;
 
 import java.io.Serial;
@@ -34,7 +33,7 @@ public class AppUser extends BaseFullAuditEntity implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
-    @TableId(value = "id", type = IdType.ASSIGN_ID)
+    @TableId(value = "id", type = IdType.AUTO)
     @Schema(title = "主键id")
     private Long id;
 

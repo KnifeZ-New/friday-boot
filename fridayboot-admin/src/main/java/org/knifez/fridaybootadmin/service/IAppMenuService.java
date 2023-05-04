@@ -7,6 +7,7 @@ import org.knifez.fridaybootadmin.dto.AppMenuDTO;
 import org.knifez.fridaybootadmin.dto.AppMenuQueryRequest;
 import org.knifez.fridaybootadmin.dto.AppMenuRouteDTO;
 import org.knifez.fridaybootadmin.entity.AppMenu;
+import org.knifez.fridaybootcore.dto.TextValuePair;
 
 import java.util.List;
 
@@ -25,7 +26,7 @@ public interface IAppMenuService extends IService<AppMenu> {
      * @param ids 菜单id集合
      * @return 菜单权限集合
      */
-    List<String> getMenuPermissions(List<String> ids);
+    List<TextValuePair> getMenuPermissions(List<String> ids);
 
     /**
      * 获取菜单按钮

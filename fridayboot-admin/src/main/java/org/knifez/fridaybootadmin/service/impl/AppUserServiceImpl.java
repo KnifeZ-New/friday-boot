@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import org.knifez.fridaybootadmin.dto.AppUserDTO;
+import org.knifez.fridaybootadmin.dto.AppUserInfoDTO;
 import org.knifez.fridaybootadmin.dto.AppUserModifyDTO;
 import org.knifez.fridaybootadmin.dto.AppUserPagedRequest;
 import org.knifez.fridaybootadmin.entity.AppUser;
@@ -18,6 +18,8 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
+
+import java.util.Objects;
 
 /**
  * <p>
@@ -66,8 +68,8 @@ public class AppUserServiceImpl extends ServiceImpl<AppUserMapper, AppUser> impl
     }
 
     @Override
-    public AppUserDTO findByAccount(String account) {
-        AppUserDTO userDTO = new AppUserDTO();
+    public AppUserInfoDTO findByAccount(String account) {
+        AppUserInfoDTO userDTO = new AppUserInfoDTO();
         var wrapper = new QueryWrapper<AppUser>();
         wrapper.eq("account", account);
         var user = baseMapper.selectOne(wrapper);
@@ -75,8 +77,9 @@ public class AppUserServiceImpl extends ServiceImpl<AppUserMapper, AppUser> impl
             BeanUtils.copyProperties(user, userDTO);
             var roles = roleService.listRoleNameByUserId(user.getId());
             if (!roles.isEmpty()) {
-                var permissions = permissionService.listByRoles(roles);
-                userDTO.setPermissions(permissions);
+                var permission = permissionService.listByRoles(roles);
+                userDTO.setPermissions(permission.getWebPermissions());
+                userDTO.setApiPermissions(permission.getApiPermissions());
             }
             userDTO.setUserRoles(roles);
         }

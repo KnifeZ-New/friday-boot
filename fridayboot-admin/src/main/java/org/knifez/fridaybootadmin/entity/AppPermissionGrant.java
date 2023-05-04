@@ -15,7 +15,7 @@ import java.io.Serializable;
  * 授权记录
  * </p>
  *
-@author KnifeZ
+ * @author KnifeZ
  * @since 2022-07-23
  */
 @Getter

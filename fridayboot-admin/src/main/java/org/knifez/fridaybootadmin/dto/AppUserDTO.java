@@ -1,13 +1,9 @@
 package org.knifez.fridaybootadmin.dto;
 
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
 import org.knifez.fridaybootadmin.entity.AppRole;
-import org.knifez.fridaybootadmin.entity.AppUser;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,29 +14,37 @@ import java.util.List;
 @Getter
 @Setter
 @Schema(title = "AppUserDTO")
-public class AppUserDTO extends AppUser {
+public class AppUserDTO {
+    @Schema(title = "主键id")
+    private Long id;
+
+    @Schema(title = "账号")
+    private String account;
+
+    @Schema(title = "姓名")
+    private String username;
+
+    @Schema(title = "密码")
+    private String password;
+
+    @Schema(title = "邮箱")
+    private String email;
+
+    @Schema(title = "电话")
+    private String phone;
+
+    @Schema(title = "头像")
+    private String avatar;
+
+    @Schema(title = "是否启锁定")
+    private Boolean locked;
+
+    @Schema(title = "所属部门id")
+    private Long organizationId;
+
     @Schema(title = "所属部门")
     private String organizationName;
 
     @Schema(title = "角色")
     private List<AppRole> roles = new ArrayList<>();
-
-    @TableField(exist = false)
-    @JsonIgnore
-    @Schema(title = "角色")
-    private List<String> userRoles = new ArrayList<>();
-
-    @TableField(exist = false)
-    @JsonIgnore
-    @Schema(title = "权限")
-    private List<String> permissions = new ArrayList<>();
-
-    public List<SimpleGrantedAuthority> getGrantRoles() {
-        List<SimpleGrantedAuthority> authorities = new ArrayList<>();
-        userRoles.forEach(role -> authorities.add(new SimpleGrantedAuthority("ROLE_" + role)));
-        if (authorities.isEmpty()) {
-            authorities.add(new SimpleGrantedAuthority("ROLE_GUEST"));
-        }
-        return authorities;
-    }
 }

@@ -1,10 +1,7 @@
 package org.knifez.fridaybootadmin.service.impl;
 
 import cn.hutool.json.JSONUtil;
-import org.knifez.fridaybootadmin.dto.AppUserDTO;
-import org.knifez.fridaybootadmin.dto.JwtUser;
-import org.knifez.fridaybootadmin.dto.LoginRequest;
-import org.knifez.fridaybootadmin.dto.Token;
+import org.knifez.fridaybootadmin.dto.*;
 import org.knifez.fridaybootadmin.entity.AppUser;
 import org.knifez.fridaybootadmin.service.IAppUserService;
 import org.knifez.fridaybootadmin.service.IAuthService;
@@ -35,7 +32,7 @@ public class AuthServiceImpl implements IAuthService {
     }
 
     public Token createToken(LoginRequest loginRequest) {
-        AppUserDTO user = userService.findByAccount(loginRequest.getUsername());
+        AppUserInfoDTO user = userService.findByAccount(loginRequest.getUsername());
         if (!JwtTokenUtils.checkLogin(loginRequest.getPassword(), user.getPassword())) {
             throw new FridayResultException(ResultStatus.UNAUTHORIZED_001);
         }
@@ -58,12 +55,12 @@ public class AuthServiceImpl implements IAuthService {
             }
         }
         redisTemplate.opsForValue().set(redisKey, token.getAccessToken(), token.getExpires(), TimeUnit.SECONDS);
-        redisTemplate.opsForValue().set(RedisUtils.formatKey(AppConstants.CURRENT_USER_PERMISSION_PREFIX + user.getAccount()), JSONUtil.toJsonStr(user.getPermissions()), token.getExpires(), TimeUnit.SECONDS);
+        redisTemplate.opsForValue().set(RedisUtils.formatKey(AppConstants.CURRENT_USER_PERMISSION_PREFIX + user.getAccount()), JSONUtil.toJsonStr(user.getApiPermissions()), token.getExpires(), TimeUnit.SECONDS);
         return token;
     }
 
     public void removeToken() {
-        redisTemplate.delete(RedisUtils.formatKey(getCurrentUser().getAccount()));
+        redisTemplate.delete(RedisUtils.formatKey(JwtTokenUtils.getCurrentUserAccount()));
     }
 
     /**
@@ -72,7 +69,7 @@ public class AuthServiceImpl implements IAuthService {
      * @return {@link AppUser}
      */
     @Override
-    public AppUserDTO getCurrentUser() {
-        return userService.findByAccount(JwtTokenUtils.getCurrentUserName());
+    public AppUserInfoDTO getCurrentUser() {
+        return userService.findByAccount(JwtTokenUtils.getCurrentUserAccount());
     }
 }

@@ -1,7 +1,7 @@
 package org.knifez.fridaybootadmin.mapper;
 
-import org.knifez.fridaybootadmin.entity.AppAuditLog;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.knifez.fridaybootadmin.entity.AppAuditLog;
 
 /**
  * <p>

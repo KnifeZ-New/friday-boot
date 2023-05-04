@@ -13,7 +13,6 @@ import org.knifez.fridaybootcore.annotation.permission.AllowAnonymous;
 import org.knifez.fridaybootcore.annotation.permission.AllowAuthenticated;
 import org.knifez.fridaybootcore.constants.AppConstants;
 import org.knifez.fridaybootcore.entity.ApplicationCollocation;
-import org.springframework.beans.BeanUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -93,9 +92,7 @@ public class AuthController {
     @GetMapping("current-userinfo")
     @Operation(summary = "当前用户信息")
     public AppUserInfoDTO getCurrentUserInfo() {
-        var userInfo = new AppUserInfoDTO();
-        var currentUser = authService.getCurrentUser();
-        BeanUtils.copyProperties(currentUser, userInfo);
+        var userInfo = authService.getCurrentUser();
         userInfo.setHomePath("/");
         return userInfo;
     }

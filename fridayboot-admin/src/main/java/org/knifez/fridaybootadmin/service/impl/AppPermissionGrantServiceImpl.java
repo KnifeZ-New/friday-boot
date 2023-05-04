@@ -2,6 +2,7 @@ package org.knifez.fridaybootadmin.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.knifez.fridaybootadmin.dto.AppPermissionDTO;
 import org.knifez.fridaybootadmin.entity.AppPermissionGrant;
 import org.knifez.fridaybootadmin.mapper.AppPermissionGrantMapper;
 import org.knifez.fridaybootadmin.service.IAppMenuService;
@@ -9,15 +10,15 @@ import org.knifez.fridaybootadmin.service.IAppPermissionGrantService;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * <p>
  * 授权记录 服务实现类
  * </p>
  *
-@author KnifeZ
+ * @author KnifeZ
  * @since 2022-07-23
  */
 @Service
@@ -68,9 +69,10 @@ public class AppPermissionGrantServiceImpl extends ServiceImpl<AppPermissionGran
      * @return {@link List}<{@link String}>
      */
     @Override
-    public List<String> listByRoles(List<String> roleNames) {
+    public AppPermissionDTO listByRoles(List<String> roleNames) {
+        var result = new AppPermissionDTO();
         if (roleNames.isEmpty()) {
-            return Collections.emptyList();
+            return result;
         }
         var queryWrapper = new LambdaQueryWrapper<AppPermissionGrant>();
         queryWrapper.in(AppPermissionGrant::getProvideFor, roleNames);
@@ -78,6 +80,8 @@ public class AppPermissionGrantServiceImpl extends ServiceImpl<AppPermissionGran
         var list = baseMapper.selectList(queryWrapper);
         var ids = list.stream().map(AppPermissionGrant::getName).distinct().toList();
         var permissions = menuService.getMenuPermissions(ids);
-        return permissions.stream().distinct().toList();
+        result.setApiPermissions(permissions.stream().filter(x -> Objects.equals(x.getText(), "API")).map(x -> x.getValue().toString()).distinct().toList());
+        result.setWebPermissions(permissions.stream().filter(x -> Objects.equals(x.getText(), "WEB")).map(x -> x.getValue().toString()).distinct().toList());
+        return result;
     }
 }

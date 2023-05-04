@@ -12,7 +12,7 @@ import java.util.List;
  * 服务类
  * </p>
  *
-@author KnifeZ
+ * @author KnifeZ
  * @since 2022-07-06
  */
 public interface IAppRoleService extends IService<AppRole> {

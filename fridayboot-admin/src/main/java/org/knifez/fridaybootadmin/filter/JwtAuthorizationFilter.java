@@ -6,7 +6,6 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
-import org.knifez.fridaybootadmin.constants.SecurityConst;
 import org.knifez.fridaybootadmin.utils.JwtTokenUtils;
 import org.knifez.fridaybootcore.constants.AppConstants;
 import org.knifez.fridaybootcore.utils.JwtUtils;

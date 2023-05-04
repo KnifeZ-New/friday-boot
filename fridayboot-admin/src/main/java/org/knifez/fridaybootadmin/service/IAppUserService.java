@@ -2,6 +2,7 @@ package org.knifez.fridaybootadmin.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import org.knifez.fridaybootadmin.dto.AppUserDTO;
+import org.knifez.fridaybootadmin.dto.AppUserInfoDTO;
 import org.knifez.fridaybootadmin.dto.AppUserModifyDTO;
 import org.knifez.fridaybootadmin.dto.AppUserPagedRequest;
 import org.knifez.fridaybootadmin.entity.AppUser;
@@ -33,7 +34,7 @@ public interface IAppUserService extends IService<AppUser> {
      * @param account 账户
      * @return User
      */
-    AppUserDTO findByAccount(String account);
+    AppUserInfoDTO findByAccount(String account);
 
     /**
      * 账户是否存在
