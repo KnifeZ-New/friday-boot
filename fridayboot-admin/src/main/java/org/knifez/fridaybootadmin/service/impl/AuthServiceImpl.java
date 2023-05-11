@@ -63,13 +63,4 @@ public class AuthServiceImpl implements IAuthService {
         redisTemplate.delete(RedisUtils.formatKey(JwtTokenUtils.getCurrentUserAccount()));
     }
 
-    /**
-     * 获取当前用户
-     *
-     * @return {@link AppUser}
-     */
-    @Override
-    public AppUserInfoDTO getCurrentUser() {
-        return userService.findByAccount(JwtTokenUtils.getCurrentUserAccount());
-    }
 }

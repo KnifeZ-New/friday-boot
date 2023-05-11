@@ -4,22 +4,19 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.knifez.fridaybootadmin.dto.AppUserDTO;
 import org.knifez.fridaybootadmin.dto.AppUserInfoDTO;
 import org.knifez.fridaybootadmin.dto.AppUserModifyDTO;
 import org.knifez.fridaybootadmin.dto.AppUserPagedRequest;
+import org.knifez.fridaybootadmin.entity.AppRole;
 import org.knifez.fridaybootadmin.entity.AppUser;
 import org.knifez.fridaybootadmin.mapper.AppUserMapper;
-import org.knifez.fridaybootadmin.service.IAppPermissionGrantService;
-import org.knifez.fridaybootadmin.service.IAppRoleService;
-import org.knifez.fridaybootadmin.service.IAppUserRoleService;
-import org.knifez.fridaybootadmin.service.IAppUserService;
+import org.knifez.fridaybootadmin.service.*;
 import org.knifez.fridaybootcore.dto.PagedResult;
 import org.springframework.beans.BeanUtils;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
-
-import java.util.Objects;
 
 /**
  * <p>
@@ -35,12 +32,15 @@ public class AppUserServiceImpl extends ServiceImpl<AppUserMapper, AppUser> impl
 
     private final IAppRoleService roleService;
 
+    private final IAppOrganizationUnitService organizationUnitService;
+
     private final IAppPermissionGrantService permissionService;
 
     private final IAppUserRoleService userRoleService;
 
-    public AppUserServiceImpl(IAppRoleService roleService, IAppPermissionGrantService permissionService, IAppUserRoleService userRoleService) {
+    public AppUserServiceImpl(IAppRoleService roleService, IAppOrganizationUnitService organizationUnitService, IAppPermissionGrantService permissionService, IAppUserRoleService userRoleService) {
         this.roleService = roleService;
+        this.organizationUnitService = organizationUnitService;
         this.permissionService = permissionService;
         this.userRoleService = userRoleService;
     }
@@ -67,21 +67,38 @@ public class AppUserServiceImpl extends ServiceImpl<AppUserMapper, AppUser> impl
         return PagedResult.builder(page.getRecords(), page.getTotal());
     }
 
+
     @Override
     public AppUserInfoDTO findByAccount(String account) {
         AppUserInfoDTO userDTO = new AppUserInfoDTO();
-        var wrapper = new QueryWrapper<AppUser>();
-        wrapper.eq("account", account);
-        var user = baseMapper.selectOne(wrapper);
+        var user = getUserDtoByAccountOrId(account, 0);
         if (user != null) {
             BeanUtils.copyProperties(user, userDTO);
-            var roles = roleService.listRoleNameByUserId(user.getId());
+            var roles = user.getRoles().stream().map(AppRole::getName).toList();
             if (!roles.isEmpty()) {
                 var permission = permissionService.listByRoles(roles);
                 userDTO.setPermissions(permission.getWebPermissions());
                 userDTO.setApiPermissions(permission.getApiPermissions());
             }
             userDTO.setUserRoles(roles);
+        }
+        return userDTO;
+    }
+
+    @Override
+    public AppUserDTO getUserDtoByAccountOrId(String account, long userId) {
+        AppUserDTO userDTO = new AppUserDTO();
+        var wrapper = new QueryWrapper<AppUser>();
+        wrapper.eq(StringUtils.hasText(account), "account", account);
+        wrapper.eq(userId > 0, "id", userId);
+        var user = baseMapper.selectOne(wrapper);
+        if (user != null) {
+            BeanUtils.copyProperties(user, userDTO);
+            var roles = roleService.listByUserId(user.getId());
+            userDTO.setRoles(roles);
+            if (user.getOrganizationId() != null) {
+                userDTO.setOrganizationName(organizationUnitService.getById(userDTO.getOrganizationId()).getName());
+            }
         }
         return userDTO;
     }

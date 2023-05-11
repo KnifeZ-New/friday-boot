@@ -21,11 +21,4 @@ public interface IAuthService {
      * 删除令牌
      */
     void removeToken();
-
-    /**
-     * 获取当前用户
-     *
-     * @return {@link AppUser}
-     */
-    AppUserInfoDTO getCurrentUser();
 }

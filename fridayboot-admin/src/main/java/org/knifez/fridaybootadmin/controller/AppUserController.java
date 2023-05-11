@@ -19,7 +19,6 @@ import org.knifez.fridaybootcore.dto.FridayResult;
 import org.knifez.fridaybootcore.dto.PagedResult;
 import org.knifez.fridaybootcore.enums.ResultStatus;
 import org.knifez.fridaybootcore.exception.FridayResultException;
-import org.springframework.beans.BeanUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -87,12 +86,7 @@ public class AppUserController {
     @GetMapping("{id}")
     @Operation(summary = "根据id获取用户")
     public AppUserDTO findById(@PathVariable Long id) {
-        var user = appUserService.getById(id);
-        AppUserDTO result = new AppUserDTO();
-        BeanUtils.copyProperties(user, result);
-        var organization = organizationUnitService.getById(user.getOrganizationId());
-        result.setOrganizationName(organization.getName());
-        return result;
+        return appUserService.getUserDtoByAccountOrId("", id);
     }
 
     /**

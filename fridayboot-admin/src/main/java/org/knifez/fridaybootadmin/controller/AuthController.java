@@ -7,12 +7,14 @@ import lombok.extern.slf4j.Slf4j;
 import org.knifez.fridaybootadmin.dto.AppUserInfoDTO;
 import org.knifez.fridaybootadmin.dto.LoginRequest;
 import org.knifez.fridaybootadmin.dto.Token;
+import org.knifez.fridaybootadmin.service.IAppUserService;
 import org.knifez.fridaybootadmin.service.IAuthService;
 import org.knifez.fridaybootcore.annotation.ApiRestController;
 import org.knifez.fridaybootcore.annotation.permission.AllowAnonymous;
 import org.knifez.fridaybootcore.annotation.permission.AllowAuthenticated;
 import org.knifez.fridaybootcore.constants.AppConstants;
 import org.knifez.fridaybootcore.entity.ApplicationCollocation;
+import org.knifez.fridaybootcore.utils.JwtUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -39,10 +41,13 @@ import java.util.Map;
 public class AuthController {
     private final IAuthService authService;
 
+    private final IAppUserService userService;
+
     private final WebApplicationContext webApplicationContext;
 
-    public AuthController(IAuthService authService, WebApplicationContext webApplicationContext) {
+    public AuthController(IAuthService authService, IAppUserService userService, WebApplicationContext webApplicationContext) {
         this.authService = authService;
+        this.userService = userService;
         this.webApplicationContext = webApplicationContext;
     }
 
@@ -92,7 +97,7 @@ public class AuthController {
     @GetMapping("current-userinfo")
     @Operation(summary = "当前用户信息")
     public AppUserInfoDTO getCurrentUserInfo() {
-        var userInfo = authService.getCurrentUser();
+        var userInfo = userService.findByAccount(JwtUtils.getCurrentUser());
         userInfo.setHomePath("/");
         return userInfo;
     }

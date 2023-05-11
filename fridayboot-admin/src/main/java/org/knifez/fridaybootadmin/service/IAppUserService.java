@@ -36,6 +36,8 @@ public interface IAppUserService extends IService<AppUser> {
      */
     AppUserInfoDTO findByAccount(String account);
 
+    AppUserDTO getUserDtoByAccountOrId(String account, long userId);
+
     /**
      * 账户是否存在
      *

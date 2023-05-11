@@ -48,6 +48,9 @@ public class AppUserInfoDTO {
     @Schema(title = "所属部门id")
     private Long organizationId;
 
+    @Schema(title = "所属部门")
+    private String organizationName;
+
     @Schema(title = "用户首页")
     private String homePath;
 
