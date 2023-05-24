@@ -1,8 +1,13 @@
 
 package ${package.Controller};
-
+<#if springdoc>
+    import io.swagger.v3.oas.annotations.Tag;
+    import io.swagger.v3.oas.annotations.Operation;
+<#elseif swagger>
+    import io.swagger.annotations.Api;
+    import io.swagger.annotations.ApiOperation;
+</#if>
 import org.springframework.web.bind.annotation.*;
-import io.swagger.v3.oas.annotations.Operation;
 <#if restControllerStyle>
     import org.knifez.fridaybootcore.annotation.ApiRestController;
 <#else>

@@ -19,7 +19,7 @@ public class MybatisPlusGenerator {
     private static final String PROJECT_NAME = "fridayboot";
     private static final String DATABASE_URL = "jdbc:mysql://124.222.142.22:3306/fridayboot?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai";
     private static final String DATABASE_USER = "fridayboot";
-    private static final String DATABASE_PASSWORD = "7rdfS6rEyHZDFBJd";
+    private static final String DATABASE_PASSWORD = "pSLpNRB4k3Df8r3G";
 
     public static void main(String[] args) {
         FastAutoGenerator.create(DATABASE_URL, DATABASE_USER, DATABASE_PASSWORD)

@@ -113,7 +113,11 @@ public class AuditLogAspect {
         AppAuditLog logEntity = new AppAuditLog();
         // 补全通用字段
         logEntity.setExecutionTime(startTime);
-        logEntity.setUserId(JwtUtils.getCurrentUser());
+        try {
+            logEntity.setUserId(JwtUtils.getCurrentUser());
+        } catch (Exception e) {
+            logEntity.setUserId("");
+        }
         // 补全模块信息
 //        fillModuleFields(logEntity, joinPoint, auditLog, operation);
         // 补全请求信息
