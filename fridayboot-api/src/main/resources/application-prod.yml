@@ -2,7 +2,7 @@ spring:
   datasource:
     url: jdbc:mysql://124.222.142.22:3306/fridayboot?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai
     username: fridayboot
-    password: 7rdfS6rEyHZDFBJd
+    password: pSLpNRB4k3Df8r3G
     driver-class-name: com.mysql.cj.jdbc.Driver
   cache:
     type: redis

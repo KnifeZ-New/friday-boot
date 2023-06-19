@@ -10,6 +10,7 @@ import org.knifez.fridaybootcore.annotation.permission.AllowAuthenticated;
 import org.knifez.fridaybootcore.constants.AppConstants;
 import org.knifez.fridaybootcore.enums.ResultStatus;
 import org.knifez.fridaybootcore.exception.FridayResultException;
+import org.knifez.fridaybootcore.utils.AnnotationUtils;
 import org.knifez.fridaybootcore.utils.RedisUtils;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -35,10 +36,10 @@ public class PermissionInterceptor implements HandlerInterceptor {
      * @throws Exception 异常
      */
     @Override
-    public boolean preHandle(HttpServletRequest request, @NotNull HttpServletResponse response, @NotNull Object handler) throws Exception {
-        String requestUri = (request.getRequestURI() + ":" + request.getMethod()).toLowerCase();
-        log.debug("进入拦截器,用户请求:" + requestUri);
+    public boolean preHandle(@NotNull HttpServletRequest request, @NotNull HttpServletResponse response, @NotNull Object handler) throws Exception {
         if (handler instanceof HandlerMethod handlerMethod) {
+            String requestUri = AnnotationUtils.getMethodPermissionUrl((HandlerMethod) handler, request.getMethod());
+            log.debug("进入拦截器,用户请求:" + requestUri);
             //验证接口权限
             if (handlerMethod.hasMethodAnnotation(AllowAuthenticated.class)
                     || handlerMethod.hasMethodAnnotation(AllowAnonymous.class)

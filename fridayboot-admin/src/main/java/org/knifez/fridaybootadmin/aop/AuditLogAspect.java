@@ -176,7 +176,11 @@ public class AuditLogAspect {
             // 被忽略时，标记为 ignore 字符串，避免和 null 混在一起
             args.put(argName, !isIgnoreArgs(argValue) ? argValue : "[ignore]");
         }
-        return JSONUtil.toJsonStr(args);
+        var parameters = JSONUtil.toJsonStr(args);
+        if (parameters.length() > 2000) {
+            parameters = parameters.substring(0, 2000);
+        }
+        return parameters;
     }
 
     private static boolean isLogEnable(ProceedingJoinPoint joinPoint, AuditLog auditLog) {

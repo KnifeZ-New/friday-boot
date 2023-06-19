@@ -10,11 +10,9 @@ import org.springframework.core.type.classreading.CachingMetadataReaderFactory;
 import org.springframework.core.type.classreading.MetadataReader;
 import org.springframework.core.type.classreading.MetadataReaderFactory;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.method.HandlerMethod;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * @author KnifeZ
@@ -36,6 +34,49 @@ public class AnnotationUtils {
             resolveClass(reader, urls, annotationClass);
         }
         return urls;
+    }
+
+    public static String getMethodPermissionUrl(HandlerMethod handler, String methodMap) {
+        final StringBuilder mapUrl = new StringBuilder();
+        mapUrl.append(AppConstants.API_PREFIX);
+        var controllerRequest = Arrays.stream(handler.getMethod().getDeclaringClass().getAnnotation(RequestMapping.class).value())
+                .findFirst();
+        controllerRequest.ifPresent(mapUrl::append);
+        for (var annotation : (handler).getMethod().getDeclaredAnnotations()) {
+            if (annotation instanceof DeleteMapping) {
+                if (Arrays.stream(((DeleteMapping) annotation).value()).findFirst().isPresent()) {
+                    mapUrl.append("/")
+                            .append(Arrays.stream(((DeleteMapping) annotation).value()).findFirst().get());
+                }
+            }
+            if (annotation instanceof GetMapping) {
+                if (Arrays.stream(((GetMapping) annotation).value()).findFirst().isPresent()) {
+                    mapUrl.append("/")
+                            .append(Arrays.stream(((GetMapping) annotation).value()).findFirst().get());
+                }
+            }
+            if (annotation instanceof PutMapping) {
+                if (Arrays.stream(((PutMapping) annotation).value()).findFirst().isPresent()) {
+                    mapUrl.append("/")
+                            .append(Arrays.stream(((PutMapping) annotation).value()).findFirst().get());
+                }
+            }
+            if (annotation instanceof PostMapping) {
+                if (Arrays.stream(((PostMapping) annotation).value()).findFirst().isPresent()) {
+                    mapUrl.append("/")
+                            .append(Arrays.stream(((PostMapping) annotation).value()).findFirst().get());
+                }
+            }
+            if (annotation instanceof RequestMapping) {
+                if (Arrays.stream(((RequestMapping) annotation).value()).findFirst().isPresent()) {
+                    mapUrl.append("/")
+                            .append(Arrays.stream(((RequestMapping) annotation).value()).findFirst().get());
+                }
+            }
+        }
+        mapUrl.append(":")
+                .append(methodMap);
+        return mapUrl.toString().toLowerCase();
     }
 
     private static <T> void resolveClass(MetadataReader reader, List<String> maps, Class<T> annotationClass) {
