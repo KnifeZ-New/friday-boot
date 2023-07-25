@@ -1,7 +1,7 @@
 
 package ${package.Controller};
 <#if springdoc>
-    import io.swagger.v3.oas.annotations.Tag;
+    import io.swagger.v3.oas.annotations.tags.Tag;
     import io.swagger.v3.oas.annotations.Operation;
 <#elseif swagger>
     import io.swagger.annotations.Api;
