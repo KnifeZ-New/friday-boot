@@ -57,8 +57,12 @@ public class JwtTokenUtils {
 
     public static UsernamePasswordAuthenticationToken getAuthentication(String token) {
         Claims claims = JwtUtils.getClaims();
-        List<SimpleGrantedAuthority> authorities = getAuthorities(claims);
-        String userName = claims.getSubject();
+        List<SimpleGrantedAuthority> authorities = null;
+        String userName = null;
+        if (claims != null) {
+            authorities = getAuthorities(claims);
+            userName = claims.getSubject();
+        }
         return new UsernamePasswordAuthenticationToken(userName, token, authorities);
     }
 
