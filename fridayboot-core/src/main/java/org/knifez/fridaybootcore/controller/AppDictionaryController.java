@@ -94,5 +94,4 @@ public class AppDictionaryController {
         return appDictionaryService.removeById(id);
     }
 
-
 }

@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Configuration;
 /**
  * MybatisPlus插件配置
  *
-@author KnifeZ
+ * @author KnifeZ
  */
 @Configuration
 public class MybatisPlusConfiguration {
@@ -21,6 +21,7 @@ public class MybatisPlusConfiguration {
     @Bean
     public MybatisPlusInterceptor mybatisPlusInterceptor() {
         MybatisPlusInterceptor interceptor = new MybatisPlusInterceptor();
+        // 分页
         interceptor.addInnerInterceptor(new PaginationInnerInterceptor(DbType.MYSQL));
         return interceptor;
     }

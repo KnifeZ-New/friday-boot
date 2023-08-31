@@ -32,7 +32,6 @@ import java.util.stream.Collectors;
  * @author KnifeZ
  * @since 2022-04-01
  */
-@AllowAuthenticated
 @Tag(name = "用户管理")
 @ApiRestController
 @RequestMapping("/user")
@@ -160,6 +159,7 @@ public class AppUserController {
      * @param id userid
      * @return roleIds
      */
+    @AllowAuthenticated
     @GetMapping("{id}/roles")
     @Operation(summary = "获取用户关联角色")
     public List<Long> getUserRoles(@PathVariable Long id) {

@@ -23,7 +23,6 @@ import java.util.List;
  * @author KnifeZ
  * @since 2022-07-06
  */
-@AllowAuthenticated
 @Tag(name = "角色管理")
 @ApiRestController
 @RequestMapping("/role")

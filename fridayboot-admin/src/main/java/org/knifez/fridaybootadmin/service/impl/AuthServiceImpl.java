@@ -2,7 +2,6 @@ package org.knifez.fridaybootadmin.service.impl;
 
 import cn.hutool.json.JSONUtil;
 import org.knifez.fridaybootadmin.dto.*;
-import org.knifez.fridaybootadmin.entity.AppUser;
 import org.knifez.fridaybootadmin.service.IAppUserService;
 import org.knifez.fridaybootadmin.service.IAuthService;
 import org.knifez.fridaybootadmin.utils.JwtTokenUtils;

@@ -22,7 +22,6 @@ import java.util.Objects;
  * @author KnifeZ
  * @since 2022-10-11
  */
-@AllowAuthenticated
 @Tag(name = "菜单管理")
 @ApiRestController
 @RequestMapping("/menu")
@@ -42,6 +41,7 @@ public class AppMenuController {
         return appMenuService.getTreeList(queryRequest);
     }
 
+    @AllowAuthenticated
     @Operation(summary = "菜单路由")
     @PostMapping("menu-routes")
     public List<AppMenuRouteDTO> list() {
@@ -49,6 +49,7 @@ public class AppMenuController {
     }
 
 
+    @AllowAuthenticated
     @Operation(summary = "菜单按钮列表")
     @PostMapping("button-list")
     public List<AppMenuDTO> menuButtonList(@RequestBody AppMenuButtonQueryRequest queryRequest) {

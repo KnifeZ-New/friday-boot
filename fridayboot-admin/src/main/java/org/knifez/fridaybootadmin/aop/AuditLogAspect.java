@@ -61,7 +61,7 @@ public class AuditLogAspect {
     }
 
     @Around("!@annotation(io.swagger.v3.oas.annotations.Operation) && @annotation(auditLog)")
-    // 兼容处理，只添加 @OperateLog 注解的情况
+    // 兼容处理，只添加 @AuditLog 注解的情况
     public Object around(ProceedingJoinPoint joinPoint, AuditLog auditLog) throws Throwable {
         return around0(joinPoint, auditLog, null);
     }
@@ -102,7 +102,7 @@ public class AuditLogAspect {
             // 真正记录操作日志
             this.log0(joinPoint, auditLog, operation, startTime, result, exception);
         } catch (Throwable ex) {
-            log.error("[log][记录操作日志时，发生异常，其中参数是 joinPoint({}) operateLog({}) apiOperation({}) result({}) exception({}) ]",
+            log.error("[log][记录操作日志时，发生异常，其中参数是 joinPoint({}) auditLog({}) apiOperation({}) result({}) exception({}) ]",
                     joinPoint, auditLog, operation, result, exception, ex);
         }
     }
@@ -184,7 +184,7 @@ public class AuditLogAspect {
     }
 
     private static boolean isLogEnable(ProceedingJoinPoint joinPoint, AuditLog auditLog) {
-        // 有 @OperateLog 注解的情况下
+        // 有 @AuditLog 注解的情况下
         if (auditLog != null) {
             return auditLog.enable();
         }

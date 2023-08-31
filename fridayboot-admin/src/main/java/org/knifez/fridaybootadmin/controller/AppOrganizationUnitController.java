@@ -26,7 +26,6 @@ import java.util.List;
 
 @Tag(name = "组织机构管理")
 @ApiRestController
-@AllowAuthenticated
 @RequestMapping("/organization-unit")
 public class AppOrganizationUnitController {
 

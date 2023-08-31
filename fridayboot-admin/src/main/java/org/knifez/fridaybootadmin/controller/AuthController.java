@@ -1,6 +1,7 @@
 package org.knifez.fridaybootadmin.controller;
 
 
+import cn.hutool.system.SystemUtil;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
@@ -117,6 +118,11 @@ public class AuthController {
         // 执行重启shell脚本
         String projectPath = System.getProperty("user.dir");
         var file = new File(projectPath);
-        Runtime.getRuntime().exec("sh restart.sh", new String[]{}, file);
+        if (SystemUtil.getOsInfo().isLinux()) {
+            Runtime.getRuntime().exec("sh restart.sh", new String[]{}, file);
+        }
+        if (SystemUtil.getOsInfo().isWindows()) {
+            Runtime.getRuntime().exec(".\\restart.bat", new String[]{}, file);
+        }
     }
 }
