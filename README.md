@@ -13,7 +13,7 @@
 - Mybatis-plus-generator
 - MySql
 - hutool
-- Springdoc+Apifox
+- Springdoc+apifox
 
 #### Git提交规范
 
