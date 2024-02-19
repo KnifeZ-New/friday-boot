@@ -31,6 +31,9 @@ public class ResponseResultBodyAdvice implements ResponseBodyAdvice<Object> {
         if (body instanceof FridayResult) {
             return body;
         }
+        if (body instanceof String) {
+            return body;
+        }
         return FridayResult.ok(body);
     }
 }
