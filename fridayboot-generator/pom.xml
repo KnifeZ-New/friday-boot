@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.0.4</version>
+        <version>3.1.7</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>org.knifez</groupId>
@@ -15,9 +15,9 @@
     <description>fridayboot-generator</description>
     <properties>
         <java.version>17</java.version>
-        <mybatisplus.version>3.5.3.1</mybatisplus.version>
+        <mybatisplus.version>3.5.5</mybatisplus.version>
         <mysql.version>8.0.30</mysql.version>
-        <hutool.version>5.8.11</hutool.version>
+        <hutool.version>5.8.25</hutool.version>
     </properties>
     <dependencies>
         <!--数据库驱动-->
@@ -31,7 +31,7 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-freemarker</artifactId>
-            <version>3.0.4</version>
+            <version>3.1.7</version>
         </dependency>
 
 
