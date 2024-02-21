@@ -60,4 +60,11 @@ public interface IAppMenuService extends IService<AppMenu> {
     List<Integer> getChildrenIds(Integer id);
 
     Boolean updateChildrenLevel(Integer id, Integer parentId);
+    /**
+     * 按ID获取菜单
+     *
+     * @param ids ids
+     * @return {@link List}<{@link AppMenu}>
+     */
+    List<AppMenu> getMenuByIds(List<Integer> ids);
 }

@@ -3,7 +3,10 @@ package org.knifez.fridaybootadmin.controller;
 import cn.hutool.core.lang.tree.Tree;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.knifez.fridaybootadmin.dto.*;
+import org.knifez.fridaybootadmin.dto.AppMenuButtonQueryRequest;
+import org.knifez.fridaybootadmin.dto.AppMenuDTO;
+import org.knifez.fridaybootadmin.dto.AppMenuModifyRequest;
+import org.knifez.fridaybootadmin.dto.AppMenuQueryRequest;
 import org.knifez.fridaybootadmin.entity.AppMenu;
 import org.knifez.fridaybootadmin.enums.MenuTypeEnum;
 import org.knifez.fridaybootadmin.service.IAppMenuService;
@@ -40,14 +43,6 @@ public class AppMenuController {
     public List<Tree<Integer>> treeList(@RequestBody AppMenuQueryRequest queryRequest) {
         return appMenuService.getTreeList(queryRequest);
     }
-
-    @AllowAuthenticated
-    @Operation(summary = "菜单路由")
-    @PostMapping("menu-routes")
-    public List<AppMenuRouteDTO> list() {
-        return appMenuService.getMenuRoutes();
-    }
-
 
     @AllowAuthenticated
     @Operation(summary = "菜单按钮列表")
@@ -110,13 +105,18 @@ public class AppMenuController {
     @DeleteMapping("{id}")
     @Operation(summary = "删除")
     public Boolean delete(@PathVariable Integer id) {
-        var currentMenu = appMenuService.getById(id);
         var result = false;
-        // 删除当前数据
-        result = appMenuService.removeById(id);
-        if (result) {
-            // 设置children菜单父级菜单为当前菜单的父级
-            result = appMenuService.updateChildrenLevel(id, currentMenu.getParentId());
+        var children = appMenuService.getChildrenIds(id);
+        if (children.isEmpty()) {
+            // 删除当前数据
+            result = appMenuService.removeById(id);
+        } else {
+            var childrenMenus = appMenuService.getMenuByIds(children);
+            // 不包含菜单和目录时全部删除
+            if (childrenMenus.stream().noneMatch(x -> x.getType() < 2)) {
+                children.add(id);
+                result = appMenuService.removeBatchByIds(children);
+            }
         }
         return result;
     }

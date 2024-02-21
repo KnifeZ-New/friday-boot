@@ -18,7 +18,7 @@ import java.util.List;
 @ToString
 @Schema(title = "AppUserInfoDTO")
 public class AppUserInfoDTO {
-    
+
     @JsonIgnore
     @Schema(title = "主键id")
     private Long id;
@@ -63,6 +63,9 @@ public class AppUserInfoDTO {
     @JsonIgnore
     @Schema(title = "权限标识")
     private List<String> apiPermissions = new ArrayList<>();
+
+    @Schema(title = "菜单列表")
+    private List<AppMenuDTO> menu = new ArrayList<>();
 
     public List<SimpleGrantedAuthority> getGrantRoles() {
         List<SimpleGrantedAuthority> authorities = new ArrayList<>();

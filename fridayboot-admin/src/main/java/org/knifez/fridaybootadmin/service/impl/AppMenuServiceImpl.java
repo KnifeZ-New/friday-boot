@@ -45,14 +45,16 @@ public class AppMenuServiceImpl extends ServiceImpl<AppMenuMapper, AppMenu> impl
      */
     @Override
     public List<TextValuePair> getMenuPermissions(List<String> ids) {
-        var menus = listByIds(ids);
         List<TextValuePair> result = new ArrayList<>();
-        for (var menu : menus) {
-            if (StringUtils.hasText(menu.getPermission())) {
-                result.add(TextValuePair.from("API", menu.getPermission()));
-            }
-            if (StringUtils.hasText(menu.getRoutePath())) {
-                result.add(TextValuePair.from("WEB", menu.getRoutePath()));
+        if (!ids.isEmpty()) {
+            var menus = listByIds(ids);
+            for (var menu : menus) {
+                if (StringUtils.hasText(menu.getPermission())) {
+                    result.add(TextValuePair.from("API", menu.getPermission()));
+                }
+                if (StringUtils.hasText(menu.getRoutePath())) {
+                    result.add(TextValuePair.from("WEB", menu.getRoutePath()));
+                }
             }
         }
         return result;
@@ -247,5 +249,15 @@ public class AppMenuServiceImpl extends ServiceImpl<AppMenuMapper, AppMenu> impl
             child.setParentId(parentId);
         }
         return updateBatchById(children);
+    }
+
+    @Override
+    public List<AppMenu> getMenuByIds(List<Integer> ids) {
+        if (ids.isEmpty()) {
+            return new ArrayList<>();
+        }
+        LambdaQueryWrapper<AppMenu> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.in(AppMenu::getId, ids);
+        return list(queryWrapper);
     }
 }

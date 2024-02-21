@@ -1,13 +1,16 @@
 package org.knifez.fridaybootadmin.controller;
 
 
+import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.system.SystemUtil;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
+import org.knifez.fridaybootadmin.dto.AppMenuDTO;
 import org.knifez.fridaybootadmin.dto.AppUserInfoDTO;
 import org.knifez.fridaybootadmin.dto.LoginRequest;
 import org.knifez.fridaybootadmin.dto.Token;
+import org.knifez.fridaybootadmin.service.IAppPermissionGrantService;
 import org.knifez.fridaybootadmin.service.IAppUserService;
 import org.knifez.fridaybootadmin.service.IAuthService;
 import org.knifez.fridaybootcore.annotation.ApiRestController;
@@ -43,12 +46,14 @@ public class AuthController {
     private final IAuthService authService;
 
     private final IAppUserService userService;
+    private final IAppPermissionGrantService permissionGrantService;
 
     private final WebApplicationContext webApplicationContext;
 
-    public AuthController(IAuthService authService, IAppUserService userService, WebApplicationContext webApplicationContext) {
+    public AuthController(IAuthService authService, IAppUserService userService, IAppPermissionGrantService permissionGrantService, WebApplicationContext webApplicationContext) {
         this.authService = authService;
         this.userService = userService;
+        this.permissionGrantService = permissionGrantService;
         this.webApplicationContext = webApplicationContext;
     }
 
@@ -99,6 +104,9 @@ public class AuthController {
     @Operation(summary = "当前用户信息")
     public AppUserInfoDTO getCurrentUserInfo() {
         var userInfo = userService.findByAccount(JwtUtils.getCurrentUser());
+        var list = permissionGrantService.getUserMenuByRoleNames(userInfo.getUserRoles());
+        var menu = BeanUtil.copyToList(list, AppMenuDTO.class);
+        userInfo.setMenu(menu);
         userInfo.setHomePath("/");
         return userInfo;
     }

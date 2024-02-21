@@ -3,6 +3,7 @@ package org.knifez.fridaybootadmin.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.knifez.fridaybootadmin.dto.AppPermissionDTO;
+import org.knifez.fridaybootadmin.entity.AppMenu;
 import org.knifez.fridaybootadmin.entity.AppPermissionGrant;
 import org.knifez.fridaybootadmin.mapper.AppPermissionGrantMapper;
 import org.knifez.fridaybootadmin.service.IAppMenuService;
@@ -43,6 +44,25 @@ public class AppPermissionGrantServiceImpl extends ServiceImpl<AppPermissionGran
         queryWrapper.eq(AppPermissionGrant::getProvideName, "ROLE");
         var list = baseMapper.selectList(queryWrapper);
         return list.stream().map(AppPermissionGrant::getName).distinct().toList();
+    }
+
+    @Override
+    public List<AppMenu> getUserMenuByRoleNames(List<String> roleNames) {
+        List<AppMenu> result = new ArrayList<>();
+        if (roleNames.isEmpty()) {
+            return result;
+        }
+        var queryWrapper = new LambdaQueryWrapper<AppPermissionGrant>();
+        queryWrapper.in(AppPermissionGrant::getProvideFor, roleNames);
+        queryWrapper.eq(AppPermissionGrant::getProvideName, "ROLE");
+        var list = baseMapper.selectList(queryWrapper);
+        var menuIds = list.stream().map(AppPermissionGrant::getName).mapToInt(Integer::parseInt).distinct().toArray();
+        List<Integer> ids = new ArrayList<>();
+        for (var id : menuIds) {
+            ids.add(id);
+        }
+        result = menuService.getMenuByIds(ids);
+        return result;
     }
 
     @Override

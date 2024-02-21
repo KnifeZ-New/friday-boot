@@ -96,7 +96,7 @@ public class AppUserServiceImpl extends ServiceImpl<AppUserMapper, AppUser> impl
             BeanUtils.copyProperties(user, userDTO);
             var roles = roleService.listByUserId(user.getId());
             userDTO.setRoles(roles);
-            if (user.getOrganizationId() != null) {
+            if (user.getOrganizationId() != null && user.getOrganizationId() > 0) {
                 userDTO.setOrganizationName(organizationUnitService.getById(userDTO.getOrganizationId()).getName());
             }
         }

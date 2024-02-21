@@ -1,7 +1,9 @@
 package org.knifez.fridaybootadmin.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import org.knifez.fridaybootadmin.dto.AppMenuDTO;
 import org.knifez.fridaybootadmin.dto.AppPermissionDTO;
+import org.knifez.fridaybootadmin.entity.AppMenu;
 import org.knifez.fridaybootadmin.entity.AppPermissionGrant;
 import org.knifez.fridaybootcore.dto.TextValuePair;
 
@@ -25,6 +27,14 @@ public interface IAppPermissionGrantService extends IService<AppPermissionGrant>
      */
     List<String> getSelectMenusByRoleName(String roleName);
 
+
+    /**
+     * 按角色名称获取用户菜单
+     *
+     * @param roleNames 角色名称
+     * @return {@link List}<{@link AppMenuDTO}>
+     */
+    List<AppMenu> getUserMenuByRoleNames(List<String> roleNames);
 
     /**
      * 根据角色保存权限
