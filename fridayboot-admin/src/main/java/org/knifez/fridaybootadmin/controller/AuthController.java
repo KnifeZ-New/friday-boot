@@ -1,15 +1,14 @@
 package org.knifez.fridaybootadmin.controller;
 
 
-import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.system.SystemUtil;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
-import org.knifez.fridaybootadmin.dto.AppMenuDTO;
 import org.knifez.fridaybootadmin.dto.AppUserInfoDTO;
 import org.knifez.fridaybootadmin.dto.LoginRequest;
 import org.knifez.fridaybootadmin.dto.Token;
+import org.knifez.fridaybootadmin.entity.AppMenu;
 import org.knifez.fridaybootadmin.service.IAppPermissionGrantService;
 import org.knifez.fridaybootadmin.service.IAppUserService;
 import org.knifez.fridaybootadmin.service.IAuthService;
@@ -36,6 +35,8 @@ import java.util.Map;
 
 
 /**
+ * 身份验证控制器
+ *
  * @author KnifeZ
  */
 @Slf4j
@@ -104,13 +105,19 @@ public class AuthController {
     @Operation(summary = "当前用户信息")
     public AppUserInfoDTO getCurrentUserInfo() {
         var userInfo = userService.findByAccount(JwtUtils.getCurrentUser());
-        var list = permissionGrantService.getUserMenuByRoleNames(userInfo.getUserRoles());
-        var menu = BeanUtil.copyToList(list, AppMenuDTO.class);
-        userInfo.setMenu(menu);
+        var isSuperAdmin = userInfo.getGrantRoles().stream().anyMatch(x -> x.getAuthority().equals(AppConstants.ROLE_SUPER_ADMIN));
+        var menus = permissionGrantService.getUserMenuByPermissions(userInfo.getPermissions(), isSuperAdmin);
+        if (isSuperAdmin) {
+            userInfo.setPermissions(menus.stream().map(AppMenu::getPermission).filter(permission -> !permission.isBlank()).distinct().toList());
+        }
+        userInfo.setMenu(menus.stream().filter(x -> x.getType() < 2).toList());
         userInfo.setHomePath("/");
         return userInfo;
     }
 
+    /**
+     * 注销
+     */
     @AllowAuthenticated
     @Operation(summary = "退出")
     @PostMapping("logout")
@@ -118,6 +125,11 @@ public class AuthController {
         authService.removeToken();
     }
 
+    /**
+     * 重新启动
+     *
+     * @throws IOException IOException
+     */
     @AllowAnonymous
     @Operation(summary = "重启服务")
     @GetMapping("reboot")

@@ -57,12 +57,8 @@ public class AppUserInfoDTO {
     @Schema(title = "角色")
     private List<String> userRoles = new ArrayList<>();
 
-    @Schema(title = "按钮权限")
-    private List<String> permissions = new ArrayList<>();
-
-    @JsonIgnore
     @Schema(title = "权限标识")
-    private List<String> apiPermissions = new ArrayList<>();
+    private List<String> permissions = new ArrayList<>();
 
     @Schema(title = "菜单列表")
     private List<AppMenuDTO> menu = new ArrayList<>();

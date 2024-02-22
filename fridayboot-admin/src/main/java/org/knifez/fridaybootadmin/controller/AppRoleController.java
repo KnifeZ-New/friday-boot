@@ -66,9 +66,8 @@ public class AppRoleController {
     @AllowAuthenticated
     @GetMapping("{roleName}/permission-list")
     @Operation(summary = "根据角色名获取角色绑定菜单列表")
-    public int[] permissionsByRoleName(@PathVariable String roleName) {
-        var list = permissionService.getSelectMenusByRoleName(roleName);
-        return list.stream().mapToInt(Integer::parseInt).toArray();
+    public List<String> permissionsByRoleName(@PathVariable String roleName) {
+        return permissionService.getSelectMenusByRoleName(roleName);
     }
 
     /**

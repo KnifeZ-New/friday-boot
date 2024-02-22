@@ -65,7 +65,6 @@ public class AppUserController {
         var organizationList = organizationUnitService.list();
         for (AppUserDTO user : responseList) {
             user.setRoles(roleService.listByUserId(user.getId()));
-            user.setPassword("");
             var organization = organizationList.stream()
                     .filter(x -> x.getId().equals(user.getOrganizationId())).map(AppOrganizationUnit::getName).collect(Collectors.joining());
             user.setOrganizationName(organization);
@@ -86,9 +85,7 @@ public class AppUserController {
     @GetMapping("{id}")
     @Operation(summary = "根据id获取用户")
     public AppUserDTO findById(@PathVariable Long id) {
-        var userDTO = appUserService.getUserDtoByAccountOrId("", id);
-        userDTO.setPassword("");
-        return userDTO;
+        return appUserService.getUserDtoByAccountOrId("", id);
     }
 
     /**

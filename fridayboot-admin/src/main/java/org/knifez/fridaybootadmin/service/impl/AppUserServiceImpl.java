@@ -77,8 +77,7 @@ public class AppUserServiceImpl extends ServiceImpl<AppUserMapper, AppUser> impl
             var roles = user.getRoles().stream().map(AppRole::getName).toList();
             if (!roles.isEmpty()) {
                 var permission = permissionService.listByRoles(roles);
-                userDTO.setPermissions(permission.getWebPermissions());
-                userDTO.setApiPermissions(permission.getApiPermissions());
+                userDTO.setPermissions(permission.getApiPermissions());
             }
             userDTO.setUserRoles(roles);
         }

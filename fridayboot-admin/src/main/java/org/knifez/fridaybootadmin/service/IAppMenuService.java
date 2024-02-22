@@ -5,7 +5,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import org.knifez.fridaybootadmin.dto.AppMenuButtonQueryRequest;
 import org.knifez.fridaybootadmin.dto.AppMenuDTO;
 import org.knifez.fridaybootadmin.dto.AppMenuQueryRequest;
-import org.knifez.fridaybootadmin.dto.AppMenuRouteDTO;
 import org.knifez.fridaybootadmin.entity.AppMenu;
 import org.knifez.fridaybootcore.dto.TextValuePair;
 
@@ -45,13 +44,6 @@ public interface IAppMenuService extends IService<AppMenu> {
     List<Tree<Integer>> getTreeList(AppMenuQueryRequest queryRequest);
 
     /**
-     * 获取菜单路由
-     *
-     * @return {@link List}<{@link AppMenuRouteDTO}>
-     */
-    List<AppMenuRouteDTO> getMenuRoutes();
-
-    /**
      * 获取所有子节点id
      *
      * @param id id
@@ -59,7 +51,14 @@ public interface IAppMenuService extends IService<AppMenu> {
      */
     List<Integer> getChildrenIds(Integer id);
 
-    Boolean updateChildrenLevel(Integer id, Integer parentId);
+    /**
+     * 按权限获取菜单
+     *
+     * @param permissions 权限
+     * @return {@link List}<{@link AppMenuDTO}>
+     */
+    List<AppMenuDTO> getMenuByPermissions(List<String> permissions, Boolean isSuper);
+
     /**
      * 按ID获取菜单
      *

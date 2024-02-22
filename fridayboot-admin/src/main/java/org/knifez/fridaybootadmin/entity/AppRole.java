@@ -53,6 +53,6 @@ public class AppRole extends BaseAuditEntity implements Serializable {
 
     @TableField(exist = false)
     @Schema(title = "角色权限")
-    private List<Integer> permissions;
+    private List<String> permissions;
 
 }

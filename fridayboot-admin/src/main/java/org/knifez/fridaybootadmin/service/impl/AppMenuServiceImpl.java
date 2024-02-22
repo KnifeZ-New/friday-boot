@@ -8,7 +8,9 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.RequiredArgsConstructor;
-import org.knifez.fridaybootadmin.dto.*;
+import org.knifez.fridaybootadmin.dto.AppMenuButtonQueryRequest;
+import org.knifez.fridaybootadmin.dto.AppMenuDTO;
+import org.knifez.fridaybootadmin.dto.AppMenuQueryRequest;
 import org.knifez.fridaybootadmin.entity.AppMenu;
 import org.knifez.fridaybootadmin.enums.MenuTypeEnum;
 import org.knifez.fridaybootadmin.mapper.AppMenuMapper;
@@ -182,73 +184,24 @@ public class AppMenuServiceImpl extends ServiceImpl<AppMenuMapper, AppMenu> impl
         });
     }
 
-
-    /**
-     * 获取菜单路由
-     *
-     * @return {@link List}<{@link AppMenuRouteDTO}>
-     */
     @Override
-    public List<AppMenuRouteDTO> getMenuRoutes() {
-        // 获取当前登录用户权限，
+    public List<AppMenuDTO> getMenuByPermissions(List<String> permissions, Boolean isSuper) {
+        if (permissions.isEmpty() && !isSuper) {
+            return new ArrayList<>();
+        }
         LambdaQueryWrapper<AppMenu> queryWrapper = new LambdaQueryWrapper<>();
-        // 启用
-        queryWrapper.eq(AppMenu::getEnabled, true);
-        // 不包含按钮
-        queryWrapper.lt(AppMenu::getType, MenuTypeEnum.MENU_BUTTON.getValue());
-        queryWrapper.orderByAsc(AppMenu::getSort);
-        // 所有菜单
+        queryWrapper.in(!isSuper, AppMenu::getPermission, permissions);
         var list = list(queryWrapper);
-        List<AppMenuRouteDTO> menuRoutes = new ArrayList<>();
-        for (var menu : list) {
-            if (menu.getParentId() == null || menu.getParentId().equals(0)) {
-                var menuRoute = findMenuRouteChildren(list, menu);
-                menuRoutes.add(menuRoute);
+        LambdaQueryWrapper<AppMenu> queryType1Wrapper = new LambdaQueryWrapper<>();
+        queryType1Wrapper.eq(AppMenu::getType, 1);
+        var catalogues = list(queryType1Wrapper);
+        //添加父级目录
+        for (var ca : catalogues) {
+            if (list.stream().anyMatch(x -> Objects.equals(x.getParentId(), ca.getId()))) {
+                list.add(ca);
             }
         }
-        return menuRoutes;
-    }
-
-    private AppMenuRouteDTO convertToMenuRoute(AppMenu menu) {
-        var route = new AppMenuRouteDTO();
-        route.setPath(menu.getRoutePath());
-        route.setName(menu.getRoute());
-        route.setComponent(menu.getComponent());
-        RouteMeta meta = new RouteMeta();
-        meta.setTitle(menu.getName());
-        meta.setIcon(menu.getIcon());
-        meta.setOrderNo(menu.getSort());
-        // 是否隐藏菜单
-        meta.setHideMenu(!menu.getVisible());
-        // 是否启用缓存
-        meta.setIgnoreKeepAlive(menu.getKeepAlive());
-        // 权限
-        meta.setGrantedPolicy(menu.getPermission());
-        meta.setIgnoreAuth(!StringUtils.hasText(menu.getPermission()));
-        route.setMeta(meta);
-        route.setChildren(new ArrayList<>());
-        return route;
-    }
-
-    private AppMenuRouteDTO findMenuRouteChildren(List<AppMenu> menus, AppMenu node) {
-        var menuRoute = convertToMenuRoute(node);
-        for (var menu : menus) {
-            if (menu.getParentId() != null && node.getId().equals(menu.getParentId())) {
-                menuRoute.getChildren().add(findMenuRouteChildren(menus, menu));
-            }
-        }
-        return menuRoute;
-    }
-
-    @Override
-    public Boolean updateChildrenLevel(Integer id, Integer parentId) {
-        LambdaQueryWrapper<AppMenu> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.eq(AppMenu::getParentId, id);
-        var children = list(queryWrapper);
-        for (var child : children) {
-            child.setParentId(parentId);
-        }
-        return updateBatchById(children);
+        return BeanUtil.copyToList(list, AppMenuDTO.class).stream().distinct().toList();
     }
 
     @Override

@@ -29,12 +29,12 @@ public interface IAppPermissionGrantService extends IService<AppPermissionGrant>
 
 
     /**
-     * 按角色名称获取用户菜单
+     * 按权限获取用户菜单
      *
-     * @param roleNames 角色名称
+     * @param permissions 角色名称
      * @return {@link List}<{@link AppMenuDTO}>
      */
-    List<AppMenu> getUserMenuByRoleNames(List<String> roleNames);
+    List<AppMenuDTO> getUserMenuByPermissions(List<String> permissions, Boolean isSuper);
 
     /**
      * 根据角色保存权限
@@ -42,7 +42,7 @@ public interface IAppPermissionGrantService extends IService<AppPermissionGrant>
      * @param permissions 菜单权限id集合
      * @param roleName    角色
      */
-    void saveByRole(List<Integer> permissions, String roleName);
+    void saveByRole(List<String> permissions, String roleName);
 
     /**
      * 按角色获取权限列表
