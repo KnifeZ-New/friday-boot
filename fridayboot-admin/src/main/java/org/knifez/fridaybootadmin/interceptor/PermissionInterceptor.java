@@ -50,11 +50,13 @@ public class PermissionInterceptor implements HandlerInterceptor {
             }
             // 验证登录信息
             var authentication = SecurityContextHolder.getContext().getAuthentication();
-            var permissions = redisTemplate.opsForValue().get(RedisUtils.formatKey(AppConstants.CURRENT_USER_PERMISSION_PREFIX + authentication.getPrincipal().toString()));
-            var permissionList = JSONUtil.toList(permissions, String.class);
-            if (!permissionList.contains(requestUri)) {
-                log.warn("鉴权失败，当前用户不具有接口访问权限:" + requestUri);
-                throw new FridayResultException(ResultStatus.FORBIDDEN);
+            if (authentication.getAuthorities().stream().noneMatch(x -> x.getAuthority().equals(AppConstants.ROLE_SUPER_ADMIN))) {
+                var permissions = redisTemplate.opsForValue().get(RedisUtils.formatKey(AppConstants.CURRENT_USER_PERMISSION_PREFIX + authentication.getPrincipal().toString()));
+                var permissionList = JSONUtil.toList(permissions, String.class);
+                if (!permissionList.contains(requestUri)) {
+                    log.warn("鉴权失败，当前用户不具有接口访问权限:" + requestUri);
+                    throw new FridayResultException(ResultStatus.FORBIDDEN);
+                }
             }
         }
         return HandlerInterceptor.super.preHandle(request, response, handler);
