@@ -6,7 +6,6 @@ import org.knifez.fridaybootadmin.dto.AppMenuButtonQueryRequest;
 import org.knifez.fridaybootadmin.dto.AppMenuDTO;
 import org.knifez.fridaybootadmin.dto.AppMenuQueryRequest;
 import org.knifez.fridaybootadmin.entity.AppMenu;
-import org.knifez.fridaybootcore.dto.TextValuePair;
 
 import java.util.List;
 
@@ -19,13 +18,6 @@ import java.util.List;
  * @since 2022-10-11
  */
 public interface IAppMenuService extends IService<AppMenu> {
-    /**
-     * 获取菜单权限
-     *
-     * @param ids 菜单id集合
-     * @return 菜单权限集合
-     */
-    List<TextValuePair> getMenuPermissions(List<String> ids);
 
     /**
      * 获取菜单按钮
@@ -52,18 +44,18 @@ public interface IAppMenuService extends IService<AppMenu> {
     List<Integer> getChildrenIds(Integer id);
 
     /**
-     * 按权限获取菜单
-     *
-     * @param permissions 权限
-     * @return {@link List}<{@link AppMenuDTO}>
-     */
-    List<AppMenuDTO> getMenuByPermissions(List<String> permissions, Boolean isSuper);
-
-    /**
      * 按ID获取菜单
      *
      * @param ids ids
      * @return {@link List}<{@link AppMenu}>
      */
     List<AppMenu> getMenuByIds(List<Integer> ids);
+
+    /**
+     * 按权限获取菜单
+     *
+     * @param permissions 权限
+     * @return {@link List}<{@link AppMenuDTO}>
+     */
+    List<AppMenuDTO> getMenuByPermissions(List<String> permissions, Boolean isSuper);
 }

@@ -8,10 +8,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.knifez.fridaybootadmin.dto.AppUserInfoDTO;
 import org.knifez.fridaybootadmin.dto.LoginRequest;
 import org.knifez.fridaybootadmin.dto.Token;
-import org.knifez.fridaybootadmin.entity.AppMenu;
 import org.knifez.fridaybootadmin.service.IAppPermissionGrantService;
 import org.knifez.fridaybootadmin.service.IAppUserService;
 import org.knifez.fridaybootadmin.service.IAuthService;
+import org.knifez.fridaybootadmin.utils.JwtTokenUtils;
 import org.knifez.fridaybootcore.annotation.ApiRestController;
 import org.knifez.fridaybootcore.annotation.permission.AllowAnonymous;
 import org.knifez.fridaybootcore.annotation.permission.AllowAuthenticated;
@@ -35,8 +35,6 @@ import java.util.Map;
 
 
 /**
- * 身份验证控制器
- *
  * @author KnifeZ
  */
 @Slf4j
@@ -44,17 +42,20 @@ import java.util.Map;
 @ApiRestController
 @RequestMapping("/auth")
 public class AuthController {
+
+    private final IAppPermissionGrantService permissionGrantService;
     private final IAuthService authService;
 
     private final IAppUserService userService;
-    private final IAppPermissionGrantService permissionGrantService;
 
     private final WebApplicationContext webApplicationContext;
 
-    public AuthController(IAuthService authService, IAppUserService userService, IAppPermissionGrantService permissionGrantService, WebApplicationContext webApplicationContext) {
+
+    public AuthController(IAppPermissionGrantService permissionGrantService, IAuthService authService, IAppUserService userService, WebApplicationContext webApplicationContext) {
+        this.permissionGrantService = permissionGrantService;
+
         this.authService = authService;
         this.userService = userService;
-        this.permissionGrantService = permissionGrantService;
         this.webApplicationContext = webApplicationContext;
     }
 
@@ -63,6 +64,29 @@ public class AuthController {
     @PostMapping("login")
     public Token login(@RequestBody LoginRequest loginRequest) {
         return authService.createToken(loginRequest);
+    }
+
+    @AllowAnonymous
+    @Operation(summary = "退出")
+    @PostMapping("logout")
+    public void logout() {
+        authService.removeToken();
+    }
+
+    @AllowAnonymous
+    @Operation(summary = "重启服务")
+    @GetMapping("reboot")
+    public void reboot() throws IOException {
+        log.info("springboot reboot");
+        // 执行重启shell脚本
+        String projectPath = System.getProperty("user.dir");
+        var file = new File(projectPath);
+        if (SystemUtil.getOsInfo().isLinux()) {
+            Runtime.getRuntime().exec("sh restart.sh", new String[]{}, file);
+        }
+        if (SystemUtil.getOsInfo().isWindows()) {
+            Runtime.getRuntime().exec(".\\restart.bat", new String[]{}, file);
+        }
     }
 
     /**
@@ -105,44 +129,10 @@ public class AuthController {
     @Operation(summary = "当前用户信息")
     public AppUserInfoDTO getCurrentUserInfo() {
         var userInfo = userService.findByAccount(JwtUtils.getCurrentUser());
-        var isSuperAdmin = userInfo.getGrantRoles().stream().anyMatch(x -> x.getAuthority().equals(AppConstants.ROLE_SUPER_ADMIN));
-        var menus = permissionGrantService.getUserMenuByPermissions(userInfo.getPermissions(), isSuperAdmin);
-        if (isSuperAdmin) {
-            userInfo.setPermissions(menus.stream().map(AppMenu::getPermission).filter(permission -> !permission.isBlank()).distinct().toList());
-        }
-        userInfo.setMenu(menus.stream().filter(x -> x.getType() < 2).toList());
         userInfo.setHomePath("/");
+        var menus = permissionGrantService.getUserMenuByPermissions(userInfo.getPermissions(), JwtTokenUtils.isSuperAdmin());
+        userInfo.setMenu(menus);
         return userInfo;
     }
 
-    /**
-     * 注销
-     */
-    @AllowAuthenticated
-    @Operation(summary = "退出")
-    @PostMapping("logout")
-    public void logout() {
-        authService.removeToken();
-    }
-
-    /**
-     * 重新启动
-     *
-     * @throws IOException IOException
-     */
-    @AllowAnonymous
-    @Operation(summary = "重启服务")
-    @GetMapping("reboot")
-    public void reboot() throws IOException {
-        log.info("springboot reboot");
-        // 执行重启shell脚本
-        String projectPath = System.getProperty("user.dir");
-        var file = new File(projectPath);
-        if (SystemUtil.getOsInfo().isLinux()) {
-            Runtime.getRuntime().exec("sh restart.sh", new String[]{}, file);
-        }
-        if (SystemUtil.getOsInfo().isWindows()) {
-            Runtime.getRuntime().exec(".\\restart.bat", new String[]{}, file);
-        }
-    }
 }

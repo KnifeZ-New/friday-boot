@@ -10,8 +10,12 @@ import org.knifez.fridaybootadmin.dto.AppMenuQueryRequest;
 import org.knifez.fridaybootadmin.entity.AppMenu;
 import org.knifez.fridaybootadmin.enums.MenuTypeEnum;
 import org.knifez.fridaybootadmin.service.IAppMenuService;
+import org.knifez.fridaybootadmin.utils.JwtTokenUtils;
 import org.knifez.fridaybootcore.annotation.ApiRestController;
 import org.knifez.fridaybootcore.annotation.permission.AllowAuthenticated;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -38,14 +42,30 @@ public class AppMenuController {
     }
 
 
-    @Operation(summary = "菜单列表")
+    @Operation(summary = "菜单列表", description = "menu.treeList")
+    @PreAuthorize("hasAuthority('menu.treeList')")
     @PostMapping("tree-list")
     public List<Tree<Integer>> treeList(@RequestBody AppMenuQueryRequest queryRequest) {
         return appMenuService.getTreeList(queryRequest);
     }
 
+    /**
+     * 获取用户菜单
+     *
+     * @return {@link List}<{@link AppMenuDTO}>
+     */
+    @Operation(summary = "获取权限菜单列表")
     @AllowAuthenticated
+    @PostMapping("authentication-list")
+    public List<AppMenuDTO> getUserMenu() {
+        var authentication = SecurityContextHolder.getContext().getAuthentication();
+        var permissionGrants = authentication.getAuthorities();
+        return appMenuService.getMenuByPermissions(permissionGrants.stream().map(GrantedAuthority::getAuthority).toList(), JwtTokenUtils.isSuperAdmin());
+    }
+
+
     @Operation(summary = "菜单按钮列表")
+    @AllowAuthenticated
     @PostMapping("button-list")
     public List<AppMenuDTO> menuButtonList(@RequestBody AppMenuButtonQueryRequest queryRequest) {
         return appMenuService.getMenuButtons(queryRequest);
@@ -58,7 +78,8 @@ public class AppMenuController {
      * @return {@link AppMenu}
      */
     @GetMapping("{id}")
-    @Operation(summary = "根据id获取菜单")
+    @PreAuthorize("hasAuthority('menu.findById')")
+    @Operation(summary = "根据id获取菜单", description = "menu.findById")
     public AppMenu findById(@PathVariable Long id) {
         return appMenuService.getById(id);
     }
@@ -70,7 +91,8 @@ public class AppMenuController {
      * @return {@link Boolean}
      */
     @PostMapping
-    @Operation(summary = "添加")
+    @PreAuthorize("hasAuthority('menu.create')")
+    @Operation(summary = "添加", description = "menu.create")
     public Boolean create(@RequestBody AppMenuModifyRequest appMenu) {
         appMenu.setId(null);
         if (Objects.equals(appMenu.getType(), MenuTypeEnum.MENU_BUTTON.getValue())) {
@@ -87,7 +109,8 @@ public class AppMenuController {
      * @return {@link Boolean}
      */
     @PostMapping("{id}")
-    @Operation(summary = "修改")
+    @PreAuthorize("hasAuthority('menu.update')")
+    @Operation(summary = "修改", description = "menu.update")
     public Boolean update(@RequestBody AppMenuModifyRequest appMenu) {
         if (Objects.equals(appMenu.getType(), MenuTypeEnum.MENU_BUTTON.getValue())) {
             var parentMenu = appMenuService.getById(appMenu.getParentId());
@@ -103,7 +126,8 @@ public class AppMenuController {
      * @return {@link Boolean}
      */
     @DeleteMapping("{id}")
-    @Operation(summary = "删除")
+    @PreAuthorize("hasAuthority('menu.delete')")
+    @Operation(summary = "删除", description = "menu.delete")
     public Boolean delete(@PathVariable Integer id) {
         var result = false;
         var children = appMenuService.getChildrenIds(id);
@@ -120,6 +144,5 @@ public class AppMenuController {
         }
         return result;
     }
-
 
 }

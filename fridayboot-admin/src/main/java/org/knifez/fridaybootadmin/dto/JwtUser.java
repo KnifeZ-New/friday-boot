@@ -6,6 +6,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
+import java.util.List;
 
 /**
  * @author KnifeZ
@@ -29,6 +30,12 @@ public class JwtUser implements UserDetails {
      * 锁定
      */
     private Boolean locked;
+
+    /**
+     * 角色
+     */
+    private List<String> roles;
+
     /**
      * 权限
      */
@@ -39,7 +46,8 @@ public class JwtUser implements UserDetails {
         username = user.getUsername();
         password = user.getPassword();
         locked = user.getLocked() == null || user.getLocked();
-        authorities = user.getGrantRoles();
+        roles = user.getUserRoles();
+        authorities = user.getGrantAuthorities();
     }
 
     @Override

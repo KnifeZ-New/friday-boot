@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import lombok.extern.slf4j.Slf4j;
 import org.knifez.fridaybootadmin.dto.AppUserDTO;
 import org.knifez.fridaybootadmin.dto.AppUserInfoDTO;
 import org.knifez.fridaybootadmin.dto.AppUserModifyDTO;
@@ -12,8 +13,12 @@ import org.knifez.fridaybootadmin.entity.AppRole;
 import org.knifez.fridaybootadmin.entity.AppUser;
 import org.knifez.fridaybootadmin.mapper.AppUserMapper;
 import org.knifez.fridaybootadmin.service.*;
+import org.knifez.fridaybootcore.constants.AppConstants;
 import org.knifez.fridaybootcore.dto.PagedResult;
+import org.knifez.fridaybootcore.utils.AnnotationUtils;
 import org.springframework.beans.BeanUtils;
+import org.springframework.core.io.support.ResourcePatternResolver;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -26,7 +31,7 @@ import org.springframework.util.StringUtils;
  * @author KnifeZ
  * @since 2022-04-01
  */
-
+@Slf4j
 @Service
 public class AppUserServiceImpl extends ServiceImpl<AppUserMapper, AppUser> implements IAppUserService {
 
@@ -37,12 +42,14 @@ public class AppUserServiceImpl extends ServiceImpl<AppUserMapper, AppUser> impl
     private final IAppPermissionGrantService permissionService;
 
     private final IAppUserRoleService userRoleService;
+    private final ResourcePatternResolver resourcePatternResolver;
 
-    public AppUserServiceImpl(IAppRoleService roleService, IAppOrganizationUnitService organizationUnitService, IAppPermissionGrantService permissionService, IAppUserRoleService userRoleService) {
+    public AppUserServiceImpl(IAppRoleService roleService, IAppOrganizationUnitService organizationUnitService, IAppPermissionGrantService permissionService, IAppUserRoleService userRoleService, ResourcePatternResolver resourcePatternResolver) {
         this.roleService = roleService;
         this.organizationUnitService = organizationUnitService;
         this.permissionService = permissionService;
         this.userRoleService = userRoleService;
+        this.resourcePatternResolver = resourcePatternResolver;
     }
 
     /**
@@ -76,10 +83,18 @@ public class AppUserServiceImpl extends ServiceImpl<AppUserMapper, AppUser> impl
             BeanUtils.copyProperties(user, userDTO);
             var roles = user.getRoles().stream().map(AppRole::getName).toList();
             if (!roles.isEmpty()) {
+                userDTO.setUserRoles(roles);
                 var permission = permissionService.listByRoles(roles);
                 userDTO.setPermissions(permission.getApiPermissions());
+                if (userDTO.getUserRoles().contains(AppConstants.ROLE_SUPER_ADMIN.replace("ROLE_", ""))) {
+                    try {
+                        var authorities = AnnotationUtils.getAuthorityList(resourcePatternResolver, ResourcePatternResolver.CLASSPATH_ALL_URL_PREFIX + "**/controller/**/**.class", PreAuthorize.class);
+                        userDTO.setPermissions(authorities.stream().map(x -> x.getValue().toString()).toList());
+                    } catch (Exception ex) {
+                        log.error(ex.getMessage());
+                    }
+                }
             }
-            userDTO.setUserRoles(roles);
         }
         return userDTO;
     }
@@ -95,7 +110,7 @@ public class AppUserServiceImpl extends ServiceImpl<AppUserMapper, AppUser> impl
             BeanUtils.copyProperties(user, userDTO);
             var roles = roleService.listByUserId(user.getId());
             userDTO.setRoles(roles);
-            if (user.getOrganizationId() != null && user.getOrganizationId() > 0) {
+            if (user.getOrganizationId() != null && user.getOrganizationId() != 0) {
                 userDTO.setOrganizationName(organizationUnitService.getById(userDTO.getOrganizationId()).getName());
             }
         }
@@ -128,6 +143,10 @@ public class AppUserServiceImpl extends ServiceImpl<AppUserMapper, AppUser> impl
             user.setId(null);
             result = save(user);
         } else {
+            if (user.getPassword().isBlank()) {
+                var model = getById(user.getId());
+                user.setPassword(model.getPassword());
+            }
             result = updateById(user);
         }
         if (result) {

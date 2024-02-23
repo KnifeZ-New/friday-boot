@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
@@ -16,14 +17,15 @@ import java.time.LocalDateTime;
  * </p>
  *
  * @author KnifeZ
- * @since 2023-04-26
+ * @date 2023-04-26
  */
 @Getter
 @Setter
 @TableName("app_audit_log")
-@Schema(name = "AppAuditLog", description = "$!{table.comment}")
+@Schema(name = "AppAuditLog")
 public class AppAuditLog implements Serializable {
 
+    @Serial
     private static final long serialVersionUID = 1L;
 
     @Schema(description = "主键id")

@@ -3,9 +3,7 @@ package org.knifez.fridaybootadmin.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import org.knifez.fridaybootadmin.dto.AppMenuDTO;
 import org.knifez.fridaybootadmin.dto.AppPermissionDTO;
-import org.knifez.fridaybootadmin.entity.AppMenu;
 import org.knifez.fridaybootadmin.entity.AppPermissionGrant;
-import org.knifez.fridaybootcore.dto.TextValuePair;
 
 import java.util.List;
 
@@ -29,17 +27,9 @@ public interface IAppPermissionGrantService extends IService<AppPermissionGrant>
 
 
     /**
-     * 按权限获取用户菜单
-     *
-     * @param permissions 角色名称
-     * @return {@link List}<{@link AppMenuDTO}>
-     */
-    List<AppMenuDTO> getUserMenuByPermissions(List<String> permissions, Boolean isSuper);
-
-    /**
      * 根据角色保存权限
      *
-     * @param permissions 菜单权限id集合
+     * @param permissions 菜单按钮Permission集合
      * @param roleName    角色
      */
     void saveByRole(List<String> permissions, String roleName);
@@ -51,4 +41,12 @@ public interface IAppPermissionGrantService extends IService<AppPermissionGrant>
      * @return {@link List}<{@link String}>
      */
     AppPermissionDTO listByRoles(List<String> roleNames);
+
+    /**
+     * 按权限获取用户菜单
+     *
+     * @param permissions 角色名称
+     * @return {@link List}<{@link AppMenuDTO}>
+     */
+    List<AppMenuDTO> getUserMenuByPermissions(List<String> permissions, Boolean isSuper);
 }

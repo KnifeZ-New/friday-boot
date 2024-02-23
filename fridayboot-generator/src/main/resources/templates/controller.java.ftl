@@ -60,6 +60,7 @@ public class ${table.controllerName} {
     * @return {@link PagedResult}<{@link  ${table.entityName}}>
     */
     @PostMapping("list")
+    @PreAuthorize("hasAuthority('${table.entityName}.pagedList')")
     @Operation(summary = "分页列表")
     public PagedResult<${table.entityName}> pagedList(@RequestBody  ${table.entityName}PagedRequest queryRequest) {
     return ${table.entityPath}Service.listByPage(queryRequest);
@@ -72,6 +73,7 @@ public class ${table.controllerName} {
     * @return {@link ${table.entityName}}
     */
     @GetMapping("{id}")
+    @PreAuthorize("hasAuthority('${table.entityName}.findById')")
     @Operation(summary = "根据id获取${table.comment!}")
     public ${table.entityName} findById(@PathVariable Long id) {
     return ${table.entityPath}Service.getById(id);
@@ -84,6 +86,7 @@ public class ${table.controllerName} {
     * @return {@link Boolean}
     */
     @PostMapping
+    @PreAuthorize("hasAuthority('${table.entityName}.create')")
     @Operation(summary = "添加")
     public Boolean create(@RequestBody ${table.entityName} ${table.entityPath}) {
     ${table.entityPath}.setId(null);
@@ -97,6 +100,7 @@ public class ${table.controllerName} {
     * @return {@link Boolean}
     */
     @PostMapping("{id}")
+    @PreAuthorize("hasAuthority('${table.entityName}.update')")
     @Operation(summary = "修改")
     public Boolean update(@RequestBody ${table.entityName} ${table.entityPath}) {
         return ${table.entityPath}Service.updateById(${table.entityPath});
@@ -109,6 +113,7 @@ public class ${table.controllerName} {
     * @return {@link Boolean}
     */
     @DeleteMapping("{id}")
+    @PreAuthorize("hasAuthority('${table.entityName}.delete')")
     @Operation(summary = "删除")
     public Boolean delete(@PathVariable Long id) {
     return ${table.entityPath}Service.removeById(id);

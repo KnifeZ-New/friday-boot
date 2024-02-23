@@ -19,6 +19,7 @@ import org.knifez.fridaybootcore.dto.FridayResult;
 import org.knifez.fridaybootcore.dto.PagedResult;
 import org.knifez.fridaybootcore.enums.ResultStatus;
 import org.knifez.fridaybootcore.exception.FridayResultException;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -56,7 +57,8 @@ public class AppUserController {
      * @param queryRequest 查询请求
      * @return <{@link PagedResult}<{@link AppUser}>
      */
-    @Operation(summary = "分页列表")
+    @Operation(summary = "分页列表", description = "user.pagedList")
+    @PreAuthorize("hasAuthority('user.pagedList')")
     @PostMapping("list")
     public PagedResult<AppUserDTO> pagedList(@RequestBody AppUserPagedRequest queryRequest) {
         //查询列表数据
@@ -83,7 +85,8 @@ public class AppUserController {
      * @return {@link AppUserDTO}
      */
     @GetMapping("{id}")
-    @Operation(summary = "根据id获取用户")
+    @PreAuthorize("hasAuthority('user.findById')")
+    @Operation(summary = "根据id获取用户", description = "user.findById")
     public AppUserDTO findById(@PathVariable Long id) {
         return appUserService.getUserDtoByAccountOrId("", id);
     }
@@ -95,7 +98,8 @@ public class AppUserController {
      * @return {@link Boolean}
      */
     @PostMapping
-    @Operation(summary = "新增用户")
+    @PreAuthorize("hasAuthority('user.create')")
+    @Operation(summary = "新增用户", description = "user.create")
     public Boolean create(@RequestBody AppUserModifyDTO user) {
         return appUserService.saveWithUserRoles(user, true);
     }
@@ -107,7 +111,8 @@ public class AppUserController {
      * @return {@link Boolean}
      */
     @PostMapping("{id}")
-    @Operation(summary = "修改用户")
+    @PreAuthorize("hasAuthority('user.update')")
+    @Operation(summary = "修改用户", description = "user.update")
     public Boolean update(@RequestBody AppUserModifyDTO user) {
         return appUserService.saveWithUserRoles(user, false);
     }
@@ -119,11 +124,23 @@ public class AppUserController {
      * @return {@link FridayResult}<{@link Boolean}>
      */
     @DeleteMapping("{id}")
-    @Operation(summary = "删除用户")
+    @PreAuthorize("hasAuthority('user.delete')")
+    @Operation(summary = "删除用户", description = "user.delete")
     public Boolean delete(@PathVariable Long id) {
         return appUserService.removeById(id);
     }
 
+
+    @PostMapping("reset-password")
+    @PreAuthorize("hasAuthority('user.resetPassword')")
+    @Operation(summary = "重置密码", description = "user.resetPassword")
+    public Boolean resetPassword(@RequestBody AppUserResetPasswordRequest user) {
+        if (appUserService.checkOriginPassword(user.getId(), user.getOriginPassword()) || user.getSkipCheckPassword()) {
+            return appUserService.updatePassword(user.getId(), user.getNewPassword());
+        } else {
+            throw new FridayResultException(ResultStatus.UNAUTHORIZED_002);
+        }
+    }
 
     /**
      * 检查帐号是否存在
@@ -143,24 +160,14 @@ public class AppUserController {
         }
     }
 
-    @PostMapping("reset-password")
-    @Operation(summary = "重置密码")
-    public Boolean resetPassword(@RequestBody AppUserResetPasswordRequest user) {
-        if (appUserService.checkOriginPassword(user.getId(), user.getOriginPassword()) || user.getSkipCheckPassword()) {
-            return appUserService.updatePassword(user.getId(), user.getNewPassword());
-        } else {
-            throw new FridayResultException(ResultStatus.UNAUTHORIZED_002);
-        }
-    }
-
     /**
      * 获取用户关联角色
      *
      * @param id userid
      * @return roleIds
      */
-    @AllowAuthenticated
     @GetMapping("{id}/roles")
+    @AllowAuthenticated
     @Operation(summary = "获取用户关联角色")
     public List<Long> getUserRoles(@PathVariable Long id) {
         return userRoleService.listRolesByUserId(id);

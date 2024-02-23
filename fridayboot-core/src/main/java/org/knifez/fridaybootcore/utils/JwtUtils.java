@@ -4,10 +4,12 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import jakarta.xml.bind.DatatypeConverter;
+import lombok.extern.slf4j.Slf4j;
 import org.knifez.fridaybootcore.constants.AppConstants;
 
 import javax.crypto.SecretKey;
 
+@Slf4j
 public class JwtUtils {
     private static final byte[] API_KEY_SECRET_BYTES = DatatypeConverter.parseBase64Binary(AppConstants.JWT_SECRET_KEY);
     private static final SecretKey SECRET_KEY = Keys.hmacShaKeyFor(API_KEY_SECRET_BYTES);
@@ -41,7 +43,7 @@ public class JwtUtils {
             Jwts.parserBuilder().setSigningKey(SECRET_KEY).build()
                     .parse(token);
         } catch (Exception exception) {
-            exception.printStackTrace();
+            log.error(exception.getMessage());
             return true;
         }
         return false;

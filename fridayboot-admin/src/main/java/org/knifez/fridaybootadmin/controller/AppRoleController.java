@@ -11,6 +11,10 @@ import org.knifez.fridaybootadmin.service.IAppRoleService;
 import org.knifez.fridaybootcore.annotation.ApiRestController;
 import org.knifez.fridaybootcore.annotation.permission.AllowAuthenticated;
 import org.knifez.fridaybootcore.dto.PagedResult;
+import org.knifez.fridaybootcore.dto.TextValuePair;
+import org.knifez.fridaybootcore.utils.AnnotationUtils;
+import org.springframework.core.io.support.ResourcePatternResolver;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -32,10 +36,12 @@ public class AppRoleController {
     private final IAppRoleService roleService;
 
     private final IAppPermissionGrantService permissionService;
+    private final ResourcePatternResolver resourcePatternResolver;
 
-    public AppRoleController(IAppRoleService roleService, IAppPermissionGrantService permissionService) {
+    public AppRoleController(IAppRoleService roleService, IAppPermissionGrantService permissionService, ResourcePatternResolver resourcePatternResolver) {
         this.roleService = roleService;
         this.permissionService = permissionService;
+        this.resourcePatternResolver = resourcePatternResolver;
     }
 
 
@@ -46,9 +52,79 @@ public class AppRoleController {
      * @return {@link PagedResult}<{@link AppRole}>
      */
     @PostMapping("list")
-    @Operation(summary = "分页列表")
+    @PreAuthorize("hasAuthority('role.pagedList')")
+    @Operation(summary = "分页列表", description = "role.pagedList")
     public PagedResult<AppRole> pagedList(@RequestBody AppRolePagedRequest queryRequest) {
         return roleService.listByPageQuery(queryRequest);
+    }
+
+    /**
+     * 根据id获取角色
+     *
+     * @param id id
+     * @return {@link AppUserDTO}
+     */
+    @GetMapping("{id}")
+    @PreAuthorize("hasAuthority('role.findById')")
+    @Operation(summary = "根据id获取角色", description = "role.findById")
+    public AppRole findById(@PathVariable Long id) {
+        var role = roleService.getById(id);
+        role.setPermissions(permissionService.getSelectMenusByRoleName(role.getName()));
+        return role;
+    }
+
+    /**
+     * 创建
+     *
+     * @param role 角色
+     * @return {@link Boolean}
+     */
+    @PostMapping
+    @PreAuthorize("hasAuthority('role.create')")
+    @Operation(summary = "新增角色", description = "role.create")
+    public Boolean create(@RequestBody AppRole role) {
+        permissionService.saveByRole(role.getPermissions(), role.getName());
+        role.setId(null);
+        return roleService.save(role);
+    }
+
+    /**
+     * 更新
+     *
+     * @param role 角色
+     * @return {@link Boolean}
+     */
+    @PostMapping("{id}")
+    @PreAuthorize("hasAuthority('role.update')")
+    @Operation(summary = "修改角色", description = "role.update")
+    public Boolean update(@RequestBody AppRole role) {
+        permissionService.saveByRole(role.getPermissions(), role.getName());
+        return roleService.updateById(role);
+    }
+
+    /**
+     * 删除
+     *
+     * @param id id
+     * @return {@link Boolean}
+     */
+    @DeleteMapping("{id}")
+    @PreAuthorize("hasAuthority('role.delete')")
+    @Operation(summary = "删除角色", description = "role.delete")
+    public Boolean delete(@PathVariable Long id) {
+        return roleService.removeById(id);
+    }
+
+    /**
+     * 获取系统权限
+     *
+     * @return {@link List}<{@link String}>
+     */
+    @AllowAuthenticated
+    @GetMapping("authorities/list")
+    @Operation(summary = "获取系统权限列表")
+    public List<TextValuePair> getSystemAuthorities() throws Exception {
+        return AnnotationUtils.getAuthorityList(resourcePatternResolver, ResourcePatternResolver.CLASSPATH_ALL_URL_PREFIX + "**/controller/**/**.class", PreAuthorize.class);
     }
 
     /**
@@ -63,61 +139,4 @@ public class AppRoleController {
         return roleService.list();
     }
 
-    @AllowAuthenticated
-    @GetMapping("{roleName}/permission-list")
-    @Operation(summary = "根据角色名获取角色绑定菜单列表")
-    public List<String> permissionsByRoleName(@PathVariable String roleName) {
-        return permissionService.getSelectMenusByRoleName(roleName);
-    }
-
-    /**
-     * 根据id获取角色
-     *
-     * @param id id
-     * @return {@link AppUserDTO}
-     */
-    @GetMapping("{id}")
-    @Operation(summary = "根据id获取角色")
-    public AppRole findById(@PathVariable Long id) {
-        return roleService.getById(id);
-    }
-
-    /**
-     * 创建
-     *
-     * @param role 角色
-     * @return {@link Boolean}
-     */
-    @PostMapping
-    @Operation(summary = "新增角色")
-    public Boolean create(@RequestBody AppRole role) {
-        permissionService.saveByRole(role.getPermissions(), role.getName());
-        role.setId(null);
-        return roleService.save(role);
-    }
-
-    /**
-     * 更新
-     *
-     * @param role 角色
-     * @return {@link Boolean}
-     */
-    @PostMapping("{id}")
-    @Operation(summary = "修改角色")
-    public Boolean update(@RequestBody AppRole role) {
-        permissionService.saveByRole(role.getPermissions(), role.getName());
-        return roleService.updateById(role);
-    }
-
-    /**
-     * 删除
-     *
-     * @param id id
-     * @return {@link Boolean}
-     */
-    @DeleteMapping("{id}")
-    @Operation(summary = "删除角色")
-    public Boolean delete(@PathVariable Long id) {
-        return roleService.removeById(id);
-    }
 }

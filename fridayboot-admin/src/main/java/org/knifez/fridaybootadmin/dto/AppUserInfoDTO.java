@@ -57,18 +57,16 @@ public class AppUserInfoDTO {
     @Schema(title = "角色")
     private List<String> userRoles = new ArrayList<>();
 
-    @Schema(title = "权限标识")
+    @Schema(title = "角色权限")
     private List<String> permissions = new ArrayList<>();
 
     @Schema(title = "菜单列表")
     private List<AppMenuDTO> menu = new ArrayList<>();
 
-    public List<SimpleGrantedAuthority> getGrantRoles() {
+    @JsonIgnore
+    public List<SimpleGrantedAuthority> getGrantAuthorities() {
         List<SimpleGrantedAuthority> authorities = new ArrayList<>();
-        userRoles.forEach(role -> authorities.add(new SimpleGrantedAuthority("ROLE_" + role)));
-        if (authorities.isEmpty()) {
-            authorities.add(new SimpleGrantedAuthority("ROLE_GUEST"));
-        }
+        permissions.forEach(permission -> authorities.add(new SimpleGrantedAuthority(permission)));
         return authorities;
     }
 }

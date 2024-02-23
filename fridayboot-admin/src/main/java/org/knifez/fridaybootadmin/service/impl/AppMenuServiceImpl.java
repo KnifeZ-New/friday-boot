@@ -11,13 +11,12 @@ import lombok.RequiredArgsConstructor;
 import org.knifez.fridaybootadmin.dto.AppMenuButtonQueryRequest;
 import org.knifez.fridaybootadmin.dto.AppMenuDTO;
 import org.knifez.fridaybootadmin.dto.AppMenuQueryRequest;
+import org.knifez.fridaybootadmin.entity.AppDictionaryConfig;
 import org.knifez.fridaybootadmin.entity.AppMenu;
 import org.knifez.fridaybootadmin.enums.MenuTypeEnum;
 import org.knifez.fridaybootadmin.mapper.AppMenuMapper;
+import org.knifez.fridaybootadmin.service.IAppDictionaryConfigService;
 import org.knifez.fridaybootadmin.service.IAppMenuService;
-import org.knifez.fridaybootcore.dto.TextValuePair;
-import org.knifez.fridaybootcore.entity.AppDictionaryConfig;
-import org.knifez.fridaybootcore.service.IAppDictionaryConfigService;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -39,28 +38,6 @@ public class AppMenuServiceImpl extends ServiceImpl<AppMenuMapper, AppMenu> impl
 
     private final IAppDictionaryConfigService dictionaryConfigService;
 
-    /**
-     * 获取菜单权限
-     *
-     * @param ids 菜单id集合
-     * @return 菜单权限集合
-     */
-    @Override
-    public List<TextValuePair> getMenuPermissions(List<String> ids) {
-        List<TextValuePair> result = new ArrayList<>();
-        if (!ids.isEmpty()) {
-            var menus = listByIds(ids);
-            for (var menu : menus) {
-                if (StringUtils.hasText(menu.getPermission())) {
-                    result.add(TextValuePair.from("API", menu.getPermission()));
-                }
-                if (StringUtils.hasText(menu.getRoutePath())) {
-                    result.add(TextValuePair.from("WEB", menu.getRoutePath()));
-                }
-            }
-        }
-        return result;
-    }
 
     /**
      * 获取菜单按钮
@@ -184,6 +161,22 @@ public class AppMenuServiceImpl extends ServiceImpl<AppMenuMapper, AppMenu> impl
         });
     }
 
+    /**
+     * 按ID获取菜单
+     *
+     * @param ids ids
+     * @return {@link List}<{@link AppMenu}>
+     */
+    @Override
+    public List<AppMenu> getMenuByIds(List<Integer> ids) {
+        if (ids.isEmpty()) {
+            return new ArrayList<>();
+        }
+        LambdaQueryWrapper<AppMenu> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.in(AppMenu::getId, ids);
+        return list(queryWrapper);
+    }
+
     @Override
     public List<AppMenuDTO> getMenuByPermissions(List<String> permissions, Boolean isSuper) {
         if (permissions.isEmpty() && !isSuper) {
@@ -197,20 +190,10 @@ public class AppMenuServiceImpl extends ServiceImpl<AppMenuMapper, AppMenu> impl
         var catalogues = list(queryType1Wrapper);
         //添加父级目录
         for (var ca : catalogues) {
-            if (list.stream().anyMatch(x -> Objects.equals(x.getParentId(), ca.getId()))) {
+            if (list.stream().anyMatch(x -> Objects.equals(x.getParentId(), ca.getId())) && list.stream().noneMatch(x -> Objects.equals(x.getId(), ca.getId()))) {
                 list.add(ca);
             }
         }
-        return BeanUtil.copyToList(list, AppMenuDTO.class).stream().distinct().toList();
-    }
-
-    @Override
-    public List<AppMenu> getMenuByIds(List<Integer> ids) {
-        if (ids.isEmpty()) {
-            return new ArrayList<>();
-        }
-        LambdaQueryWrapper<AppMenu> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.in(AppMenu::getId, ids);
-        return list(queryWrapper);
+        return BeanUtil.copyToList(list, AppMenuDTO.class);
     }
 }

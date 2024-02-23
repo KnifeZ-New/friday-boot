@@ -1,7 +1,10 @@
 package org.knifez.fridaybootcore.utils;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.knifez.fridaybootcore.constants.AppConstants;
+import org.knifez.fridaybootcore.dto.TextValuePair;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.ResourcePatternResolver;
 import org.springframework.core.type.AnnotationMetadata;
@@ -10,20 +13,22 @@ import org.springframework.core.type.classreading.CachingMetadataReaderFactory;
 import org.springframework.core.type.classreading.MetadataReader;
 import org.springframework.core.type.classreading.MetadataReaderFactory;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.method.HandlerMethod;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * @author KnifeZ
  */
 @Slf4j
 public class AnnotationUtils {
+    private static final String VALUE = "value";
+
     private AnnotationUtils() {
         throw new IllegalStateException("AnnotationUtils class");
     }
-
-    private static final String VALUE = "value";
 
     public static <T> List<String> getAllUrlsByAnnotations(ResourcePatternResolver resourcePatternResolver, String classpath, Class<T> annotationClass) throws Exception {
         Resource[] resources = resourcePatternResolver.getResources(classpath);
@@ -34,49 +39,6 @@ public class AnnotationUtils {
             resolveClass(reader, urls, annotationClass);
         }
         return urls;
-    }
-
-    public static String getMethodPermissionUrl(HandlerMethod handler, String methodMap) {
-        final StringBuilder mapUrl = new StringBuilder();
-        mapUrl.append(AppConstants.API_PREFIX);
-        var controllerRequest = Arrays.stream(handler.getMethod().getDeclaringClass().getAnnotation(RequestMapping.class).value())
-                .findFirst();
-        controllerRequest.ifPresent(mapUrl::append);
-        for (var annotation : (handler).getMethod().getDeclaredAnnotations()) {
-            if (annotation instanceof DeleteMapping) {
-                if (Arrays.stream(((DeleteMapping) annotation).value()).findFirst().isPresent()) {
-                    mapUrl.append("/")
-                            .append(Arrays.stream(((DeleteMapping) annotation).value()).findFirst().get());
-                }
-            }
-            if (annotation instanceof GetMapping) {
-                if (Arrays.stream(((GetMapping) annotation).value()).findFirst().isPresent()) {
-                    mapUrl.append("/")
-                            .append(Arrays.stream(((GetMapping) annotation).value()).findFirst().get());
-                }
-            }
-            if (annotation instanceof PutMapping) {
-                if (Arrays.stream(((PutMapping) annotation).value()).findFirst().isPresent()) {
-                    mapUrl.append("/")
-                            .append(Arrays.stream(((PutMapping) annotation).value()).findFirst().get());
-                }
-            }
-            if (annotation instanceof PostMapping) {
-                if (Arrays.stream(((PostMapping) annotation).value()).findFirst().isPresent()) {
-                    mapUrl.append("/")
-                            .append(Arrays.stream(((PostMapping) annotation).value()).findFirst().get());
-                }
-            }
-            if (annotation instanceof RequestMapping) {
-                if (Arrays.stream(((RequestMapping) annotation).value()).findFirst().isPresent()) {
-                    mapUrl.append("/")
-                            .append(Arrays.stream(((RequestMapping) annotation).value()).findFirst().get());
-                }
-            }
-        }
-        mapUrl.append(":")
-                .append(methodMap);
-        return mapUrl.toString().toLowerCase();
     }
 
     private static <T> void resolveClass(MetadataReader reader, List<String> maps, Class<T> annotationClass) {
@@ -139,4 +101,42 @@ public class AnnotationUtils {
         annotationAttributes = annotatedMethod.getAnnotationAttributes(RequestMapping.class.getCanonicalName());
         return annotationAttributes;
     }
+
+
+    public static <T> List<TextValuePair> getAuthorityList(ResourcePatternResolver resourcePatternResolver, String classpath, Class<T> annotationClass) throws Exception {
+        Resource[] resources = resourcePatternResolver.getResources(classpath);
+        MetadataReaderFactory metaReader = new CachingMetadataReaderFactory();
+        List<TextValuePair> authorityList = new ArrayList<>();
+        for (Resource r : resources) {
+            MetadataReader reader = metaReader.getMetadataReader(r);
+            resolveClassWithOutAllowAnnotation(reader, authorityList, annotationClass);
+        }
+        return authorityList;
+    }
+
+    private static <T> void resolveClassWithOutAllowAnnotation(MetadataReader reader, List<TextValuePair> maps, Class<T> annotationClass) {
+        String tagAnnotationClassCanonicalName = annotationClass.getCanonicalName();
+        AnnotationMetadata annotationMetadata = reader.getAnnotationMetadata();
+        Map<String, Object> annotationAttributes = annotationMetadata.getAnnotationAttributes(RequestMapping.class.getCanonicalName());
+        if (annotationAttributes != null) {
+            //获取所有添加了此注解的方法
+            Set<MethodMetadata> annotatedMethods = annotationMetadata.getAnnotatedMethods(tagAnnotationClassCanonicalName);
+            var tag = annotationMetadata.getAnnotationAttributes(Tag.class.getCanonicalName());
+            if (tag == null) {
+                return;
+            }
+            for (var annotatedMethod : annotatedMethods) {
+                //获取当前方法中要扫描注解的属性
+                Map<String, Object> targetAttr = annotatedMethod.getAnnotationAttributes(tagAnnotationClassCanonicalName);
+                //获取方法GetMapping、PostMapping等注解的属性
+                Map<String, Object> summary = annotatedMethod.getAnnotationAttributes(Operation.class.getCanonicalName());
+                if (targetAttr == null || summary == null) {
+                    continue;
+                }
+                maps.add(TextValuePair.from(tag.get("name").toString() + "/" + summary.get("summary").toString(), targetAttr.get(VALUE).toString().split("'")[1]));
+            }
+        }
+
+    }
+
 }

@@ -72,8 +72,6 @@ create table app_menu
     is_enabled  tinyint(1) default 1 null comment '是否启用',
     remark      varchar(500) null comment '备注',
     is_deleted  tinyint(1) default 0 null comment '是否删除',
-    delete_by   varchar(255) charset utf8mb3 null comment '删除人',
-    delete_time datetime null comment '删除时间',
     create_by   varchar(255) not null comment '创建人',
     create_time datetime     not null comment '创建时间',
     update_by   varchar(255) not null comment '修改人',
@@ -145,9 +143,7 @@ create table app_user
     create_time     datetime null comment '创建时间',
     update_by       varchar(255) null comment '修改人',
     update_time     datetime null comment '更新时间',
-    is_deleted      int default 0 not null comment '是否删除',
-    delete_by       varchar(255) null comment '删除人',
-    delete_time     varchar(255) null comment '删除时间'
+    is_deleted int default 0 not null comment '是否删除'
 ) comment '系统用户表' charset = utf8mb4;
 
 create table app_user_role
@@ -165,9 +161,9 @@ create table app_user_role
 
 
 INSERT INTO app_user (id, account, username, password, email, phone, avatar, organization_id, is_locked, create_by,
-                      create_time, update_by, update_time, is_deleted, delete_by, delete_time)
+                      create_time, update_by, update_time, is_deleted)
 VALUES (1, 'admin', '管理员', '$2a$10$RJzOtzT.fvCV6BQP/KBDiO3E3vAKzvcDB56xaUvE6ydmKto1AxLc6', '', null, null, 0, 0,
-        'admin', NOW(), 'admin', NOW(), 0, null, null);
+        'admin', NOW(), 'admin', NOW(), 0);
 
 INSERT INTO app_role (id, name, display_name, description, is_enabled, create_by, create_time, update_by, update_time)
 VALUES (1, 'SuperAdmin', '超级管理员', '拥有系统全部权限', 1, 'admin', NOW(), 'admin', NOW());

@@ -9,10 +9,15 @@ public class SecurityConst {
         throw new IllegalStateException("SecurityConst class");
     }
 
+
     /**
-     * 角色的KEY
+     * 角色声明
      */
     public static final String ROLE_CLAIMS = "rol";
+    /**
+     * 许可声明
+     */
+    public static final String AUTHORITY_CLAIMS = "per";
 
     /**
      * rememberMe 为 false 的时候过期时间是1个小时

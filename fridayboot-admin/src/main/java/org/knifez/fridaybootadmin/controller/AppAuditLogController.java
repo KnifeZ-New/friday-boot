@@ -1,4 +1,3 @@
-
 package org.knifez.fridaybootadmin.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -11,17 +10,14 @@ import org.knifez.fridaybootcore.dto.PagedResult;
 import org.springframework.web.bind.annotation.*;
 
 /**
- * <p>
- * 审计日志 前端控制器
- * </p>
+ * 应用程序审核日志控制器
  *
  * @author KnifeZ
- * @since 2023-04-26
+ * @date 2024/02/23
  */
-
 @Tag(name = "审计日志管理")
 @ApiRestController
-@RequestMapping("/appAuditLog")
+@RequestMapping("/audit-log")
 public class AppAuditLogController {
 
 
@@ -31,14 +27,14 @@ public class AppAuditLogController {
         this.appAuditLogService = appAuditLogService;
     }
 
+
     /**
      * 分页列表
      *
      * @param queryRequest 查询请求
-     * @return {@link PagedResult}<{@link  AppAuditLog}>
+     * @return {@code PagedResult<AppAuditLog>}
      */
     @PostMapping("list")
-    @Operation(summary = "分页列表")
     public PagedResult<AppAuditLog> pagedList(@RequestBody AppAuditLogPagedRequest queryRequest) {
         return appAuditLogService.listByPage(queryRequest);
     }
@@ -46,8 +42,8 @@ public class AppAuditLogController {
     /**
      * 根据id获取审计日志
      *
-     * @param id id
-     * @return {@link AppAuditLog}
+     * @param id 身份证件
+     * @return {@code AppAuditLog}
      */
     @GetMapping("{id}")
     @Operation(summary = "根据id获取审计日志")

@@ -8,7 +8,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
 import org.jetbrains.annotations.ApiStatus;
-import org.knifez.fridaybootcore.entity.BaseFullAuditEntity;
+import org.knifez.fridaybootcore.entity.BaseLogicDeleteEntity;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -25,7 +25,7 @@ import java.io.Serializable;
 @Setter
 @TableName("app_menu")
 @Schema(title = "AppMenu对象", description = "菜单")
-public class AppMenu extends BaseFullAuditEntity implements Serializable {
+public class AppMenu extends BaseLogicDeleteEntity implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;

@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * <p>
@@ -46,12 +45,6 @@ public class AppPermissionGrantServiceImpl extends ServiceImpl<AppPermissionGran
         return list.stream().map(AppPermissionGrant::getName).distinct().toList();
     }
 
-
-    @Override
-    public List<AppMenuDTO> getUserMenuByPermissions(List<String> permissions, Boolean isSuper) {
-        return menuService.getMenuByPermissions(permissions, isSuper);
-    }
-
     @Override
     public void saveByRole(List<String> permissions, String roleName) {
         var queryWrapper = new LambdaQueryWrapper<AppPermissionGrant>();
@@ -66,7 +59,7 @@ public class AppPermissionGrantServiceImpl extends ServiceImpl<AppPermissionGran
             permissionGrant.setProvideFor(roleName);
             permissionGrants.add(permissionGrant);
         }
-        this.saveBatch(permissionGrants);
+        saveBatch(permissionGrants);
     }
 
     /**
@@ -85,10 +78,14 @@ public class AppPermissionGrantServiceImpl extends ServiceImpl<AppPermissionGran
         queryWrapper.in(AppPermissionGrant::getProvideFor, roleNames);
         queryWrapper.eq(AppPermissionGrant::getProvideName, "ROLE");
         var list = baseMapper.selectList(queryWrapper);
-        var ids = list.stream().map(AppPermissionGrant::getName).distinct().toList();
-        var permissions = menuService.getMenuPermissions(ids);
-        result.setApiPermissions(permissions.stream().filter(x -> Objects.equals(x.getText(), "API")).map(x -> x.getValue().toString()).distinct().toList());
-        result.setWebPermissions(permissions.stream().filter(x -> Objects.equals(x.getText(), "WEB")).map(x -> x.getValue().toString()).distinct().toList());
+        var permissions = list.stream().map(AppPermissionGrant::getName).distinct().toList();
+        result.setApiPermissions(permissions);
         return result;
+    }
+
+    @Override
+    public List<AppMenuDTO> getUserMenuByPermissions(List<String> permissions, Boolean isSuper) {
+        var menus = menuService.getMenuByPermissions(permissions, isSuper);
+        return menus.stream().filter(x -> x.getType() < 2).toList();
     }
 }

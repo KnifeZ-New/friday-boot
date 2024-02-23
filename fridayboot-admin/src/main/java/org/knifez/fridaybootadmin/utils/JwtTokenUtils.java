@@ -16,6 +16,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.crypto.SecretKey;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -35,7 +36,7 @@ public class JwtTokenUtils {
         throw new IllegalStateException("Utility class");
     }
 
-    public static Token createToken(String username, String id, List<String> roles, boolean isRememberMe) {
+    public static Token createToken(String username, String id, List<String> roles, List<String> grantedAuthorities, boolean isRememberMe) {
         long expiration = isRememberMe ? SecurityConst.EXPIRATION_REMEMBER : SecurityConst.EXPIRATION;
         final Date createdDate = new Date();
         final Date expirationDate = new Date(createdDate.getTime() + expiration * 1000);
@@ -43,10 +44,11 @@ public class JwtTokenUtils {
                 .setHeaderParam("type", AppConstants.JWT_TOKEN_TYPE)
                 .signWith(SECRET_KEY, SignatureAlgorithm.HS256)
                 .claim(SecurityConst.ROLE_CLAIMS, String.join(",", roles))
+                .claim(SecurityConst.AUTHORITY_CLAIMS, grantedAuthorities)
                 .setId(id)
+                .setSubject(username)
                 .setIssuer("fridayboot")
                 .setIssuedAt(createdDate)
-                .setSubject(username)
                 .setExpiration(expirationDate)
                 .compact();
 
@@ -57,21 +59,24 @@ public class JwtTokenUtils {
 
     public static UsernamePasswordAuthenticationToken getAuthentication(String token) {
         Claims claims = JwtUtils.getClaims();
-        List<SimpleGrantedAuthority> authorities = null;
+        List<SimpleGrantedAuthority> authorities = new ArrayList<>();
         String userName = null;
         if (claims != null) {
-            authorities = getAuthorities(claims);
+            var tempList = getAuthorities(claims);
+            tempList.forEach(permission -> authorities.add(new SimpleGrantedAuthority(permission)));
             userName = claims.getSubject();
         }
         return new UsernamePasswordAuthenticationToken(userName, token, authorities);
     }
 
-    private static List<SimpleGrantedAuthority> getAuthorities(Claims claims) {
-        String role = (String) claims.get(SecurityConst.ROLE_CLAIMS);
-        return Arrays.stream(role.split(","))
-                .map(SimpleGrantedAuthority::new)
-                .toList();
+    private static List<String> getAuthorities(Claims claims) {
+        var obj = claims.get(SecurityConst.AUTHORITY_CLAIMS);
+        if (obj instanceof List<?>) {
+            return ((List<?>) obj).stream().map(Object::toString).toList();
+        }
+        return new ArrayList<>();
     }
+
 
     public static boolean checkLogin(String currentPassword, String password) {
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
@@ -84,6 +89,15 @@ public class JwtTokenUtils {
             return (String) authentication.getPrincipal();
         }
         return null;
+    }
+
+    public static boolean isSuperAdmin() {
+        Claims claims = JwtUtils.getClaims();
+        String role = null;
+        if (claims != null) {
+            role = (String) claims.get(SecurityConst.ROLE_CLAIMS);
+        }
+        return role != null && Arrays.asList(role.split(",")).contains(AppConstants.ROLE_SUPER_ADMIN);
     }
 }
 

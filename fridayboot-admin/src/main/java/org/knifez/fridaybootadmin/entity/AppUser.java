@@ -9,7 +9,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.knifez.fridaybootcore.entity.BaseFullAuditEntity;
+import org.knifez.fridaybootcore.entity.BaseLogicDeleteEntity;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -28,7 +28,7 @@ import java.io.Serializable;
 @AllArgsConstructor
 @TableName("app_user")
 @Schema(title = "AppUser对象", description = "用户")
-public class AppUser extends BaseFullAuditEntity implements Serializable {
+public class AppUser extends BaseLogicDeleteEntity implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;

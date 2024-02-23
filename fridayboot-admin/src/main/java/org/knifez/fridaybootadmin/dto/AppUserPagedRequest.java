@@ -16,7 +16,7 @@ import java.util.List;
 @Schema(title = "AppUserPagedRequest")
 public class AppUserPagedRequest extends PagedRequest {
 
-    @NotNull(message = "name 不能为空")
+    @NotNull(message = "用户姓名不能为空")
     @Schema(title = "用户姓名")
     private String username;
 
