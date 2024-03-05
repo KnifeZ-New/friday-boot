@@ -1,4 +1,4 @@
-package org.knifez.fridaybootadmin.filter;
+package org.knifez.fridaybootapi.common.filter;
 
 import jakarta.servlet.*;
 import jakarta.servlet.http.HttpServletRequest;

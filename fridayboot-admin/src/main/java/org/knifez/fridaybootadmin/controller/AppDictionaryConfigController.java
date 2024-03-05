@@ -10,8 +10,8 @@ import org.knifez.fridaybootadmin.dto.AppDictionaryConfigQueryRequest;
 import org.knifez.fridaybootadmin.dto.AppDictionaryConfigTreeSetQueryRequest;
 import org.knifez.fridaybootadmin.entity.AppDictionaryConfig;
 import org.knifez.fridaybootadmin.service.IAppDictionaryConfigService;
-import org.knifez.fridaybootcore.annotation.ApiRestController;
-import org.knifez.fridaybootcore.annotation.permission.AllowAuthenticated;
+import org.knifez.fridaybootcore.common.annotation.ApiRestController;
+import org.knifez.fridaybootcore.common.annotation.permission.AllowAuthenticated;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
@@ -59,8 +59,7 @@ public class AppDictionaryConfigController {
      * @return {@link List}<{@link AppDictionaryConfig}>
      */
     @PostMapping("list/{dictCode}")
-    @PreAuthorize("hasAuthority('dictConfig.listByDictCode')")
-    @Operation(summary = "根据code获取字典属性列表", description = "dictConfig.listByDictCode")
+    @Operation(summary = "根据code获取字典属性列表")
     public List<AppDictionaryConfig> listByDictCode(@PathVariable String dictCode, @RequestBody AppDictionaryConfigQueryRequest queryRequest) {
         QueryWrapper<AppDictionaryConfig> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("dict_code", dictCode);
@@ -70,8 +69,7 @@ public class AppDictionaryConfigController {
     }
 
     @PostMapping("tree-sets")
-    @PreAuthorize("hasAuthority('dictConfig.treeListByDictCodes')")
-    @Operation(summary = "获取字典属性树集合", description = "dictConfig.treeListByDictCodes")
+    @Operation(summary = "获取字典属性树集合")
     public List<Tree<Long>> treeListByDictCodes(@RequestBody AppDictionaryConfigTreeSetQueryRequest queryRequest) {
         QueryWrapper<AppDictionaryConfig> queryWrapper = new QueryWrapper<>();
         queryWrapper.in("dict_code", queryRequest.getDictCodes());

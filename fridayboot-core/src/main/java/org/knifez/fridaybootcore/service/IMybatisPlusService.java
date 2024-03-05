@@ -11,7 +11,7 @@ public interface IMybatisPlusService<T> extends IService<T> {
 
     @Override
     default List<T> listByIds(Collection<? extends Serializable> idList) {
-        if (idList.size() == 0) {
+        if (idList.isEmpty()) {
             return new ArrayList<>();
         }
         return IService.super.listByIds(idList);

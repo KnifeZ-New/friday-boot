@@ -9,7 +9,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.knifez.fridaybootadmin.dto.AppOrganizationUnitQueryRequest;
 import org.knifez.fridaybootadmin.entity.AppOrganizationUnit;
 import org.knifez.fridaybootadmin.service.IAppOrganizationUnitService;
-import org.knifez.fridaybootcore.annotation.ApiRestController;
+import org.knifez.fridaybootcore.common.annotation.ApiRestController;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 

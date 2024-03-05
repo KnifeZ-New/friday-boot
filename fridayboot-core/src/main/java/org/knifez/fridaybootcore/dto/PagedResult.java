@@ -15,9 +15,15 @@ import java.util.List;
 @Setter
 public class PagedResult<T> {
 
+    /**
+     * 总条数
+     */
     @Schema(title = "总条数")
     private long total;
 
+    /**
+     * 返回数据
+     */
     @Schema(title = "返回数据")
     private List<T> items;
 

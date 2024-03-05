@@ -1,4 +1,4 @@
-package org.knifez.fridaybootadmin.aop;
+package org.knifez.fridaybootadmin.common.aop;
 
 import cn.hutool.core.date.LocalDateTimeUtil;
 import cn.hutool.core.exceptions.ExceptionUtil;
@@ -14,12 +14,11 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.knifez.fridaybootadmin.entity.AppAuditLog;
 import org.knifez.fridaybootadmin.service.IAppAuditLogService;
-import org.knifez.fridaybootcore.annotation.AuditLog;
+import org.knifez.fridaybootcore.common.annotation.AuditLog;
 import org.knifez.fridaybootcore.dto.FridayResult;
-import org.knifez.fridaybootcore.enums.ResultStatus;
+import org.knifez.fridaybootcore.common.enums.ResultStatus;
 import org.knifez.fridaybootcore.utils.JwtUtils;
 import org.knifez.fridaybootcore.utils.ServletRequestUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.BindingResult;
@@ -42,8 +41,8 @@ import java.util.stream.IntStream;
 @Slf4j
 public class AuditLogAspect {
 
-    @Autowired
-    private IAppAuditLogService auditLogService;
+
+    private final IAppAuditLogService auditLogService;
     /**
      * 用于记录操作内容的上下文
      */
@@ -52,6 +51,10 @@ public class AuditLogAspect {
      * 用于记录拓展字段的上下文
      */
     private static final ThreadLocal<Map<String, Object>> EXTENDS = new ThreadLocal<>();
+
+    public AuditLogAspect(IAppAuditLogService auditLogService) {
+        this.auditLogService = auditLogService;
+    }
 
     @Around("@annotation(operation)")
     public Object around(ProceedingJoinPoint joinPoint, Operation operation) throws Throwable {

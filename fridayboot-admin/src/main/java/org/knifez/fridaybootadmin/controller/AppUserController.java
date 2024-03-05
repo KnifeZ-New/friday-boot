@@ -13,12 +13,12 @@ import org.knifez.fridaybootadmin.service.IAppOrganizationUnitService;
 import org.knifez.fridaybootadmin.service.IAppRoleService;
 import org.knifez.fridaybootadmin.service.IAppUserRoleService;
 import org.knifez.fridaybootadmin.service.IAppUserService;
-import org.knifez.fridaybootcore.annotation.ApiRestController;
-import org.knifez.fridaybootcore.annotation.permission.AllowAuthenticated;
+import org.knifez.fridaybootcore.common.annotation.ApiRestController;
+import org.knifez.fridaybootcore.common.annotation.permission.AllowAuthenticated;
 import org.knifez.fridaybootcore.dto.FridayResult;
 import org.knifez.fridaybootcore.dto.PagedResult;
-import org.knifez.fridaybootcore.enums.ResultStatus;
-import org.knifez.fridaybootcore.exception.FridayResultException;
+import org.knifez.fridaybootcore.common.enums.ResultStatus;
+import org.knifez.fridaybootcore.common.exception.FridayResultException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -101,6 +101,9 @@ public class AppUserController {
     @PreAuthorize("hasAuthority('user.create')")
     @Operation(summary = "新增用户", description = "user.create")
     public Boolean create(@RequestBody AppUserModifyDTO user) {
+        if (appUserService.accountExist(user.getAccount())) {
+            throw new FridayResultException(ResultStatus.FORBIDDEN_003);
+        }
         return appUserService.saveWithUserRoles(user, true);
     }
 

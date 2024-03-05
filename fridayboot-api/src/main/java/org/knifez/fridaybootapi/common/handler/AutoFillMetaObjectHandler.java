@@ -1,4 +1,4 @@
-package org.knifez.fridaybootadmin.handler;
+package org.knifez.fridaybootapi.common.handler;
 
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
 import lombok.RequiredArgsConstructor;
@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class MyMetaObjectHandler implements MetaObjectHandler {
+public class AutoFillMetaObjectHandler implements MetaObjectHandler {
     @Override
     public void insertFill(MetaObject metaObject) {
         var userAccount = JwtTokenUtils.getCurrentUserAccount();

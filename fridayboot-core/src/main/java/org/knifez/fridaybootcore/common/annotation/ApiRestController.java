@@ -1,4 +1,4 @@
-package org.knifez.fridaybootcore.annotation;
+package org.knifez.fridaybootcore.common.annotation;
 
 import org.springframework.core.annotation.AliasFor;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.lang.annotation.*;
 
 /**
-@author KnifeZ
+ * @author KnifeZ
  */
 
 @Target(ElementType.TYPE)
@@ -19,11 +19,10 @@ import java.lang.annotation.*;
 public @interface ApiRestController {
 
     /**
-     * Alias for {@link RequestMapping#name}.
+     * Alias for {@link RequestMapping#name()}.
      */
     @AliasFor(annotation = RequestMapping.class)
     String name() default "";
-
     /**
      * Alias for {@link RequestMapping#value}.
      */

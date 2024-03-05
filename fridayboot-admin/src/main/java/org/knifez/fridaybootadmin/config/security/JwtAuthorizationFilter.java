@@ -7,7 +7,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.knifez.fridaybootadmin.utils.JwtTokenUtils;
-import org.knifez.fridaybootcore.constants.AppConstants;
+import org.knifez.fridaybootcore.common.constants.AppConstants;
 import org.knifez.fridaybootcore.utils.JwtUtils;
 import org.knifez.fridaybootcore.utils.RedisUtils;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -35,6 +35,7 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
+        log.info("call " + request.getRequestURI());
         String token = request.getHeader(AppConstants.JWT_TOKEN_HEADER);
         if (token == null || !token.startsWith(AppConstants.JWT_TOKEN_PREFIX)) {
             SecurityContextHolder.clearContext();
@@ -52,7 +53,7 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
             }
             authenticationToken = JwtTokenUtils.getAuthentication(tokenValue);
         } catch (JwtException e) {
-            logger.error("Invalid jwt : " + e.getMessage());
+            logger.warn("Invalid jwt : " + e.getMessage());
         }
 
         SecurityContextHolder.getContext().setAuthentication(authenticationToken);

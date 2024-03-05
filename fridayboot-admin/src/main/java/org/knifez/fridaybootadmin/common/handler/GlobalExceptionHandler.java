@@ -1,17 +1,17 @@
-package org.knifez.fridaybootcore.exception;
+package org.knifez.fridaybootadmin.common.handler;
 
 import org.knifez.fridaybootcore.dto.FridayResult;
-import org.knifez.fridaybootcore.enums.ResultStatus;
+import org.knifez.fridaybootcore.common.enums.ResultStatus;
+import org.knifez.fridaybootcore.common.exception.FridayResultException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
 
-import java.nio.file.AccessDeniedException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -21,17 +21,6 @@ import java.util.Map;
 @ControllerAdvice
 @ResponseBody
 public class GlobalExceptionHandler {
-
-    /**
-     * 权限验证失败异常
-     *
-     * @return {@link ResponseEntity}<{@link FridayResult}<{@link Void}>>
-     */
-    @ResponseStatus(value = HttpStatus.FORBIDDEN)
-    @ExceptionHandler(AccessDeniedException.class)
-    public ResponseEntity<FridayResult<Void>> handleAccessDeniedException() {
-        return ResponseEntity.status(HttpStatus.OK).body(FridayResult.fail(ResultStatus.FORBIDDEN));
-    }
 
     /**
      * 处理验证参数异常
@@ -62,6 +51,8 @@ public class GlobalExceptionHandler {
         FridayResult<Void> errorResponse;
         if (e instanceof FridayResultException exp) {
             errorResponse = FridayResult.fail(exp.getResultStatus());
+        } else if (e instanceof AccessDeniedException) {
+            errorResponse = FridayResult.fail(ResultStatus.FORBIDDEN);
         } else {
             errorResponse = FridayResult.fail(HttpStatus.BAD_REQUEST.value(), e.getMessage());
         }

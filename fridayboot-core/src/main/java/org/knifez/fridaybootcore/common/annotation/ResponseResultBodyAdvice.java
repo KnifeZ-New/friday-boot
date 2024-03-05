@@ -1,4 +1,4 @@
-package org.knifez.fridaybootcore.annotation;
+package org.knifez.fridaybootcore.common.annotation;
 
 import lombok.extern.slf4j.Slf4j;
 import org.knifez.fridaybootcore.dto.FridayResult;
@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 
 /**
-@author KnifeZ
+ * @author KnifeZ
  */
 @Slf4j
 @RestControllerAdvice

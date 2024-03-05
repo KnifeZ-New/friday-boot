@@ -5,7 +5,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import jakarta.xml.bind.DatatypeConverter;
 import lombok.extern.slf4j.Slf4j;
-import org.knifez.fridaybootcore.constants.AppConstants;
+import org.knifez.fridaybootcore.common.constants.AppConstants;
 
 import javax.crypto.SecretKey;
 

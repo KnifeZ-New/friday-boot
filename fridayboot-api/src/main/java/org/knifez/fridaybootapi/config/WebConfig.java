@@ -2,8 +2,8 @@ package org.knifez.fridaybootapi.config;
 
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
-import org.knifez.fridaybootadmin.filter.NoneCaseSensitiveRequestFilter;
-import org.knifez.fridaybootcore.constants.AppConstants;
+import org.knifez.fridaybootapi.common.filter.NoneCaseSensitiveRequestFilter;
+import org.knifez.fridaybootcore.common.constants.AppConstants;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;

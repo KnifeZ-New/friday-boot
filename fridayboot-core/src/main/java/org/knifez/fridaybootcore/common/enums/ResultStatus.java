@@ -1,4 +1,4 @@
-package org.knifez.fridaybootcore.enums;
+package org.knifez.fridaybootcore.common.enums;
 
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
@@ -35,7 +35,9 @@ public enum ResultStatus {
     UPLOAD_OVER_LIMIT(400102, "文件大小超出上传最大限制"),
     UPLOAD_TYPE_FORBIDDEN(400103, "未声明的附件类型"),
 
-    ENTITY_NOT_FOUND(404001, "操作对象不存在");
+    ENTITY_NOT_FOUND(404001, "操作对象不存在"),
+
+    DUPLICATE_MODEL(400002,"数据重复，添加失败");
 
     /**
      * 状态码

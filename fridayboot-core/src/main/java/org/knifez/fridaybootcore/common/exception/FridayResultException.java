@@ -1,8 +1,8 @@
-package org.knifez.fridaybootcore.exception;
+package org.knifez.fridaybootcore.common.exception;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.knifez.fridaybootcore.enums.ResultStatus;
+import org.knifez.fridaybootcore.common.enums.ResultStatus;
 
 /**
 @author KnifeZ

@@ -72,4 +72,12 @@ public interface IAppUserService extends IService<AppUser> {
      * @return {@link Boolean}
      */
     Boolean updatePassword(Long id, String password);
+
+    /**
+     * 获取用户组织id
+     *
+     * @param account 账户
+     * @return {@code Long}
+     */
+    Integer getUserOrgId(String account);
 }

@@ -1,7 +1,7 @@
 package org.knifez.fridaybootcore.utils;
 
 import lombok.extern.slf4j.Slf4j;
-import org.knifez.fridaybootcore.constants.AppConstants;
+import org.knifez.fridaybootcore.common.constants.AppConstants;
 
 @Slf4j
 public class RedisUtils {

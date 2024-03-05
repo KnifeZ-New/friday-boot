@@ -1,4 +1,4 @@
-package org.knifez.fridaybootcore.annotation;
+package org.knifez.fridaybootcore.common.annotation;
 
 import org.springframework.web.bind.annotation.ResponseBody;
 

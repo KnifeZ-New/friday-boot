@@ -3,7 +3,7 @@ package org.knifez.fridaybootcore.utils;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
-import org.knifez.fridaybootcore.constants.AppConstants;
+import org.knifez.fridaybootcore.common.constants.AppConstants;
 import org.knifez.fridaybootcore.dto.TextValuePair;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.ResourcePatternResolver;
@@ -14,10 +14,7 @@ import org.springframework.core.type.classreading.MetadataReader;
 import org.springframework.core.type.classreading.MetadataReaderFactory;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * @author KnifeZ
@@ -70,7 +67,7 @@ public class AnnotationUtils {
                     path = pathParent + "/" + childPath[0];
                 }
                 if (maps.contains(path)) {
-                    log.error("path关系映射重复");
+                    log.warn("path关系映射重复");
                     continue;
                 }
                 maps.add(path);
@@ -103,6 +100,14 @@ public class AnnotationUtils {
     }
 
 
+    /**
+     * 获取系统所有已配置的接口权限
+     *
+     * @param resourcePatternResolver 资源模式解析程序
+     * @param classpath               classpath
+     * @param annotationClass         权限注解
+     * @return {@link List}<{@link TextValuePair}> 权限列表
+     */
     public static <T> List<TextValuePair> getAuthorityList(ResourcePatternResolver resourcePatternResolver, String classpath, Class<T> annotationClass) throws Exception {
         Resource[] resources = resourcePatternResolver.getResources(classpath);
         MetadataReaderFactory metaReader = new CachingMetadataReaderFactory();
@@ -133,6 +138,7 @@ public class AnnotationUtils {
                 if (targetAttr == null || summary == null) {
                     continue;
                 }
+                // todo 兼容其他格式
                 maps.add(TextValuePair.from(tag.get("name").toString() + "/" + summary.get("summary").toString(), targetAttr.get(VALUE).toString().split("'")[1]));
             }
         }

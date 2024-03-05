@@ -1,5 +1,6 @@
 package org.knifez.fridaybootadmin.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -13,7 +14,7 @@ import org.knifez.fridaybootadmin.entity.AppRole;
 import org.knifez.fridaybootadmin.entity.AppUser;
 import org.knifez.fridaybootadmin.mapper.AppUserMapper;
 import org.knifez.fridaybootadmin.service.*;
-import org.knifez.fridaybootcore.constants.AppConstants;
+import org.knifez.fridaybootcore.common.constants.AppConstants;
 import org.knifez.fridaybootcore.dto.PagedResult;
 import org.knifez.fridaybootcore.utils.AnnotationUtils;
 import org.springframework.beans.BeanUtils;
@@ -102,10 +103,11 @@ public class AppUserServiceImpl extends ServiceImpl<AppUserMapper, AppUser> impl
     @Override
     public AppUserDTO getUserDtoByAccountOrId(String account, long userId) {
         AppUserDTO userDTO = new AppUserDTO();
-        var wrapper = new QueryWrapper<AppUser>();
-        wrapper.eq(StringUtils.hasText(account), "account", account);
-        wrapper.eq(userId > 0, "id", userId);
-        var user = baseMapper.selectOne(wrapper);
+        LambdaQueryWrapper<AppUser> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(StringUtils.hasText(account), AppUser::getAccount, account);
+        wrapper.eq(userId > 0, AppUser::getId, userId);
+        wrapper.eq(AppUser::getLocked, false);
+        var user = baseMapper.selectOne(wrapper, false);
         if (user != null) {
             BeanUtils.copyProperties(user, userDTO);
             var roles = roleService.listByUserId(user.getId());
@@ -143,7 +145,7 @@ public class AppUserServiceImpl extends ServiceImpl<AppUserMapper, AppUser> impl
             user.setId(null);
             result = save(user);
         } else {
-            if (user.getPassword().isBlank()) {
+            if (StringUtils.hasText(user.getPassword())) {
                 var model = getById(user.getId());
                 user.setPassword(model.getPassword());
             }
@@ -183,5 +185,17 @@ public class AppUserServiceImpl extends ServiceImpl<AppUserMapper, AppUser> impl
         String pass = bCryptPasswordEncoder.encode(password);
         user.setPassword(pass);
         return updateById(user);
+    }
+
+    @Override
+    public Integer getUserOrgId(String account) {
+        LambdaQueryWrapper<AppUser> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(StringUtils.hasText(account), AppUser::getAccount, account);
+        wrapper.eq(AppUser::isDeleted, false);
+        var user = baseMapper.selectOne(wrapper, false);
+        if (user != null && user.getOrganizationId() != null) {
+            return Math.toIntExact(user.getOrganizationId());
+        }
+        return 0;
     }
 }

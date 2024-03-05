@@ -1,4 +1,4 @@
-package org.knifez.fridaybootcore.annotation.permission;
+package org.knifez.fridaybootcore.common.annotation.permission;
 
 import java.lang.annotation.*;
 

@@ -1,4 +1,4 @@
-package org.knifez.fridaybootcore.constants;
+package org.knifez.fridaybootcore.common.constants;
 
 /**
  * 应用常量

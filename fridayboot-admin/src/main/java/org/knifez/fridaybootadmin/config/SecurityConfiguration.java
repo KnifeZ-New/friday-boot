@@ -4,8 +4,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.knifez.fridaybootadmin.config.security.JwtAuthenticationEntryPoint;
 import org.knifez.fridaybootadmin.config.security.JwtAuthorizationFilter;
-import org.knifez.fridaybootcore.annotation.permission.AllowAnonymous;
-import org.knifez.fridaybootcore.constants.AppConstants;
+import org.knifez.fridaybootcore.common.annotation.permission.AllowAnonymous;
+import org.knifez.fridaybootcore.common.constants.AppConstants;
 import org.knifez.fridaybootcore.utils.AnnotationUtils;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -26,6 +26,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
 
 import java.util.Arrays;
 
@@ -60,7 +61,7 @@ public class SecurityConfiguration {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        //system whitelist
+        //白名单 AllowAnonymous
         var whitelist = AnnotationUtils.getAllUrlsByAnnotations(resourcePatternResolver, ResourcePatternResolver.CLASSPATH_ALL_URL_PREFIX + "**/controller/**/**.class", AllowAnonymous.class);
         http.csrf(AbstractHttpConfigurer::disable)
                 .cors(Customizer.withDefaults())

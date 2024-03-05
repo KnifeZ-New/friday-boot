@@ -1,5 +1,6 @@
 server:
   port: 5051
+  forward-headers-strategy: FRAMEWORK
 mybatis-plus:
   global-config:
     db-config:
@@ -9,6 +10,8 @@ mybatis-plus:
 spring:
   profiles:
     active: prod
+  jmx:
+    enabled: false
 springdoc:
   api-docs:
     path: /v3/api-docs

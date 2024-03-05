@@ -13,7 +13,7 @@ import org.knifez.fridaybootadmin.dto.AppMenuDTO;
 import org.knifez.fridaybootadmin.dto.AppMenuQueryRequest;
 import org.knifez.fridaybootadmin.entity.AppDictionaryConfig;
 import org.knifez.fridaybootadmin.entity.AppMenu;
-import org.knifez.fridaybootadmin.enums.MenuTypeEnum;
+import org.knifez.fridaybootadmin.common.enums.MenuTypeEnum;
 import org.knifez.fridaybootadmin.mapper.AppMenuMapper;
 import org.knifez.fridaybootadmin.service.IAppDictionaryConfigService;
 import org.knifez.fridaybootadmin.service.IAppMenuService;
@@ -185,15 +185,27 @@ public class AppMenuServiceImpl extends ServiceImpl<AppMenuMapper, AppMenu> impl
         LambdaQueryWrapper<AppMenu> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.in(!isSuper, AppMenu::getPermission, permissions);
         var list = list(queryWrapper);
-        LambdaQueryWrapper<AppMenu> queryType1Wrapper = new LambdaQueryWrapper<>();
-        queryType1Wrapper.eq(AppMenu::getType, 1);
-        var catalogues = list(queryType1Wrapper);
-        //添加父级目录
+
+        //公共菜单
+        LambdaQueryWrapper<AppMenu> queryNoAuthWrapper = new LambdaQueryWrapper<>();
+        queryNoAuthWrapper.eq(AppMenu::getPermission, "");
+        var noAuthMenu = list(queryNoAuthWrapper);
+        for (var m : noAuthMenu) {
+            if (list.stream().noneMatch(x -> Objects.equals(x.getId(), m.getId()))) {
+                list.add(m);
+            }
+        }
+
+        //添加目录
+        LambdaQueryWrapper<AppMenu> queryType0Wrapper = new LambdaQueryWrapper<>();
+        queryType0Wrapper.eq(AppMenu::getType, MenuTypeEnum.MENU_FOLDER.getValue());
+        var catalogues = list(queryType0Wrapper);
         for (var ca : catalogues) {
             if (list.stream().anyMatch(x -> Objects.equals(x.getParentId(), ca.getId())) && list.stream().noneMatch(x -> Objects.equals(x.getId(), ca.getId()))) {
                 list.add(ca);
             }
         }
+
         return BeanUtil.copyToList(list, AppMenuDTO.class);
     }
 }

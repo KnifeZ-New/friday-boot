@@ -3,18 +3,19 @@ package org.knifez.fridaybootcore.dto;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
-import org.knifez.fridaybootcore.enums.ResultStatus;
+import org.knifez.fridaybootcore.common.enums.ResultStatus;
 
 import java.time.LocalDateTime;
 
 /**
  * 统一包装返回结果
  *
-@author KnifeZ
+ * @author KnifeZ
  */
 @Getter
 @Setter
 public class FridayResult<T> {
+
     @Schema(title = "状态码")
     private Integer code;
 

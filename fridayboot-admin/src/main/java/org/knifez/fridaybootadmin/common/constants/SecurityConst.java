@@ -1,4 +1,4 @@
-package org.knifez.fridaybootadmin.constants;
+package org.knifez.fridaybootadmin.common.constants;
 
 
 /**
@@ -16,11 +16,12 @@ public class SecurityConst {
     public static final String ROLE_CLAIMS = "rol";
     /**
      * 许可声明
+     * PreAuthorize("hasAuthority('code')")
      */
     public static final String AUTHORITY_CLAIMS = "per";
 
     /**
-     * rememberMe 为 false 的时候过期时间是1个小时
+     * rememberMe 为 false 的时候过期时间是24个小时
      */
     public static final long EXPIRATION = 60 * 60L * 24;
 

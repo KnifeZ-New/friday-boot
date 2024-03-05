@@ -1,4 +1,4 @@
-package org.knifez.fridaybootcore.annotation;
+package org.knifez.fridaybootcore.common.annotation;
 
 import java.lang.annotation.*;
 

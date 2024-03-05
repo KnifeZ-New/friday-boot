@@ -1,7 +1,7 @@
 package org.knifez.fridaybootapi.config;
 
-import org.knifez.fridaybootcore.annotation.ApiRestController;
-import org.knifez.fridaybootcore.constants.AppConstants;
+import org.knifez.fridaybootcore.common.annotation.ApiRestController;
+import org.knifez.fridaybootcore.common.constants.AppConstants;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.PathMatchConfigurer;

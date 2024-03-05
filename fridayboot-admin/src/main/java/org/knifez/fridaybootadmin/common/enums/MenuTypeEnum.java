@@ -1,4 +1,4 @@
-package org.knifez.fridaybootadmin.enums;
+package org.knifez.fridaybootadmin.common.enums;
 
 import com.baomidou.mybatisplus.annotation.EnumValue;
 import com.baomidou.mybatisplus.annotation.IEnum;
