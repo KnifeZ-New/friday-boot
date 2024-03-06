@@ -1,6 +1,5 @@
 package org.knifez.fridaybootadmin.config;
 
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.knifez.fridaybootadmin.config.security.JwtAuthenticationEntryPoint;
 import org.knifez.fridaybootadmin.config.security.JwtAuthorizationFilter;
@@ -39,12 +38,16 @@ import static java.util.Collections.singletonList;
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
-@RequiredArgsConstructor
 public class SecurityConfiguration {
 
     private final StringRedisTemplate redisTemplate;
-
     private final ResourcePatternResolver resourcePatternResolver;
+
+    public SecurityConfiguration(StringRedisTemplate redisTemplate, ResourcePatternResolver resourcePatternResolver) {
+        this.redisTemplate = redisTemplate;
+        this.resourcePatternResolver = resourcePatternResolver;
+    }
+
 
     /**
      * 密码编码器
