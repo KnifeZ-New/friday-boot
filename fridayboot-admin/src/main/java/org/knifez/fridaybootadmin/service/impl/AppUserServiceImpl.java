@@ -12,6 +12,7 @@ import org.knifez.fridaybootadmin.dto.AppUserModifyDTO;
 import org.knifez.fridaybootadmin.dto.AppUserPagedRequest;
 import org.knifez.fridaybootadmin.entity.AppRole;
 import org.knifez.fridaybootadmin.entity.AppUser;
+import org.knifez.fridaybootadmin.entity.AppUserRole;
 import org.knifez.fridaybootadmin.mapper.AppUserMapper;
 import org.knifez.fridaybootadmin.service.*;
 import org.knifez.fridaybootcore.common.constants.AppConstants;
@@ -23,6 +24,9 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * <p>
@@ -37,7 +41,6 @@ import org.springframework.util.StringUtils;
 public class AppUserServiceImpl extends ServiceImpl<AppUserMapper, AppUser> implements IAppUserService {
 
     private final IAppRoleService roleService;
-
     private final IAppOrganizationUnitService organizationUnitService;
 
     private final IAppPermissionGrantService permissionService;
@@ -152,7 +155,7 @@ public class AppUserServiceImpl extends ServiceImpl<AppUserMapper, AppUser> impl
             result = updateById(user);
         }
         if (result) {
-            result = userRoleService.saveRolesByUserId(user.getId(), user.getRoles());
+            result = saveRolesByUserId(user.getId(), user.getRoles());
         }
         return result;
     }
@@ -197,5 +200,27 @@ public class AppUserServiceImpl extends ServiceImpl<AppUserMapper, AppUser> impl
             return Math.toIntExact(user.getOrganizationId());
         }
         return 0;
+    }
+
+    /**
+     * 保存用户角色
+     *
+     * @param userId 用户id
+     * @param roles  角色列表
+     * @return 操作结果
+     */
+    @Override
+    public boolean saveRolesByUserId(Long userId, List<Long> roles) {
+        var wrapper = new LambdaQueryWrapper<AppUserRole>();
+        wrapper.eq(AppUserRole::getUserId, userId);
+        userRoleService.remove(wrapper);
+        List<AppUserRole> list = new ArrayList<>();
+        for (Long role : roles) {
+            AppUserRole userRole = new AppUserRole();
+            userRole.setUserId(userId);
+            userRole.setRoleId(role);
+            list.add(userRole);
+        }
+        return userRoleService.saveBatch(list);
     }
 }

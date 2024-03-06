@@ -33,12 +33,12 @@ public class AppAuditLogController {
 
     /**
      * 分页列表
-     * .pagedList
      *
      * @param queryRequest 查询请求
      * @return {@code PagedResult<AppAuditLog> }
      */
     @PostMapping("list")
+    @Operation(summary = "分页列表")
     public PagedResult<AppAuditLog> pagedList(@RequestBody AppAuditLogPagedRequest queryRequest) {
         return appAuditLogService.listByPage(queryRequest);
     }

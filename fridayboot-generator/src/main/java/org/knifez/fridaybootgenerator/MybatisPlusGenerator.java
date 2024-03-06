@@ -39,11 +39,9 @@ public class MybatisPlusGenerator {
                     customFile.put("PagedRequest.java", "/templates/entityPagedRequestDTO.java.ftl");
                     consumer.customFile(customFile);
                 })
-                .templateConfig((scanner, builder) -> {
-                    builder.controller("/templates/controller.java")
-                            .service("/templates/service.java")
-                            .disable(TemplateType.XML);
-                })
+                .templateConfig((scanner, builder) -> builder.controller("/templates/controller.java")
+                        .service("/templates/service.java")
+                        .disable(TemplateType.XML))
                 .templateEngine(new EnhanceFreemarkerTemplateEngine())
                 .execute();
     }

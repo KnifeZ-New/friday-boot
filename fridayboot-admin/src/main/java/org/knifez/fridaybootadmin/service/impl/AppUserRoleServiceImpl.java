@@ -34,25 +34,5 @@ public class AppUserRoleServiceImpl extends ServiceImpl<AppUserRoleMapper, AppUs
         return baseMapper.selectList(wrapper).stream().map(AppUserRole::getRoleId).toList();
     }
 
-    /**
-     * 保存用户角色
-     *
-     * @param userId 用户id
-     * @param roles  角色列表
-     * @return 操作结果
-     */
-    @Override
-    public boolean saveRolesByUserId(Long userId, List<Long> roles) {
-        var wrapper = new LambdaQueryWrapper<AppUserRole>();
-        wrapper.eq(AppUserRole::getUserId, userId);
-        baseMapper.delete(wrapper);
-        List<AppUserRole> list = new ArrayList<>();
-        for (Long role : roles) {
-            AppUserRole userRole = new AppUserRole();
-            userRole.setUserId(userId);
-            userRole.setRoleId(role);
-            list.add(userRole);
-        }
-        return saveBatch(list);
-    }
+
 }

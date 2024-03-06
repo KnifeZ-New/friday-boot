@@ -41,4 +41,12 @@ public interface IAppRoleService extends IService<AppRole> {
      * @return {@link List}<{@link AppRole}>
      */
     PagedResult<AppRole> listByPageQuery(AppRolePagedRequest queryRequest);
+
+    /**
+     * 根据角色保存权限
+     *
+     * @param permissions 菜单按钮Permission集合
+     * @param roleName    角色
+     */
+    void savePermissionsByRole(List<String> permissions, String roleName);
 }

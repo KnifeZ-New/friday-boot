@@ -1,9 +1,7 @@
 package org.knifez.fridaybootadmin.service;
 
-import org.knifez.fridaybootadmin.dto.AppUserInfoDTO;
 import org.knifez.fridaybootadmin.dto.LoginRequest;
 import org.knifez.fridaybootadmin.dto.Token;
-import org.knifez.fridaybootadmin.entity.AppUser;
 
 /**
  * @author KnifeZ

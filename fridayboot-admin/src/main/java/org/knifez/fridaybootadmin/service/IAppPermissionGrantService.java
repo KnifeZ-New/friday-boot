@@ -25,15 +25,6 @@ public interface IAppPermissionGrantService extends IService<AppPermissionGrant>
      */
     List<String> getSelectMenusByRoleName(String roleName);
 
-
-    /**
-     * 根据角色保存权限
-     *
-     * @param permissions 菜单按钮Permission集合
-     * @param roleName    角色
-     */
-    void saveByRole(List<String> permissions, String roleName);
-
     /**
      * 按角色获取权限列表
      *

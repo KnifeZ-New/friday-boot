@@ -21,14 +21,4 @@ public interface IAppUserRoleService extends IService<AppUserRole> {
      * @return {@link List}<{@link Long}>
      */
     List<Long> listRolesByUserId(Long userId);
-
-    /**
-     * 保存用户角色
-     *
-     * @param userId 用户id
-     * @param roles  角色列表
-     * @return 操作结果
-     */
-    boolean saveRolesByUserId(Long userId, List<Long> roles);
-
 }

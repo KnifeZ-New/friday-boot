@@ -10,7 +10,6 @@ import org.knifez.fridaybootadmin.service.IAppMenuService;
 import org.knifez.fridaybootadmin.service.IAppPermissionGrantService;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -43,23 +42,6 @@ public class AppPermissionGrantServiceImpl extends ServiceImpl<AppPermissionGran
         queryWrapper.eq(AppPermissionGrant::getProvideName, "ROLE");
         var list = baseMapper.selectList(queryWrapper);
         return list.stream().map(AppPermissionGrant::getName).distinct().toList();
-    }
-
-    @Override
-    public void saveByRole(List<String> permissions, String roleName) {
-        var queryWrapper = new LambdaQueryWrapper<AppPermissionGrant>();
-        queryWrapper.eq(AppPermissionGrant::getProvideFor, roleName);
-        queryWrapper.eq(AppPermissionGrant::getProvideName, "ROLE");
-        baseMapper.delete(queryWrapper);
-        List<AppPermissionGrant> permissionGrants = new ArrayList<>();
-        for (var permission : permissions) {
-            var permissionGrant = new AppPermissionGrant();
-            permissionGrant.setName(permission);
-            permissionGrant.setProvideName("ROLE");
-            permissionGrant.setProvideFor(roleName);
-            permissionGrants.add(permissionGrant);
-        }
-        saveBatch(permissionGrants);
     }
 
     /**

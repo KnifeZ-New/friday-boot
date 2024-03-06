@@ -13,7 +13,7 @@
     <artifactId>fridayboot</artifactId>
     <version>0.3.2</version>
     <packaging>pom</packaging>
-    <name>fridayboot ${project.version}</name>
+    <name>fridayboot</name>
     <description>friday-boot</description>
     <properties>
         <java.version>17</java.version>

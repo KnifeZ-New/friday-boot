@@ -83,7 +83,7 @@ public class AppRoleController {
     @PreAuthorize("hasAuthority('role.create')")
     @Operation(summary = "新增角色", description = "role.create")
     public Boolean create(@RequestBody AppRole role) {
-        permissionService.saveByRole(role.getPermissions(), role.getName());
+        roleService.savePermissionsByRole(role.getPermissions(), role.getName());
         role.setId(null);
         return roleService.save(role);
     }
@@ -98,7 +98,7 @@ public class AppRoleController {
     @PreAuthorize("hasAuthority('role.update')")
     @Operation(summary = "修改角色", description = "role.update")
     public Boolean update(@RequestBody AppRole role) {
-        permissionService.saveByRole(role.getPermissions(), role.getName());
+        roleService.savePermissionsByRole(role.getPermissions(), role.getName());
         return roleService.updateById(role);
     }
 
