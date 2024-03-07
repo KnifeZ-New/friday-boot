@@ -1,14 +1,17 @@
 package org.knifez.fridaybootadmin.utils;
 
+import cn.hutool.jwt.JWT;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import jakarta.xml.bind.DatatypeConverter;
+import lombok.extern.slf4j.Slf4j;
 import org.knifez.fridaybootadmin.common.constants.SecurityConst;
 import org.knifez.fridaybootadmin.dto.Token;
 import org.knifez.fridaybootcore.common.constants.AppConstants;
-import org.knifez.fridaybootcore.utils.JwtUtils;
+import org.knifez.fridaybootcore.utils.ServletRequestUtils;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -24,6 +27,7 @@ import java.util.List;
 /**
  * @author KnifeZ
  */
+@Slf4j
 public class JwtTokenUtils {
 
     /**
@@ -36,7 +40,7 @@ public class JwtTokenUtils {
         throw new IllegalStateException("Utility class");
     }
 
-    public static Token createToken(String username, String id, List<String> roles, List<String> grantedAuthorities, boolean isRememberMe) {
+    public static Token createToken(String username, String id, List<String> roles, boolean isRememberMe) {
         long expiration = isRememberMe ? SecurityConst.EXPIRATION_REMEMBER : SecurityConst.EXPIRATION;
         final Date createdDate = new Date();
         final Date expirationDate = new Date(createdDate.getTime() + expiration * 1000);
@@ -44,7 +48,6 @@ public class JwtTokenUtils {
                 .setHeaderParam("type", AppConstants.JWT_TOKEN_TYPE)
                 .signWith(SECRET_KEY, SignatureAlgorithm.HS256)
                 .claim(SecurityConst.ROLE_CLAIMS, String.join(",", roles))
-                .claim(SecurityConst.AUTHORITY_CLAIMS, grantedAuthorities)
                 .setId(id)
                 .setSubject(username)
                 .setIssuer("fridayboot")
@@ -57,24 +60,23 @@ public class JwtTokenUtils {
     }
 
 
-    public static UsernamePasswordAuthenticationToken getAuthentication(String token) {
-        Claims claims = JwtUtils.getClaims();
-        List<SimpleGrantedAuthority> authorities = new ArrayList<>();
+    /**
+     * 设置安全上下文身份验证
+     *
+     * @param token 令牌
+     */
+    public static void setSecurityContextAuthentication(String token, String authorities) {
+        token = fixToken(token);
+        Claims claims = getClaims();
+        List<SimpleGrantedAuthority> authoritiesList = new ArrayList<>();
         String userName = null;
         if (claims != null) {
-            var tempList = getAuthorities(claims);
-            tempList.forEach(permission -> authorities.add(new SimpleGrantedAuthority(permission)));
+            var tempList = Arrays.stream(authorities.split(",")).toList();
+            tempList.forEach(permission -> authoritiesList.add(new SimpleGrantedAuthority(permission)));
             userName = claims.getSubject();
         }
-        return new UsernamePasswordAuthenticationToken(userName, token, authorities);
-    }
-
-    private static List<String> getAuthorities(Claims claims) {
-        var obj = claims.get(SecurityConst.AUTHORITY_CLAIMS);
-        if (obj instanceof List<?>) {
-            return ((List<?>) obj).stream().map(Object::toString).toList();
-        }
-        return new ArrayList<>();
+        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(userName, token, authoritiesList);
+        SecurityContextHolder.getContext().setAuthentication(authenticationToken);
     }
 
 
@@ -92,12 +94,55 @@ public class JwtTokenUtils {
     }
 
     public static boolean isSuperAdmin() {
-        Claims claims = JwtUtils.getClaims();
+        Claims claims = getClaims();
         String role = null;
         if (claims != null) {
             role = (String) claims.get(SecurityConst.ROLE_CLAIMS);
         }
         return role != null && Arrays.asList(role.split(",")).contains(AppConstants.ROLE_SUPER_ADMIN);
+    }
+
+
+    public static String getJWTToken() {
+        var token = ServletRequestUtils.getRequest().getHeader(AppConstants.JWT_TOKEN_HEADER);
+        if (token == null) return null;
+        token = fixToken(token);
+        return token;
+    }
+
+    public static Claims getClaims() {
+        var token = getJWTToken();
+        if (token == null) return null;
+        return Jwts.parserBuilder().setSigningKey(SECRET_KEY).build()
+                .parseClaimsJws(token)
+                .getBody();
+    }
+
+    private static String fixToken(String token) {
+        return token.replace(AppConstants.JWT_TOKEN_PREFIX, "");
+    }
+
+    public static String getCurrentUser() {
+        Claims claims = getClaims();
+        if (claims == null) {
+            return "";
+        }
+        return claims.getSubject();
+    }
+
+    public static Boolean isExpired(String token) {
+        try {
+            token = fixToken(token);
+            var exp = JWT.of(token).getPayload(JWT.EXPIRES_AT);
+            log.info(exp.toString());
+            if (System.currentTimeMillis() / 1000 > Long.parseLong(exp.toString())) {
+                return true;
+            }
+        } catch (Exception exception) {
+            log.error(exception.getMessage());
+            return true;
+        }
+        return false;
     }
 }
 

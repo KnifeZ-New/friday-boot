@@ -7,12 +7,10 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.knifez.fridaybootadmin.utils.JwtTokenUtils;
+import org.knifez.fridaybootadmin.utils.RedisUtils;
 import org.knifez.fridaybootcore.common.constants.AppConstants;
-import org.knifez.fridaybootcore.utils.JwtUtils;
-import org.knifez.fridaybootcore.utils.RedisUtils;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
@@ -42,21 +40,19 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
             chain.doFilter(request, response);
             return;
         }
-        String tokenValue = token.replace(AppConstants.JWT_TOKEN_PREFIX, "");
-        UsernamePasswordAuthenticationToken authenticationToken = null;
         try {
-            String previousToken = redisTemplate.opsForValue().get(RedisUtils.formatKey(JwtUtils.getCurrentUser()));
-            if (!token.equals(previousToken)) {
+            // 验证是否过期token
+            if (JwtTokenUtils.isExpired(token) || RedisUtils.getUserToken(redisTemplate, JwtTokenUtils.getCurrentUser()).stream().noneMatch(x -> x.equals(token))) {
                 SecurityContextHolder.clearContext();
                 chain.doFilter(request, response);
                 return;
             }
-            authenticationToken = JwtTokenUtils.getAuthentication(tokenValue);
+            var authorities = RedisUtils.getStr(redisTemplate, AppConstants.CURRENT_USER_PERMISSION_PREFIX + JwtTokenUtils.getCurrentUser());
+            JwtTokenUtils.setSecurityContextAuthentication(token, authorities);
         } catch (JwtException e) {
             logger.warn("Invalid jwt : " + e.getMessage());
         }
 
-        SecurityContextHolder.getContext().setAuthentication(authenticationToken);
         chain.doFilter(request, response);
     }
 }

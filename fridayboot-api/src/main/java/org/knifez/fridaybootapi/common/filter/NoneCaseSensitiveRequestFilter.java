@@ -7,18 +7,15 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
 
+/**
+ * 不区分大小写请求筛选器
+ *
+ * @author KnifeZ
+ * @date 2024/03/07
+ */
 @Slf4j
 public class NoneCaseSensitiveRequestFilter implements Filter {
 
-    /**
-     * do过滤器
-     *
-     * @param servletRequest  servlet请求
-     * @param servletResponse servlet响应
-     * @param filterChain     过滤链
-     * @throws IOException      IOException
-     * @throws ServletException servlet异常
-     */
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         // 接口转小写

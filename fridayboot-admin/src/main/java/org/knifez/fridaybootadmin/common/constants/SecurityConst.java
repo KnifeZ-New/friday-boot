@@ -15,12 +15,6 @@ public class SecurityConst {
      */
     public static final String ROLE_CLAIMS = "rol";
     /**
-     * 许可声明
-     * PreAuthorize("hasAuthority('code')")
-     */
-    public static final String AUTHORITY_CLAIMS = "per";
-
-    /**
      * rememberMe 为 false 的时候过期时间是24个小时
      */
     public static final long EXPIRATION = 60 * 60L * 24;
@@ -29,5 +23,10 @@ public class SecurityConst {
      * rememberMe 为 true 的时候过期时间是7天
      */
     public static final long EXPIRATION_REMEMBER = 60 * 60 * 24 * 7L;
+
+    /**
+     * 最大客户端数量
+     */
+    public static final Integer MAX_CLIENT_COUNT = 5;
 
 }

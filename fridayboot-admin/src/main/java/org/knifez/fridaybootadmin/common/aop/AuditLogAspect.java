@@ -14,10 +14,10 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.knifez.fridaybootadmin.entity.AppAuditLog;
 import org.knifez.fridaybootadmin.service.IAppAuditLogService;
+import org.knifez.fridaybootadmin.utils.JwtTokenUtils;
 import org.knifez.fridaybootcore.common.annotation.AuditLog;
 import org.knifez.fridaybootcore.dto.FridayResult;
 import org.knifez.fridaybootcore.common.enums.ResultStatus;
-import org.knifez.fridaybootcore.utils.JwtUtils;
 import org.knifez.fridaybootcore.utils.ServletRequestUtils;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.stereotype.Component;
@@ -117,11 +117,12 @@ public class AuditLogAspect {
         // 补全通用字段
         logEntity.setExecutionTime(startTime);
         try {
-            logEntity.setUserId(JwtUtils.getCurrentUser());
+            logEntity.setUserId(JwtTokenUtils.getCurrentUser());
         } catch (Exception e) {
             logEntity.setUserId("");
         }
         // 补全模块信息
+        log.debug(operation.method());
 //        fillModuleFields(logEntity, joinPoint, auditLog, operation);
         // 补全请求信息
         fillRequestFields(logEntity);
@@ -167,15 +168,14 @@ public class AuditLogAspect {
     }
 
     private static String obtainMethodArgs(ProceedingJoinPoint joinPoint) {
-        // TODO 提升：参数脱敏和忽略
         MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
         String[] argNames = methodSignature.getParameterNames();
         Object[] argValues = joinPoint.getArgs();
         // 拼接参数
         Map<String, Object> args = new HashMap<>(argValues.length);
-        for (int i = 0; i < argNames.length; i++) {
-            String argName = argNames[i];
-            Object argValue = argValues[i];
+        for (String argName : argNames) {
+            // 只记录传递的参数名，不记录具体值
+            Object argValue = "*";
             // 被忽略时，标记为 ignore 字符串，避免和 null 混在一起
             args.put(argName, !isIgnoreArgs(argValue) ? argValue : "[ignore]");
         }

@@ -17,7 +17,6 @@ import org.knifez.fridaybootcore.common.annotation.permission.AllowAnonymous;
 import org.knifez.fridaybootcore.common.annotation.permission.AllowAuthenticated;
 import org.knifez.fridaybootcore.common.constants.AppConstants;
 import org.knifez.fridaybootcore.entity.ApplicationCollocation;
-import org.knifez.fridaybootcore.utils.JwtUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -128,7 +127,7 @@ public class AuthController {
     @GetMapping("current-userinfo")
     @Operation(summary = "当前用户信息")
     public AppUserInfoDTO getCurrentUserInfo() {
-        var userInfo = userService.findByAccount(JwtUtils.getCurrentUser());
+        var userInfo = userService.findByAccount(JwtTokenUtils.getCurrentUser());
         userInfo.setHomePath("/");
         var menus = permissionGrantService.getUserMenuByPermissions(userInfo.getPermissions(), JwtTokenUtils.isSuperAdmin());
         userInfo.setMenu(menus);
