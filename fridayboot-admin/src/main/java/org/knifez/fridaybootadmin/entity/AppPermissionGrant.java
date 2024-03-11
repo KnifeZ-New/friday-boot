@@ -29,7 +29,7 @@ public class AppPermissionGrant implements Serializable {
 
     @Schema(title = "主键id")
     @TableId(value = "id", type = IdType.AUTO)
-    private Long id;
+    private Integer id;
 
     @Schema(title = "权限")
     private String name;

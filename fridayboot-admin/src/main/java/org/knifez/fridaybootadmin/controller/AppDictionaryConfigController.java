@@ -78,9 +78,9 @@ public class AppDictionaryConfigController {
         TreeNodeConfig treeConfig = new TreeNodeConfig();
         treeConfig.setWeightKey("sort");
         return TreeUtil.build(list, null, treeConfig, (node, tree) -> {
-            tree.setId(node.getId());
+            tree.setId(Long.valueOf(node.getId()));
             tree.setName(node.getName());
-            tree.setParentId(node.getParentId());
+            tree.setParentId(Long.valueOf(node.getParentId()));
             tree.putExtra("sort", node.getSort());
             tree.putExtra("dictCode", node.getDictCode());
             tree.putExtra("value", node.getValue());
@@ -105,9 +105,9 @@ public class AppDictionaryConfigController {
         TreeNodeConfig treeConfig = new TreeNodeConfig();
         treeConfig.setWeightKey("sort");
         return TreeUtil.build(list, null, treeConfig, (node, tree) -> {
-            tree.setId(node.getId());
+            tree.setId(Long.valueOf(node.getId()));
             tree.setName(node.getName());
-            tree.setParentId(node.getParentId());
+            tree.setParentId(Long.valueOf(node.getParentId()));
             tree.putExtra("dictCode", node.getDictCode());
             tree.putExtra("value", node.getValue());
             tree.putExtra("icon", node.getIcon());

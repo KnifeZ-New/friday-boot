@@ -12,5 +12,5 @@ import java.util.List;
 @Setter
 public class AppUserModifyDTO extends AppUser {
     @Schema(title = "角色")
-    private List<Long> roles = new ArrayList<>();
+    private List<Integer> roles = new ArrayList<>();
 }

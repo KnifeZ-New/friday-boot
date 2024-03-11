@@ -172,7 +172,7 @@ public class AppUserController {
     @GetMapping("{id}/roles")
     @AllowAuthenticated
     @Operation(summary = "获取用户关联角色")
-    public List<Long> getUserRoles(@PathVariable Long id) {
+    public List<Integer> getUserRoles(@PathVariable Integer id) {
         return userRoleService.listRolesByUserId(id);
     }
 }

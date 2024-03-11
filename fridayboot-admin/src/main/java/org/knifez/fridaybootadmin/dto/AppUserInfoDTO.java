@@ -21,7 +21,7 @@ public class AppUserInfoDTO {
 
     @JsonIgnore
     @Schema(title = "主键id")
-    private Long id;
+    private Integer id;
 
     @Schema(title = "账号")
     private String account;
@@ -46,7 +46,7 @@ public class AppUserInfoDTO {
     private Boolean locked;
 
     @Schema(title = "所属部门id")
-    private Long organizationId;
+    private Integer organizationId;
 
     @Schema(title = "所属部门")
     private String organizationName;
@@ -60,13 +60,9 @@ public class AppUserInfoDTO {
     @Schema(title = "角色权限")
     private List<String> permissions = new ArrayList<>();
 
+    @Schema(title = "数据权限")
+    private List<Integer> dataPermissions = new ArrayList<>();
+
     @Schema(title = "菜单列表")
     private List<AppMenuDTO> menu = new ArrayList<>();
-
-    @JsonIgnore
-    public List<SimpleGrantedAuthority> getGrantAuthorities() {
-        List<SimpleGrantedAuthority> authorities = new ArrayList<>();
-        permissions.forEach(permission -> authorities.add(new SimpleGrantedAuthority(permission)));
-        return authorities;
-    }
 }

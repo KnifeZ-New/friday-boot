@@ -19,11 +19,6 @@ public @interface AuditLog {
     /**
      * 是否记录方法参数
      */
-    boolean logArgs() default true;
-
-    /**
-     * 是否记录方法结果的数据
-     */
-    boolean logResultData() default true;
+    boolean logArgs() default false;
 
 }

@@ -64,7 +64,7 @@ public interface IAppUserService extends IService<AppUser> {
      * @param password 密码
      * @return {@link Boolean}
      */
-    Boolean checkOriginPassword(Long id, String password);
+    Boolean checkOriginPassword(Integer id, String password);
 
     /**
      * 更新密码
@@ -73,7 +73,7 @@ public interface IAppUserService extends IService<AppUser> {
      * @param password 密码
      * @return {@link Boolean}
      */
-    Boolean updatePassword(Long id, String password);
+    Boolean updatePassword(Integer id, String password);
 
     /**
      * 获取用户组织id
@@ -91,5 +91,5 @@ public interface IAppUserService extends IService<AppUser> {
      * @param roles  角色列表
      * @return 操作结果
      */
-    boolean saveRolesByUserId(Long userId, List<Long> roles);
+    boolean saveRolesByUserId(Integer userId, List<Integer> roles);
 }

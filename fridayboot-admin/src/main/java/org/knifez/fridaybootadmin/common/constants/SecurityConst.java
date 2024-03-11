@@ -17,12 +17,12 @@ public class SecurityConst {
     /**
      * rememberMe 为 false 的时候过期时间是24个小时
      */
-    public static final long EXPIRATION = 60 * 60L * 24;
+    public static final Long EXPIRATION = 60 * 60 * 24L;
 
     /**
      * rememberMe 为 true 的时候过期时间是7天
      */
-    public static final long EXPIRATION_REMEMBER = 60 * 60 * 24 * 7L;
+    public static final Long EXPIRATION_REMEMBER = 60 * 60 * 24 * 7L;
 
     /**
      * 最大客户端数量

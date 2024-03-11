@@ -21,7 +21,7 @@ public class AppUserPagedRequest extends PagedRequest {
     private String username;
 
     @Schema(title = "部门")
-    private List<Long> organizationIds;
+    private List<Integer> organizationIds;
 
     @Schema(title = "是否锁定")
     private Boolean locked;

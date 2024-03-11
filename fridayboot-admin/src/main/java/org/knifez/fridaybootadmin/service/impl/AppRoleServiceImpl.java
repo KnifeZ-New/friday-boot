@@ -47,7 +47,7 @@ public class AppRoleServiceImpl extends ServiceImpl<AppRoleMapper, AppRole> impl
      * @return {@link List}<{@link AppRole}>
      */
     @Override
-    public List<String> listRoleNameByUserId(long userId) {
+    public List<String> listRoleNameByUserId(Integer userId) {
         var ids = userRoleService.listRolesByUserId(userId);
         if (ids.isEmpty()) {
             return Collections.emptyList();
@@ -62,7 +62,7 @@ public class AppRoleServiceImpl extends ServiceImpl<AppRoleMapper, AppRole> impl
      * @return {@link List}<{@link AppRole}>
      */
     @Override
-    public List<AppRole> listByUserId(long userId) {
+    public List<AppRole> listByUserId(Integer userId) {
         var ids = userRoleService.listRolesByUserId(userId);
         if (ids.isEmpty()) {
             return Collections.emptyList();

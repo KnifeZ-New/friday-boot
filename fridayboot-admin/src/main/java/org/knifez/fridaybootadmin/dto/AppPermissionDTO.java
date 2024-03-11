@@ -11,6 +11,6 @@ import java.util.List;
 public class AppPermissionDTO {
     @Schema(title = "接口权限列表")
     private List<String> ApiPermissions;
-    @Schema(title = "前端按钮权限列表")
-    private List<String> WebPermissions;
+    @Schema(title = "数据权限列表")
+    private List<Integer> DataPermissions;
 }

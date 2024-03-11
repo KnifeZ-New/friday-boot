@@ -14,6 +14,7 @@ public enum ResultStatus {
     //Http状态码
     SUCCESS(HttpStatus.OK),
     BAD_REQUEST(HttpStatus.BAD_REQUEST),
+    INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR),
 
     // 授权/登录验证失败
     UNAUTHORIZED(HttpStatus.UNAUTHORIZED.value(), "请登录账号"),

@@ -18,6 +18,11 @@ public class AppConstants {
      * 当前用户权限前缀
      */
     public static final String CURRENT_USER_PERMISSION_PREFIX = "permissions_for_";
+
+    /**
+     * 当前用户信息DTO
+     */
+    public static final String CURRENT_USERINFO_DTO = "userinfo_";
     /**
      * 超级管理员
      */

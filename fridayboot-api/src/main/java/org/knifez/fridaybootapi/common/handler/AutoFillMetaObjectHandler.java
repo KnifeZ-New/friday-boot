@@ -8,6 +8,7 @@ import org.knifez.fridaybootadmin.utils.JwtTokenUtils;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
+import java.util.function.Supplier;
 
 @Slf4j
 @Component
@@ -15,17 +16,17 @@ import java.time.LocalDateTime;
 public class AutoFillMetaObjectHandler implements MetaObjectHandler {
     @Override
     public void insertFill(MetaObject metaObject) {
-        var userAccount = JwtTokenUtils.getCurrentUserAccount();
+        var userAccount = JwtTokenUtils.getCurrentUser();
         this.strictInsertFill(metaObject, "createBy", String.class, userAccount);
         this.strictInsertFill(metaObject, "createTime", LocalDateTime::now, LocalDateTime.class);
-        this.strictInsertFill(metaObject, "updateBy", String.class, userAccount);
-        this.strictUpdateFill(metaObject, "updateTime", LocalDateTime::now, LocalDateTime.class);
+//        this.strictInsertFill(metaObject, "updateBy", String.class, "");
+//        this.strictUpdateFill(metaObject, "updateTime", (Supplier<LocalDateTime>) null, LocalDateTime.class);
     }
 
     @Override
     public void updateFill(MetaObject metaObject) {
         log.info("start update fill ....");
-        this.strictInsertFill(metaObject, "updateBy", String.class, JwtTokenUtils.getCurrentUserAccount());
+        this.strictInsertFill(metaObject, "updateBy", String.class, JwtTokenUtils.getCurrentUser());
         this.strictUpdateFill(metaObject, "updateTime", LocalDateTime::now, LocalDateTime.class);
     }
 }

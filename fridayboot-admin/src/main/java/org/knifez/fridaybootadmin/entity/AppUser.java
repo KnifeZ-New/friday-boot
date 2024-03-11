@@ -35,7 +35,7 @@ public class AppUser extends BaseLogicDeleteEntity implements Serializable {
 
     @TableId(value = "id", type = IdType.AUTO)
     @Schema(title = "主键id")
-    private Long id;
+    private Integer id;
 
     @Schema(title = "账号")
     private String account;
@@ -60,5 +60,5 @@ public class AppUser extends BaseLogicDeleteEntity implements Serializable {
     private Boolean locked;
 
     @Schema(title = "所属部门id")
-    private Long organizationId;
+    private Integer organizationId;
 }

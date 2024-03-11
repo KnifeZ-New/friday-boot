@@ -31,13 +31,13 @@ public class AppDictionaryConfig extends BaseAuditEntity implements Serializable
 
     @Schema(title = "主键id")
     @TableId(value = "id", type = IdType.AUTO)
-    private Long id;
+    private Integer id;
 
     @Schema(title = "字典编码")
     private String dictCode;
 
     @Schema(title = "父级节点")
-    private Long parentId;
+    private Integer parentId;
 
     @Schema(title = "名字")
     private String name;

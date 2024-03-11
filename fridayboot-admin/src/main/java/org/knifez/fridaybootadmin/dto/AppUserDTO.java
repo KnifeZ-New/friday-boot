@@ -17,7 +17,7 @@ import java.util.List;
 @Schema(title = "AppUserDTO")
 public class AppUserDTO {
     @Schema(title = "主键id")
-    private Long id;
+    private Integer id;
 
     @Schema(title = "账号")
     private String account;
@@ -42,7 +42,7 @@ public class AppUserDTO {
     private Boolean locked;
 
     @Schema(title = "所属部门id")
-    private Long organizationId;
+    private Integer organizationId;
 
     @Schema(title = "所属部门")
     private String organizationName;

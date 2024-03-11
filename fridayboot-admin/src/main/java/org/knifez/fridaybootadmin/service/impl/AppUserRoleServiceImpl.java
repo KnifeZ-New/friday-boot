@@ -25,10 +25,10 @@ public class AppUserRoleServiceImpl extends ServiceImpl<AppUserRoleMapper, AppUs
      * 获取角色id列表
      *
      * @param userId 用户id
-     * @return {@link List}<{@link Long}>
+     * @return {@link List}<{@link Integer}>
      */
     @Override
-    public List<Long> listRolesByUserId(Long userId) {
+    public List<Integer> listRolesByUserId(Integer userId) {
         LambdaQueryWrapper<AppUserRole> wrapper = new LambdaQueryWrapper<>();
         wrapper.eq(AppUserRole::getUserId, userId);
         return baseMapper.selectList(wrapper).stream().map(AppUserRole::getRoleId).toList();

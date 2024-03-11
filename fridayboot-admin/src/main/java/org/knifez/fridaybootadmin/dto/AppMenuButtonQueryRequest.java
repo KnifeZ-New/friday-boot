@@ -13,7 +13,7 @@ import lombok.Setter;
 public class AppMenuButtonQueryRequest {
 
     @Schema(title = "菜单ID")
-    private int menuId;
+    private Integer menuId;
 
     @Schema(title = "按钮名称")
     private String name;

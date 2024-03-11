@@ -11,6 +11,7 @@ import org.knifez.fridaybootadmin.service.IAppPermissionGrantService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 
 /**
  * <p>
@@ -58,10 +59,11 @@ public class AppPermissionGrantServiceImpl extends ServiceImpl<AppPermissionGran
         }
         var queryWrapper = new LambdaQueryWrapper<AppPermissionGrant>();
         queryWrapper.in(AppPermissionGrant::getProvideFor, roleNames);
-        queryWrapper.eq(AppPermissionGrant::getProvideName, "ROLE");
         var list = baseMapper.selectList(queryWrapper);
-        var permissions = list.stream().map(AppPermissionGrant::getName).distinct().toList();
+        var permissions = list.stream().filter(x -> Objects.equals(x.getProvideName(), "ROLE")).map(AppPermissionGrant::getName).distinct().toList();
         result.setApiPermissions(permissions);
+        var dataPermissions = list.stream().filter(x -> x.getProvideName().startsWith("DATA_")).map(AppPermissionGrant::getName).distinct().toList();
+        result.setDataPermissions(dataPermissions.stream().map(Integer::parseInt).toList());
         return result;
     }
 

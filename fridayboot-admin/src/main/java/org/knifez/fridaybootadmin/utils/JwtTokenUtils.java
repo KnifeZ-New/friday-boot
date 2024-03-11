@@ -8,13 +8,13 @@ import io.jsonwebtoken.security.Keys;
 import jakarta.xml.bind.DatatypeConverter;
 import lombok.extern.slf4j.Slf4j;
 import org.knifez.fridaybootadmin.common.constants.SecurityConst;
+import org.knifez.fridaybootadmin.dto.AppUserInfoDTO;
+import org.knifez.fridaybootadmin.dto.JwtUserDetail;
 import org.knifez.fridaybootadmin.dto.Token;
 import org.knifez.fridaybootcore.common.constants.AppConstants;
 import org.knifez.fridaybootcore.utils.ServletRequestUtils;
-import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
@@ -41,7 +41,7 @@ public class JwtTokenUtils {
     }
 
     public static Token createToken(String username, String id, List<String> roles, boolean isRememberMe) {
-        long expiration = isRememberMe ? SecurityConst.EXPIRATION_REMEMBER : SecurityConst.EXPIRATION;
+        var expiration = isRememberMe ? SecurityConst.EXPIRATION_REMEMBER : SecurityConst.EXPIRATION;
         final Date createdDate = new Date();
         final Date expirationDate = new Date(createdDate.getTime() + expiration * 1000);
         String tokenPrefix = Jwts.builder()
@@ -65,18 +65,18 @@ public class JwtTokenUtils {
      *
      * @param token 令牌
      */
-    public static void setSecurityContextAuthentication(String token, String authorities) {
-        token = fixToken(token);
-        Claims claims = getClaims();
-        List<SimpleGrantedAuthority> authoritiesList = new ArrayList<>();
-        String userName = null;
-        if (claims != null) {
-            var tempList = Arrays.stream(authorities.split(",")).toList();
-            tempList.forEach(permission -> authoritiesList.add(new SimpleGrantedAuthority(permission)));
-            userName = claims.getSubject();
+    public static void setSecurityContextAuthentication(String token, String jwtUser) {
+        if (jwtUser != null) {
+            Claims claims = getClaims();
+            if (claims != null) {
+                String userName = claims.getSubject();
+                JwtUserDetail userDetail = new JwtUserDetail(jwtUser);
+                token = fixToken(token);
+                UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(userName, token, userDetail.getAuthorities());
+                authenticationToken.setDetails(userDetail);
+                SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+            }
         }
-        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(userName, token, authoritiesList);
-        SecurityContextHolder.getContext().setAuthentication(authenticationToken);
     }
 
 
@@ -85,13 +85,6 @@ public class JwtTokenUtils {
         return bCryptPasswordEncoder.matches(currentPassword, password);
     }
 
-    public static String getCurrentUserAccount() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication != null && authentication.getPrincipal() != null) {
-            return (String) authentication.getPrincipal();
-        }
-        return null;
-    }
 
     public static boolean isSuperAdmin() {
         Claims claims = getClaims();
@@ -118,10 +111,6 @@ public class JwtTokenUtils {
                 .getBody();
     }
 
-    private static String fixToken(String token) {
-        return token.replace(AppConstants.JWT_TOKEN_PREFIX, "");
-    }
-
     public static String getCurrentUser() {
         Claims claims = getClaims();
         if (claims == null) {
@@ -130,11 +119,49 @@ public class JwtTokenUtils {
         return claims.getSubject();
     }
 
+    public static JwtUserDetail getJwtUserDetail() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null && authentication.getDetails() != null) {
+            try {
+                return (JwtUserDetail) authentication.getDetails();
+            } catch (Exception e) {
+                log.error(e.getMessage());
+            }
+        }
+        return new JwtUserDetail(new AppUserInfoDTO());
+    }
+
+    /**
+     * 获取数据权限
+     *
+     * @return {@link List}<{@link String}>
+     */
+    public static List<Integer> getDataPermission(List<Integer> selected) {
+        List<Integer> result = new ArrayList<>();
+        var user = getJwtUserDetail();
+        var dataPermissions = user.getDataPermissions();
+        if (selected != null && !selected.isEmpty()) {
+            result.addAll(selected);
+            // 移除不在数据权限列表的数据,超管不移除
+            if (!JwtTokenUtils.isSuperAdmin()) {
+                result.removeIf(item -> dataPermissions.stream().noneMatch(x -> x.equals(item)));
+            }
+        } else {
+            result.addAll(dataPermissions);
+        }
+        if (JwtTokenUtils.isSuperAdmin()) {
+            return result;
+        }
+        // 非超管且无数据权限
+        if (result.isEmpty()) {
+            result.add(0);
+        }
+        return result;
+    }
+
     public static Boolean isExpired(String token) {
         try {
-            token = fixToken(token);
-            var exp = JWT.of(token).getPayload(JWT.EXPIRES_AT);
-            log.info(exp.toString());
+            var exp = JWT.of(fixToken(token)).getPayload(JWT.EXPIRES_AT);
             if (System.currentTimeMillis() / 1000 > Long.parseLong(exp.toString())) {
                 return true;
             }
@@ -143,6 +170,10 @@ public class JwtTokenUtils {
             return true;
         }
         return false;
+    }
+
+    private static String fixToken(String token) {
+        return token.replace(AppConstants.JWT_TOKEN_PREFIX, "");
     }
 }
 

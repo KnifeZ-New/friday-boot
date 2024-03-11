@@ -31,7 +31,7 @@ public class AppDictionary extends BaseAuditEntity implements Serializable {
 
     @Schema(title = "主键id")
     @TableId(value = "id", type = IdType.AUTO)
-    private Long id;
+    private Integer id;
 
     @Schema(title = "字典名称")
     private String name;

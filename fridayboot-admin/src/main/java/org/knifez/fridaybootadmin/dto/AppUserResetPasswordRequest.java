@@ -9,7 +9,7 @@ import lombok.Setter;
 public class AppUserResetPasswordRequest {
 
     @Schema(title = "主键id")
-    private Long id;
+    private Integer id;
 
     @Schema(title = "原密码")
     private String originPassword;

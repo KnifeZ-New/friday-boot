@@ -44,9 +44,9 @@ public class AppOrganizationUnitController {
         var list = appOrganizationUnitService.listWithParentNodes(queryRequest);
         TreeNodeConfig treeConfig = new TreeNodeConfig();
         return TreeUtil.build(list, null, treeConfig, (node, tree) -> {
-            tree.setId(node.getId());
+            tree.setId(Long.valueOf(node.getId()));
             tree.setName(node.getName());
-            tree.setParentId(node.getParentId());
+            tree.setParentId(Long.valueOf(node.getParentId()));
             tree.putExtra("description", node.getDescription());
             tree.putExtra("unitCode", node.getUnitCode());
             tree.putExtra("createTime", node.getCreateTime());

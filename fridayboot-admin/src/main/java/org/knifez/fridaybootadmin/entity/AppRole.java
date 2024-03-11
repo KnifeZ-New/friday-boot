@@ -36,7 +36,7 @@ public class AppRole extends BaseAuditEntity implements Serializable {
 
     @TableId(value = "id", type = IdType.AUTO)
     @Schema(title = "主键id")
-    private Long id;
+    private Integer id;
 
     @Schema(title = "角色")
     private String name;

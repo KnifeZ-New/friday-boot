@@ -15,7 +15,7 @@ import org.knifez.fridaybootadmin.entity.AppUser;
 import org.knifez.fridaybootadmin.entity.AppUserRole;
 import org.knifez.fridaybootadmin.mapper.AppUserMapper;
 import org.knifez.fridaybootadmin.service.*;
-import org.knifez.fridaybootcore.common.constants.AppConstants;
+import org.knifez.fridaybootadmin.utils.JwtTokenUtils;
 import org.knifez.fridaybootcore.dto.PagedResult;
 import org.knifez.fridaybootcore.utils.AnnotationUtils;
 import org.springframework.beans.BeanUtils;
@@ -64,13 +64,11 @@ public class AppUserServiceImpl extends ServiceImpl<AppUserMapper, AppUser> impl
      */
     @Override
     public PagedResult<AppUser> listByPageQuery(AppUserPagedRequest queryRequest) {
-        QueryWrapper<AppUser> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq(queryRequest.getLocked() != null, "is_locked", queryRequest.getLocked());
-        queryWrapper.like(queryRequest.getUsername() != null, "username", queryRequest.getUsername());
-        //获取所有子节点
-        if (queryRequest.getOrganizationIds() != null && !queryRequest.getOrganizationIds().isEmpty()) {
-            queryWrapper.in("organization_id", queryRequest.getOrganizationIds());
-        }
+        LambdaQueryWrapper<AppUser> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(queryRequest.getLocked() != null, AppUser::getLocked, queryRequest.getLocked());
+        queryWrapper.like(queryRequest.getUsername() != null, AppUser::getUsername, queryRequest.getUsername());
+        var dp = JwtTokenUtils.getDataPermission(queryRequest.getOrganizationIds());
+        queryWrapper.in(!dp.isEmpty(), AppUser::getOrganizationId, dp);
         IPage<AppUser> page = new Page<>();
         page.setCurrent(queryRequest.getPage());
         page.setSize(queryRequest.getPageSize());
@@ -90,7 +88,8 @@ public class AppUserServiceImpl extends ServiceImpl<AppUserMapper, AppUser> impl
                 userDTO.setUserRoles(roles);
                 var permission = permissionService.listByRoles(roles);
                 userDTO.setPermissions(permission.getApiPermissions());
-                if (userDTO.getUserRoles().contains(AppConstants.ROLE_SUPER_ADMIN.replace("ROLE_", ""))) {
+                userDTO.setDataPermissions(permission.getDataPermissions());
+                if (JwtTokenUtils.isSuperAdmin()) {
                     try {
                         var authorities = AnnotationUtils.getAuthorityList(resourcePatternResolver, ResourcePatternResolver.CLASSPATH_ALL_URL_PREFIX + "**/controller/**/**.class", PreAuthorize.class);
                         userDTO.setPermissions(authorities.stream().map(x -> x.getValue().toString()).toList());
@@ -168,7 +167,7 @@ public class AppUserServiceImpl extends ServiceImpl<AppUserMapper, AppUser> impl
      * @return {@link Boolean}
      */
     @Override
-    public Boolean checkOriginPassword(Long id, String password) {
+    public Boolean checkOriginPassword(Integer id, String password) {
         var user = getById(id);
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
         return bCryptPasswordEncoder.matches(password, user.getPassword());
@@ -182,7 +181,7 @@ public class AppUserServiceImpl extends ServiceImpl<AppUserMapper, AppUser> impl
      * @return {@link Boolean}
      */
     @Override
-    public Boolean updatePassword(Long id, String password) {
+    public Boolean updatePassword(Integer id, String password) {
         var user = getById(id);
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
         String pass = bCryptPasswordEncoder.encode(password);
@@ -210,12 +209,12 @@ public class AppUserServiceImpl extends ServiceImpl<AppUserMapper, AppUser> impl
      * @return 操作结果
      */
     @Override
-    public boolean saveRolesByUserId(Long userId, List<Long> roles) {
+    public boolean saveRolesByUserId(Integer userId, List<Integer> roles) {
         var wrapper = new LambdaQueryWrapper<AppUserRole>();
         wrapper.eq(AppUserRole::getUserId, userId);
         userRoleService.remove(wrapper);
         List<AppUserRole> list = new ArrayList<>();
-        for (Long role : roles) {
+        for (var role : roles) {
             AppUserRole userRole = new AppUserRole();
             userRole.setUserId(userId);
             userRole.setRoleId(role);

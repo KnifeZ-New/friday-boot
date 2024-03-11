@@ -17,7 +17,7 @@ create table app_audit_log
 
 create table app_dictionary
 (
-    id          bigint auto_increment comment '主键id'
+    id          int auto_increment comment '主键id'
         primary key,
     name        varchar(255) null comment '字典名称',
     code        varchar(255) null comment '字典编码',
@@ -31,7 +31,7 @@ create table app_dictionary
 
 create table app_dictionary_config
 (
-    id          bigint auto_increment comment '主键id'
+    id          int auto_increment comment '主键id'
         primary key,
     parent_id   bigint null comment '父级节点',
     dict_code   varchar(255) null comment '字典编码',
@@ -80,10 +80,10 @@ create table app_menu
 
 create table app_organization_unit
 (
-    id          bigint auto_increment comment '主键id'
+    id          int auto_increment comment '主键id'
         primary key,
     unit_code   varchar(255) null comment '机构编码',
-    parent_id   bigint null comment '父级节点',
+    parent_id   int null comment '父级节点',
     name        varchar(255) null comment '名称',
     description varchar(255) null comment '简介',
     create_by   varchar(255) not null comment '创建人',
@@ -94,7 +94,7 @@ create table app_organization_unit
 
 create table app_organization_unit_role
 (
-    id                   bigint auto_increment comment '主键id'
+    id                   int auto_increment comment '主键id'
         primary key,
     organization_unit_id varchar(255) null comment '组织机构id',
     role_id              varchar(255) null comment '角色id',
@@ -106,7 +106,7 @@ create table app_organization_unit_role
 
 create table app_permission_grant
 (
-    id           bigint auto_increment comment '主键id'
+    id           int auto_increment comment '主键id'
         primary key,
     name         varchar(255) null comment '权限',
     provide_name varchar(255) null comment '授权类型',
@@ -115,7 +115,7 @@ create table app_permission_grant
 
 create table app_role
 (
-    id           bigint auto_increment comment '主键id'
+    id           int auto_increment comment '主键id'
         primary key,
     name         varchar(255) null comment '角色',
     display_name varchar(255) null comment '显示名称',
@@ -129,7 +129,7 @@ create table app_role
 
 create table app_user
 (
-    id              bigint        not null
+    id              int        not null
         primary key,
     account         varchar(255)  not null comment '帐号',
     username        varchar(255)  not null comment '用户名',
@@ -148,7 +148,7 @@ create table app_user
 
 create table app_user_role
 (
-    id          bigint auto_increment comment '主键id'
+    id          int auto_increment comment '主键id'
         primary key,
     user_id     bigint null comment '用户id',
     role_id     bigint null comment '角色id',

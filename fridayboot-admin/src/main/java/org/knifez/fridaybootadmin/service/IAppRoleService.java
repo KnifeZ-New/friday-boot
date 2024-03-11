@@ -24,7 +24,7 @@ public interface IAppRoleService extends IService<AppRole> {
      * @param userId 用户id
      * @return {@link List}<{@link AppRole}>
      */
-    List<String> listRoleNameByUserId(long userId);
+    List<String> listRoleNameByUserId(Integer userId);
 
     /**
      * 通过用户id获取角色列表
@@ -32,7 +32,7 @@ public interface IAppRoleService extends IService<AppRole> {
      * @param userId 用户id
      * @return {@link List}<{@link AppRole}>
      */
-    List<AppRole> listByUserId(long userId);
+    List<AppRole> listByUserId(Integer userId);
 
     /**
      * 列表页面查询

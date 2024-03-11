@@ -18,7 +18,7 @@ public interface IAppUserRoleService extends IService<AppUserRole> {
      * 获取角色id列表
      *
      * @param userId 用户id
-     * @return {@link List}<{@link Long}>
+     * @return {@link List}<{@link Integer}>
      */
-    List<Long> listRolesByUserId(Long userId);
+    List<Integer> listRolesByUserId(Integer userId);
 }
