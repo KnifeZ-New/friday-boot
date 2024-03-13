@@ -134,7 +134,7 @@ public class JwtTokenUtils {
     /**
      * 获取数据权限
      *
-     * @return {@link List}<{@link String}>
+     * @return {@link List}<{@link Integer}>
      */
     public static List<Integer> getDataPermission(List<Integer> selected) {
         List<Integer> result = new ArrayList<>();
