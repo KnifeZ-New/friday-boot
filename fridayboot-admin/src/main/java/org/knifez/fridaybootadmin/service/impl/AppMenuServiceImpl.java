@@ -186,16 +186,6 @@ public class AppMenuServiceImpl extends ServiceImpl<AppMenuMapper, AppMenu> impl
         queryWrapper.in(!isSuper, AppMenu::getPermission, permissions);
         var list = list(queryWrapper);
 
-        //公共菜单
-        LambdaQueryWrapper<AppMenu> queryNoAuthWrapper = new LambdaQueryWrapper<>();
-        queryNoAuthWrapper.eq(AppMenu::getPermission, "");
-        var noAuthMenu = list(queryNoAuthWrapper);
-        for (var m : noAuthMenu) {
-            if (list.stream().noneMatch(x -> Objects.equals(x.getId(), m.getId()))) {
-                list.add(m);
-            }
-        }
-
         //添加目录
         LambdaQueryWrapper<AppMenu> queryType0Wrapper = new LambdaQueryWrapper<>();
         queryType0Wrapper.eq(AppMenu::getType, MenuTypeEnum.MENU_FOLDER.getValue());
