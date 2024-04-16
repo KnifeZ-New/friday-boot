@@ -3,6 +3,7 @@ package org.knifez.fridaybootadmin.controller;
 import cn.hutool.core.bean.BeanUtil;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.knifez.fridaybootadmin.common.annotation.permission.AllowAuthenticated;
 import org.knifez.fridaybootadmin.dto.AppUserDTO;
 import org.knifez.fridaybootadmin.dto.AppUserModifyDTO;
 import org.knifez.fridaybootadmin.dto.AppUserPagedRequest;
@@ -14,12 +15,11 @@ import org.knifez.fridaybootadmin.service.IAppRoleService;
 import org.knifez.fridaybootadmin.service.IAppUserRoleService;
 import org.knifez.fridaybootadmin.service.IAppUserService;
 import org.knifez.fridaybootcore.common.annotation.ApiRestController;
-import org.knifez.fridaybootcore.common.annotation.permission.AllowAuthenticated;
 import org.knifez.fridaybootcore.dto.FridayResult;
 import org.knifez.fridaybootcore.dto.PagedResult;
 import org.knifez.fridaybootcore.common.enums.ResultStatus;
 import org.knifez.fridaybootcore.common.exception.FridayResultException;
-import org.springframework.security.access.prepost.PreAuthorize;
+import cn.dev33.satoken.annotation.SaCheckPermission;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -58,7 +58,7 @@ public class AppUserController {
      * @return <{@link PagedResult}<{@link AppUser}>
      */
     @Operation(summary = "分页列表", description = "user.pagedList")
-    @PreAuthorize("hasAuthority('user.pagedList')")
+    @SaCheckPermission("user.pagedList")
     @PostMapping("list")
     public PagedResult<AppUserDTO> pagedList(@RequestBody AppUserPagedRequest queryRequest) {
         //查询列表数据
@@ -85,7 +85,7 @@ public class AppUserController {
      * @return {@link AppUserDTO}
      */
     @GetMapping("{id}")
-    @PreAuthorize("hasAuthority('user.findById')")
+    @SaCheckPermission("user.findById")
     @Operation(summary = "根据id获取用户", description = "user.findById")
     public AppUserDTO findById(@PathVariable Long id) {
         return appUserService.getUserDtoByAccountOrId("", id);
@@ -98,7 +98,7 @@ public class AppUserController {
      * @return {@link Boolean}
      */
     @PostMapping
-    @PreAuthorize("hasAuthority('user.create')")
+    @SaCheckPermission("user.create")
     @Operation(summary = "新增用户", description = "user.create")
     public Boolean create(@RequestBody AppUserModifyDTO user) {
         if (appUserService.accountExist(user.getAccount())) {
@@ -114,7 +114,7 @@ public class AppUserController {
      * @return {@link Boolean}
      */
     @PostMapping("{id}")
-    @PreAuthorize("hasAuthority('user.update')")
+    @SaCheckPermission("user.update")
     @Operation(summary = "修改用户", description = "user.update")
     public Boolean update(@RequestBody AppUserModifyDTO user) {
         return appUserService.saveWithUserRoles(user, false);
@@ -127,7 +127,7 @@ public class AppUserController {
      * @return {@link FridayResult}<{@link Boolean}>
      */
     @DeleteMapping("{id}")
-    @PreAuthorize("hasAuthority('user.delete')")
+    @SaCheckPermission("user.delete")
     @Operation(summary = "删除用户", description = "user.delete")
     public Boolean delete(@PathVariable Long id) {
         return appUserService.removeById(id);
@@ -135,7 +135,7 @@ public class AppUserController {
 
 
     @PostMapping("reset-password")
-    @PreAuthorize("hasAuthority('user.resetPassword')")
+    @SaCheckPermission("user.resetPassword")
     @Operation(summary = "重置密码", description = "user.resetPassword")
     public Boolean resetPassword(@RequestBody AppUserResetPasswordRequest user) {
         if (appUserService.checkOriginPassword(user.getId(), user.getOriginPassword()) || user.getSkipCheckPassword()) {

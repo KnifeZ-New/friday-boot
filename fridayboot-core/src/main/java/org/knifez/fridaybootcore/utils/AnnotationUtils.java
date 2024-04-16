@@ -138,9 +138,7 @@ public class AnnotationUtils {
                 if (targetAttr == null || summary == null) {
                     continue;
                 }
-                // todo 兼容其他格式 PreAuthorize
-                // hasAuthority
-                var authority = targetAttr.get(VALUE).toString().split("'")[1];
+                var authority = targetAttr.get(VALUE).toString();
                 maps.add(TextValuePair.from(tag.get("name").toString() + "/" + summary.get("summary").toString(),
                         authority));
             }

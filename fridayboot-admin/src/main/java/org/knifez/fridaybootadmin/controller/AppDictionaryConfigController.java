@@ -6,13 +6,13 @@ import cn.hutool.core.lang.tree.TreeUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.knifez.fridaybootadmin.common.annotation.permission.AllowAuthenticated;
 import org.knifez.fridaybootadmin.dto.AppDictionaryConfigQueryRequest;
 import org.knifez.fridaybootadmin.dto.AppDictionaryConfigTreeSetQueryRequest;
 import org.knifez.fridaybootadmin.entity.AppDictionaryConfig;
 import org.knifez.fridaybootadmin.service.IAppDictionaryConfigService;
 import org.knifez.fridaybootcore.common.annotation.ApiRestController;
-import org.knifez.fridaybootcore.common.annotation.permission.AllowAuthenticated;
-import org.springframework.security.access.prepost.PreAuthorize;
+import cn.dev33.satoken.annotation.SaCheckPermission;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,7 +26,6 @@ import java.util.List;
  * @author KnifeZ
  * @since 2022-10-09
  */
-@AllowAuthenticated
 @Tag(name = "字典配置管理")
 @ApiRestController
 @RequestMapping("/dictionary-config")
@@ -46,7 +45,7 @@ public class AppDictionaryConfigController {
      * @return {@link AppDictionaryConfig}
      */
     @GetMapping("{id}")
-    @PreAuthorize("hasAuthority('dictConfig.findById')")
+    @SaCheckPermission("dictConfig.findById")
     @Operation(summary = "根据id获取字典配置", description = "dictConfig.findById")
     public AppDictionaryConfig findById(@PathVariable Long id) {
         return appDictionaryConfigService.getById(id);
@@ -59,6 +58,7 @@ public class AppDictionaryConfigController {
      * @return {@link List}<{@link AppDictionaryConfig}>
      */
     @PostMapping("list/{dictCode}")
+    @SaCheckPermission("dictConfig.findById")
     @Operation(summary = "根据code获取字典属性列表")
     public List<AppDictionaryConfig> listByDictCode(@PathVariable String dictCode, @RequestBody AppDictionaryConfigQueryRequest queryRequest) {
         QueryWrapper<AppDictionaryConfig> queryWrapper = new QueryWrapper<>();
@@ -69,6 +69,7 @@ public class AppDictionaryConfigController {
     }
 
     @PostMapping("tree-sets")
+    @SaCheckPermission("dictConfig.findById")
     @Operation(summary = "获取字典属性树集合")
     public List<Tree<Long>> treeListByDictCodes(@RequestBody AppDictionaryConfigTreeSetQueryRequest queryRequest) {
         QueryWrapper<AppDictionaryConfig> queryWrapper = new QueryWrapper<>();
@@ -94,7 +95,7 @@ public class AppDictionaryConfigController {
      * @return {@link List}<{@link AppDictionaryConfig}>
      */
     @PostMapping("tree/{dictCode}")
-    @PreAuthorize("hasAuthority('dictConfig.treeListByDictCode')")
+    @SaCheckPermission("dictConfig.treeListByDictCode")
     @Operation(summary = "根据code获取字典属性树", description = "dictConfig.treeListByDictCode")
     public List<Tree<Long>> treeListByDictCode(@PathVariable String dictCode, @RequestBody AppDictionaryConfigQueryRequest queryRequest) {
         QueryWrapper<AppDictionaryConfig> queryWrapper = new QueryWrapper<>();
@@ -126,7 +127,7 @@ public class AppDictionaryConfigController {
      * @return {@link Boolean}
      */
     @PostMapping
-    @PreAuthorize("hasAuthority('dictConfig.create')")
+    @SaCheckPermission("dictConfig.create")
     @Operation(summary = "添加", description = "dictConfig.create")
     public Boolean create(@RequestBody AppDictionaryConfig appDictionaryConfig) {
         appDictionaryConfig.setId(null);
@@ -140,7 +141,7 @@ public class AppDictionaryConfigController {
      * @return {@link Boolean}
      */
     @PostMapping("{id}")
-    @PreAuthorize("hasAuthority('dictConfig.update')")
+    @SaCheckPermission("dictConfig.update")
     @Operation(summary = "修改", description = "dictConfig.update")
     public Boolean update(@RequestBody AppDictionaryConfig appDictionaryConfig) {
         return appDictionaryConfigService.updateById(appDictionaryConfig);
@@ -153,7 +154,7 @@ public class AppDictionaryConfigController {
      * @return {@link Boolean}
      */
     @DeleteMapping("{id}")
-    @PreAuthorize("hasAuthority('dictConfig.delete')")
+    @SaCheckPermission("dictConfig.delete")
     @Operation(summary = "删除", description = "dictConfig.delete")
     public Boolean delete(@PathVariable Long id) {
         return appDictionaryConfigService.removeById(id);

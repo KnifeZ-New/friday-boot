@@ -1,6 +1,7 @@
 
 package org.knifez.fridaybootadmin.controller;
 
+import cn.dev33.satoken.annotation.SaCheckPermission;
 import cn.hutool.core.lang.tree.Tree;
 import cn.hutool.core.lang.tree.TreeNodeConfig;
 import cn.hutool.core.lang.tree.TreeUtil;
@@ -10,7 +11,6 @@ import org.knifez.fridaybootadmin.dto.AppOrganizationUnitQueryRequest;
 import org.knifez.fridaybootadmin.entity.AppOrganizationUnit;
 import org.knifez.fridaybootadmin.service.IAppOrganizationUnitService;
 import org.knifez.fridaybootcore.common.annotation.ApiRestController;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -38,7 +38,7 @@ public class AppOrganizationUnitController {
 
 
     @PostMapping("tree-list")
-    @PreAuthorize("hasAuthority('org.treeList')")
+    @SaCheckPermission("org.treeList")
     @Operation(summary = "列表", description = "org.treeList")
     public List<Tree<Long>> treeList(@RequestBody AppOrganizationUnitQueryRequest queryRequest) {
         var list = appOrganizationUnitService.listWithParentNodes(queryRequest);
@@ -60,7 +60,7 @@ public class AppOrganizationUnitController {
      * @return {@link AppOrganizationUnit}
      */
     @GetMapping("{id}")
-    @PreAuthorize("hasAuthority('org.findById')")
+    @SaCheckPermission("org.findById")
     @Operation(summary = "根据id获取组织机构", description = "org.findById")
     public AppOrganizationUnit findById(@PathVariable Long id) {
         return appOrganizationUnitService.getById(id);
@@ -73,7 +73,7 @@ public class AppOrganizationUnitController {
      * @return {@link Boolean}
      */
     @PostMapping
-    @PreAuthorize("hasAuthority('org.create')")
+    @SaCheckPermission("org.create")
     @Operation(summary = "添加", description = "org.create")
     public Boolean create(@RequestBody AppOrganizationUnit appOrganizationUnit) {
         appOrganizationUnit.setId(null);
@@ -87,7 +87,7 @@ public class AppOrganizationUnitController {
      * @return {@link Boolean}
      */
     @PostMapping("{id}")
-    @PreAuthorize("hasAuthority('org.update')")
+    @SaCheckPermission("org.update")
     @Operation(summary = "修改", description = "org.update")
     public Boolean update(@RequestBody AppOrganizationUnit appOrganizationUnit) {
         return appOrganizationUnitService.updateById(appOrganizationUnit);
@@ -100,7 +100,7 @@ public class AppOrganizationUnitController {
      * @return {@link Boolean}
      */
     @DeleteMapping("{id}")
-    @PreAuthorize("hasAuthority('org.delete')")
+    @SaCheckPermission("org.delete")
     @Operation(summary = "删除", description = "org.delete")
     public Boolean delete(@PathVariable Long id) {
         return appOrganizationUnitService.removeById(id);

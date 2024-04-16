@@ -1,11 +1,11 @@
 package org.knifez.fridaybootadmin.common.handler;
 
+import cn.dev33.satoken.exception.SaTokenException;
 import org.knifez.fridaybootcore.common.enums.ResultStatus;
 import org.knifez.fridaybootcore.common.exception.FridayResultException;
 import org.knifez.fridaybootcore.dto.FridayResult;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.AccessDeniedException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -51,8 +51,12 @@ public class GlobalExceptionHandler {
         FridayResult<Void> errorResponse;
         if (e instanceof FridayResultException exp) {
             errorResponse = FridayResult.fail(exp.getResultStatus());
-        } else if (e instanceof AccessDeniedException) {
-            errorResponse = FridayResult.fail(ResultStatus.FORBIDDEN);
+        } else if (e instanceof SaTokenException) {
+            if (((SaTokenException) e).getCode() == 11051) {
+                errorResponse = FridayResult.fail(ResultStatus.FORBIDDEN);
+            }else {
+                errorResponse = FridayResult.fail(ResultStatus.FORBIDDEN_004);
+            }
         } else {
             errorResponse = FridayResult.fail(HttpStatus.BAD_REQUEST.value(), e.getMessage());
         }

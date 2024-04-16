@@ -1,4 +1,6 @@
-package org.knifez.fridaybootcore.common.annotation.permission;
+package org.knifez.fridaybootadmin.common.annotation.permission;
+
+import cn.dev33.satoken.annotation.SaCheckLogin;
 
 import java.lang.annotation.*;
 
@@ -10,6 +12,7 @@ import java.lang.annotation.*;
  */
 @Target({ElementType.METHOD, ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
+@AllowAuthenticated
 @Documented
 public @interface AllowAuthenticated {
 

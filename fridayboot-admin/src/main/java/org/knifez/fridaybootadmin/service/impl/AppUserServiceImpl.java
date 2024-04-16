@@ -1,11 +1,14 @@
 package org.knifez.fridaybootadmin.service.impl;
 
+import cn.dev33.satoken.annotation.SaCheckPermission;
+import cn.dev33.satoken.secure.BCrypt;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.extern.slf4j.Slf4j;
+import org.knifez.fridaybootadmin.common.constants.SecurityConst;
 import org.knifez.fridaybootadmin.dto.AppUserDTO;
 import org.knifez.fridaybootadmin.dto.AppUserInfoDTO;
 import org.knifez.fridaybootadmin.dto.AppUserModifyDTO;
@@ -20,8 +23,6 @@ import org.knifez.fridaybootcore.dto.PagedResult;
 import org.knifez.fridaybootcore.utils.AnnotationUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.core.io.support.ResourcePatternResolver;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -89,9 +90,11 @@ public class AppUserServiceImpl extends ServiceImpl<AppUserMapper, AppUser> impl
                 var permission = permissionService.listByRoles(roles);
                 userDTO.setPermissions(permission.getApiPermissions());
                 userDTO.setDataPermissions(permission.getDataPermissions());
-                if (JwtTokenUtils.isSuperAdmin()) {
+                if (roles.contains(SecurityConst.ROLE_SUPER_ADMIN)) {
                     try {
-                        var authorities = AnnotationUtils.getAuthorityList(resourcePatternResolver, ResourcePatternResolver.CLASSPATH_ALL_URL_PREFIX + "**/controller/**/**.class", PreAuthorize.class);
+                        var authorities = AnnotationUtils.getAuthorityList(resourcePatternResolver,
+                                ResourcePatternResolver.CLASSPATH_ALL_URL_PREFIX + "**/controller/**/**.class",
+                                SaCheckPermission.class);
                         userDTO.setPermissions(authorities.stream().map(x -> x.getValue().toString()).toList());
                     } catch (Exception ex) {
                         log.error(ex.getMessage());
@@ -139,8 +142,7 @@ public class AppUserServiceImpl extends ServiceImpl<AppUserMapper, AppUser> impl
     public Boolean saveWithUserRoles(AppUserModifyDTO user, boolean isNew) {
         var result = false;
         if (StringUtils.hasText(user.getPassword())) {
-            BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
-            String password = bCryptPasswordEncoder.encode(user.getPassword());
+            String password = BCrypt.hashpw(user.getPassword(), BCrypt.gensalt());
             user.setPassword(password);
         }
         if (isNew) {
@@ -169,8 +171,7 @@ public class AppUserServiceImpl extends ServiceImpl<AppUserMapper, AppUser> impl
     @Override
     public Boolean checkOriginPassword(Integer id, String password) {
         var user = getById(id);
-        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
-        return bCryptPasswordEncoder.matches(password, user.getPassword());
+        return BCrypt.checkpw(password, user.getPassword());
     }
 
     /**
@@ -183,8 +184,7 @@ public class AppUserServiceImpl extends ServiceImpl<AppUserMapper, AppUser> impl
     @Override
     public Boolean updatePassword(Integer id, String password) {
         var user = getById(id);
-        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
-        String pass = bCryptPasswordEncoder.encode(password);
+        String pass = BCrypt.hashpw(password, BCrypt.gensalt());
         user.setPassword(pass);
         return updateById(user);
     }

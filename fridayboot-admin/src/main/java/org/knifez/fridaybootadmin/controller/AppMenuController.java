@@ -1,8 +1,10 @@
 package org.knifez.fridaybootadmin.controller;
 
+import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.core.lang.tree.Tree;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.knifez.fridaybootadmin.common.annotation.permission.AllowAuthenticated;
 import org.knifez.fridaybootadmin.dto.AppMenuButtonQueryRequest;
 import org.knifez.fridaybootadmin.dto.AppMenuDTO;
 import org.knifez.fridaybootadmin.dto.AppMenuModifyRequest;
@@ -12,10 +14,7 @@ import org.knifez.fridaybootadmin.common.enums.MenuTypeEnum;
 import org.knifez.fridaybootadmin.service.IAppMenuService;
 import org.knifez.fridaybootadmin.utils.JwtTokenUtils;
 import org.knifez.fridaybootcore.common.annotation.ApiRestController;
-import org.knifez.fridaybootcore.common.annotation.permission.AllowAuthenticated;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
+import cn.dev33.satoken.annotation.SaCheckPermission;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -43,7 +42,7 @@ public class AppMenuController {
 
 
     @Operation(summary = "菜单列表", description = "menu.treeList")
-    @PreAuthorize("hasAuthority('menu.treeList')")
+    @SaCheckPermission("menu.treeList")
     @PostMapping("tree-list")
     public List<Tree<Integer>> treeList(@RequestBody AppMenuQueryRequest queryRequest) {
         return appMenuService.getTreeList(queryRequest);
@@ -58,9 +57,7 @@ public class AppMenuController {
     @AllowAuthenticated
     @PostMapping("authentication-list")
     public List<AppMenuDTO> getUserMenu() {
-        var authentication = SecurityContextHolder.getContext().getAuthentication();
-        var permissionGrants = authentication.getAuthorities();
-        return appMenuService.getMenuByPermissions(permissionGrants.stream().map(GrantedAuthority::getAuthority).toList(), JwtTokenUtils.isSuperAdmin());
+        return appMenuService.getMenuByPermissions(StpUtil.getPermissionList(), JwtTokenUtils.isSuperAdmin());
     }
 
 
@@ -78,7 +75,7 @@ public class AppMenuController {
      * @return {@link AppMenu}
      */
     @GetMapping("{id}")
-    @PreAuthorize("hasAuthority('menu.findById')")
+    @SaCheckPermission("menu.findById")
     @Operation(summary = "根据id获取菜单", description = "menu.findById")
     public AppMenu findById(@PathVariable Long id) {
         return appMenuService.getById(id);
@@ -91,7 +88,7 @@ public class AppMenuController {
      * @return {@link Boolean}
      */
     @PostMapping
-    @PreAuthorize("hasAuthority('menu.create')")
+    @SaCheckPermission("menu.create")
     @Operation(summary = "添加", description = "menu.create")
     public Boolean create(@RequestBody AppMenuModifyRequest appMenu) {
         appMenu.setId(null);
@@ -109,7 +106,7 @@ public class AppMenuController {
      * @return {@link Boolean}
      */
     @PostMapping("{id}")
-    @PreAuthorize("hasAuthority('menu.update')")
+    @SaCheckPermission("menu.update")
     @Operation(summary = "修改", description = "menu.update")
     public Boolean update(@RequestBody AppMenuModifyRequest appMenu) {
         if (Objects.equals(appMenu.getType(), MenuTypeEnum.MENU_BUTTON.getValue())) {
@@ -126,7 +123,7 @@ public class AppMenuController {
      * @return {@link Boolean}
      */
     @DeleteMapping("{id}")
-    @PreAuthorize("hasAuthority('menu.delete')")
+    @SaCheckPermission("menu.delete")
     @Operation(summary = "删除", description = "menu.delete")
     public Boolean delete(@PathVariable Integer id) {
         var result = false;

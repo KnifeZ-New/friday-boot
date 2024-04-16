@@ -3,13 +3,13 @@ package org.knifez.fridaybootadmin.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.knifez.fridaybootadmin.common.annotation.permission.AllowAuthenticated;
 import org.knifez.fridaybootadmin.dto.AppDictionaryPagedRequest;
 import org.knifez.fridaybootadmin.entity.AppDictionary;
 import org.knifez.fridaybootadmin.service.IAppDictionaryService;
 import org.knifez.fridaybootcore.common.annotation.ApiRestController;
-import org.knifez.fridaybootcore.common.annotation.permission.AllowAuthenticated;
 import org.knifez.fridaybootcore.dto.PagedResult;
-import org.springframework.security.access.prepost.PreAuthorize;
+import cn.dev33.satoken.annotation.SaCheckPermission;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -40,7 +40,7 @@ public class AppDictionaryController {
      * @return {@link PagedResult}<{@link AppDictionary}>
      */
     @PostMapping("list")
-    @PreAuthorize("hasAuthority('dict.pagedList')")
+    @SaCheckPermission("dict.pagedList")
     @Operation(summary = "分页列表", description = "dict.pagedList")
     public PagedResult<AppDictionary> pagedList(@RequestBody AppDictionaryPagedRequest queryRequest) {
         return appDictionaryService.listByPageQuery(queryRequest);
@@ -53,7 +53,7 @@ public class AppDictionaryController {
      * @return {@link AppDictionary}
      */
     @GetMapping("{id}")
-    @PreAuthorize("hasAuthority('dict.findById')")
+    @SaCheckPermission("dict.findById")
     @Operation(summary = "根据id获取字典", description = "dict.findById")
     public AppDictionary findById(@PathVariable Long id) {
         return appDictionaryService.getById(id);
@@ -66,7 +66,7 @@ public class AppDictionaryController {
      * @return {@link Boolean}
      */
     @PostMapping
-    @PreAuthorize("hasAuthority('dict.create')")
+    @SaCheckPermission("dict.create")
     @Operation(summary = "添加", description = "dict.create")
     public Boolean create(@RequestBody AppDictionary appDictionary) {
         appDictionary.setId(null);
@@ -80,7 +80,7 @@ public class AppDictionaryController {
      * @return {@link Boolean}
      */
     @PostMapping("{id}")
-    @PreAuthorize("hasAuthority('dict.update')")
+    @SaCheckPermission("dict.update")
     @Operation(summary = "修改", description = "dict.update")
     public Boolean update(@RequestBody AppDictionary appDictionary) {
         return appDictionaryService.updateById(appDictionary);
@@ -93,7 +93,7 @@ public class AppDictionaryController {
      * @return {@link Boolean}
      */
     @DeleteMapping("{id}")
-    @PreAuthorize("hasAuthority('dict.delete')")
+    @SaCheckPermission("dict.delete")
     @Operation(summary = "删除", description = "dict.delete")
     public Boolean delete(@PathVariable Long id) {
         return appDictionaryService.removeById(id);

@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.knifez.fridaybootadmin.dto.AppMenuDTO;
 import org.knifez.fridaybootadmin.dto.AppPermissionDTO;
+import org.knifez.fridaybootadmin.entity.AppMenu;
 import org.knifez.fridaybootadmin.entity.AppPermissionGrant;
 import org.knifez.fridaybootadmin.mapper.AppPermissionGrantMapper;
 import org.knifez.fridaybootadmin.service.IAppMenuService;
@@ -37,7 +38,7 @@ public class AppPermissionGrantServiceImpl extends ServiceImpl<AppPermissionGran
      * @return {@link List}<{@link String}>
      */
     @Override
-    public List<String> getSelectMenusByRoleName(String roleName) {
+    public List<String> getSelectedMenusByRoleName(String roleName) {
         var queryWrapper = new LambdaQueryWrapper<AppPermissionGrant>();
         queryWrapper.eq(AppPermissionGrant::getProvideFor, roleName);
         queryWrapper.eq(AppPermissionGrant::getProvideName, "ROLE");
@@ -62,6 +63,7 @@ public class AppPermissionGrantServiceImpl extends ServiceImpl<AppPermissionGran
         var list = baseMapper.selectList(queryWrapper);
         var permissions = list.stream().filter(x -> Objects.equals(x.getProvideName(), "ROLE")).map(AppPermissionGrant::getName).distinct().toList();
         result.setApiPermissions(permissions);
+
         var dataPermissions = list.stream().filter(x -> x.getProvideName().startsWith("DATA_")).map(AppPermissionGrant::getName).distinct().toList();
         result.setDataPermissions(dataPermissions.stream().map(Integer::parseInt).toList());
         return result;
@@ -71,5 +73,15 @@ public class AppPermissionGrantServiceImpl extends ServiceImpl<AppPermissionGran
     public List<AppMenuDTO> getUserMenuByPermissions(List<String> permissions, Boolean isSuper) {
         var menus = menuService.getMenuByPermissions(permissions, isSuper);
         return menus.stream().filter(x -> x.getType() < 2).toList();
+    }
+
+    @Override
+    public List<String> getApiPermissionList(String roleName) {
+        var queryWrapper = new LambdaQueryWrapper<AppPermissionGrant>();
+        queryWrapper.eq(AppPermissionGrant::getProvideFor, roleName);
+        var list = baseMapper.selectList(queryWrapper);
+        var permissions = list.stream().filter(x -> Objects.equals(x.getProvideName(), "ROLE")).map(x -> Integer.parseInt(x.getName())).distinct().toList();
+        var menus = menuService.getMenuByIds(permissions);
+        return menus.stream().map(AppMenu::getPermission).toList();
     }
 }

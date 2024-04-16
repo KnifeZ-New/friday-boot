@@ -4,8 +4,8 @@ import cn.hutool.core.io.FileUtil;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
+import org.knifez.fridaybootadmin.common.annotation.permission.AllowAuthenticated;
 import org.knifez.fridaybootcore.common.annotation.ApiRestController;
-import org.knifez.fridaybootcore.common.annotation.permission.AllowAuthenticated;
 import org.knifez.fridaybootcore.dto.FridayResult;
 import org.knifez.fridaybootcore.dto.UploadFileResponse;
 import org.knifez.fridaybootcore.common.enums.ResultStatus;
@@ -18,11 +18,11 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 
 @Slf4j
-@AllowAuthenticated
 @Tag(name = "附件管理")
 @ApiRestController
 @RequestMapping("/file")
 public class AttachmentController {
+    @AllowAuthenticated
     @PostMapping("/upload")
     @Operation(summary = "单文件上传")
     public FridayResult<UploadFileResponse> uploadFile(@RequestParam("file") MultipartFile file) {

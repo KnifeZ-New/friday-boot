@@ -3,18 +3,18 @@ package org.knifez.fridaybootadmin.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.knifez.fridaybootadmin.common.annotation.permission.AllowAuthenticated;
 import org.knifez.fridaybootadmin.dto.AppRolePagedRequest;
 import org.knifez.fridaybootadmin.dto.AppUserDTO;
 import org.knifez.fridaybootadmin.entity.AppRole;
 import org.knifez.fridaybootadmin.service.IAppPermissionGrantService;
 import org.knifez.fridaybootadmin.service.IAppRoleService;
 import org.knifez.fridaybootcore.common.annotation.ApiRestController;
-import org.knifez.fridaybootcore.common.annotation.permission.AllowAuthenticated;
 import org.knifez.fridaybootcore.dto.PagedResult;
 import org.knifez.fridaybootcore.dto.TextValuePair;
 import org.knifez.fridaybootcore.utils.AnnotationUtils;
 import org.springframework.core.io.support.ResourcePatternResolver;
-import org.springframework.security.access.prepost.PreAuthorize;
+import cn.dev33.satoken.annotation.SaCheckPermission;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -52,7 +52,7 @@ public class AppRoleController {
      * @return {@link PagedResult}<{@link AppRole}>
      */
     @PostMapping("list")
-    @PreAuthorize("hasAuthority('role.pagedList')")
+    @SaCheckPermission("role.pagedList")
     @Operation(summary = "分页列表", description = "role.pagedList")
     public PagedResult<AppRole> pagedList(@RequestBody AppRolePagedRequest queryRequest) {
         return roleService.listByPageQuery(queryRequest);
@@ -65,11 +65,11 @@ public class AppRoleController {
      * @return {@link AppUserDTO}
      */
     @GetMapping("{id}")
-    @PreAuthorize("hasAuthority('role.findById')")
+    @SaCheckPermission("role.findById")
     @Operation(summary = "根据id获取角色", description = "role.findById")
     public AppRole findById(@PathVariable Long id) {
         var role = roleService.getById(id);
-        role.setPermissions(permissionService.getSelectMenusByRoleName(role.getName()));
+        role.setPermissions(permissionService.getSelectedMenusByRoleName(role.getName()));
         return role;
     }
 
@@ -80,7 +80,7 @@ public class AppRoleController {
      * @return {@link Boolean}
      */
     @PostMapping
-    @PreAuthorize("hasAuthority('role.create')")
+    @SaCheckPermission("role.create")
     @Operation(summary = "新增角色", description = "role.create")
     public Boolean create(@RequestBody AppRole role) {
         roleService.savePermissionsByRole(role.getPermissions(), role.getName());
@@ -95,7 +95,7 @@ public class AppRoleController {
      * @return {@link Boolean}
      */
     @PostMapping("{id}")
-    @PreAuthorize("hasAuthority('role.update')")
+    @SaCheckPermission("role.update")
     @Operation(summary = "修改角色", description = "role.update")
     public Boolean update(@RequestBody AppRole role) {
         roleService.savePermissionsByRole(role.getPermissions(), role.getName());
@@ -109,7 +109,7 @@ public class AppRoleController {
      * @return {@link Boolean}
      */
     @DeleteMapping("{id}")
-    @PreAuthorize("hasAuthority('role.delete')")
+    @SaCheckPermission("role.delete")
     @Operation(summary = "删除角色", description = "role.delete")
     public Boolean delete(@PathVariable Long id) {
         return roleService.removeById(id);
@@ -124,7 +124,7 @@ public class AppRoleController {
     @GetMapping("authorities/list")
     @Operation(summary = "获取系统权限列表")
     public List<TextValuePair> getSystemAuthorities() throws Exception {
-        return AnnotationUtils.getAuthorityList(resourcePatternResolver, ResourcePatternResolver.CLASSPATH_ALL_URL_PREFIX + "**/controller/**/**.class", PreAuthorize.class);
+        return AnnotationUtils.getAuthorityList(resourcePatternResolver, ResourcePatternResolver.CLASSPATH_ALL_URL_PREFIX + "**/controller/**/**.class", SaCheckPermission.class);
     }
 
     /**

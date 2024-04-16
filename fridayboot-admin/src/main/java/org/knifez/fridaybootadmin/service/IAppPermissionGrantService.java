@@ -23,7 +23,7 @@ public interface IAppPermissionGrantService extends IService<AppPermissionGrant>
      * @param roleName 角色名
      * @return {@link List}<{@link String}>
      */
-    List<String> getSelectMenusByRoleName(String roleName);
+    List<String> getSelectedMenusByRoleName(String roleName);
 
     /**
      * 按角色获取权限列表
@@ -40,4 +40,6 @@ public interface IAppPermissionGrantService extends IService<AppPermissionGrant>
      * @return {@link List}<{@link AppMenuDTO}>
      */
     List<AppMenuDTO> getUserMenuByPermissions(List<String> permissions, Boolean isSuper);
+
+    List<String> getApiPermissionList(String roleName);
 }

@@ -1,10 +1,12 @@
 package org.knifez.fridaybootadmin.controller;
 
-
+import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.system.SystemUtil;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
+import org.knifez.fridaybootadmin.common.annotation.permission.AllowAnonymous;
+import org.knifez.fridaybootadmin.common.annotation.permission.AllowAuthenticated;
 import org.knifez.fridaybootadmin.dto.AppUserInfoDTO;
 import org.knifez.fridaybootadmin.dto.LoginRequest;
 import org.knifez.fridaybootadmin.dto.Token;
@@ -13,8 +15,6 @@ import org.knifez.fridaybootadmin.service.IAppUserService;
 import org.knifez.fridaybootadmin.service.IAuthService;
 import org.knifez.fridaybootadmin.utils.JwtTokenUtils;
 import org.knifez.fridaybootcore.common.annotation.ApiRestController;
-import org.knifez.fridaybootcore.common.annotation.permission.AllowAnonymous;
-import org.knifez.fridaybootcore.common.annotation.permission.AllowAuthenticated;
 import org.knifez.fridaybootcore.common.constants.AppConstants;
 import org.knifez.fridaybootcore.entity.ApplicationCollocation;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -129,7 +129,7 @@ public class AuthController {
     public AppUserInfoDTO getCurrentUserInfo() {
         var userInfo = userService.findByAccount(JwtTokenUtils.getCurrentUser());
         userInfo.setHomePath("/");
-        var menus = permissionGrantService.getUserMenuByPermissions(userInfo.getPermissions(), JwtTokenUtils.isSuperAdmin());
+        var menus = permissionGrantService.getUserMenuByPermissions(StpUtil.getPermissionList(), JwtTokenUtils.isSuperAdmin());
         userInfo.setMenu(menus);
         return userInfo;
     }

@@ -5,8 +5,6 @@ import org.knifez.fridaybootcore.common.constants.AppConstants;
 import org.springframework.data.redis.core.StringRedisTemplate;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
