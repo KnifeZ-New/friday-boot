@@ -71,8 +71,8 @@ public class AppUserServiceImpl extends ServiceImpl<AppUserMapper, AppUser> impl
         var dp = JwtTokenUtils.getDataPermission(queryRequest.getOrganizationIds());
         queryWrapper.in(!dp.isEmpty(), AppUser::getOrganizationId, dp);
         IPage<AppUser> page = new Page<>();
-        page.setCurrent(queryRequest.getPage());
-        page.setSize(queryRequest.getPageSize());
+        page.setCurrent(queryRequest.getCurrent());
+        page.setSize(queryRequest.getSize());
         page = getBaseMapper().selectPage(page, queryWrapper);
         return PagedResult.builder(page.getRecords(), page.getTotal());
     }
@@ -108,6 +108,9 @@ public class AppUserServiceImpl extends ServiceImpl<AppUserMapper, AppUser> impl
     @Override
     public AppUserDTO getUserDtoByAccountOrId(String account, long userId) {
         AppUserDTO userDTO = new AppUserDTO();
+        if (userId == 0 && !StringUtils.hasText(account)) {
+            return null;
+        }
         LambdaQueryWrapper<AppUser> wrapper = new LambdaQueryWrapper<>();
         wrapper.eq(StringUtils.hasText(account), AppUser::getAccount, account);
         wrapper.eq(userId > 0, AppUser::getId, userId);

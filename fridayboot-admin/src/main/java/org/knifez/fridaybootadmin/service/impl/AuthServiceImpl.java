@@ -3,6 +3,7 @@ package org.knifez.fridaybootadmin.service.impl;
 import cn.dev33.satoken.session.SaSession;
 import cn.dev33.satoken.session.SaSessionCustomUtil;
 import cn.dev33.satoken.stp.SaLoginConfig;
+import cn.dev33.satoken.stp.SaLoginModel;
 import cn.dev33.satoken.stp.StpInterface;
 import cn.dev33.satoken.stp.StpUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -43,17 +44,11 @@ public class AuthServiceImpl implements IAuthService, StpInterface {
         if (user.getLocked()) {
             throw new FridayResultException(ResultStatus.FORBIDDEN_001);
         }
-        StpUtil.login(user.getId(), SaLoginConfig
+        StpUtil.login(user.getId(), new SaLoginModel()
                 .setExtra(SecurityConst.USER_NAME, user.getUsername())
                 .setExtra(SecurityConst.ACCOUNT, user.getAccount())
-                .setExtra(SecurityConst.USER_DATA_PERMISSIONS, user.getDataPermissions())
                 .setExtra(SecurityConst.USER_ROLES, user.getUserRoles()));
-
         return new Token(StpUtil.getTokenValue(), StpUtil.getTokenTimeout(), "", 0L);
-    }
-
-    public void removeToken() {
-        StpUtil.logoutByTokenValue(JwtTokenUtils.getJWTToken());
     }
 
     @Override
@@ -75,10 +70,12 @@ public class AuthServiceImpl implements IAuthService, StpInterface {
 
     @Override
     public List<String> getRoleList(Object loginId, String loginType) {
-        SaSession session = StpUtil.getSessionByLoginId(loginId);
-        return session.get(SecurityConst.ROLE_LIST, () -> {
-            var token = StpUtil.getTokenValueByLoginId(loginId);
-            return StpUtil.getExtra(token, SecurityConst.USER_ROLES);
-        });
+        var token = StpUtil.getTokenValueByLoginId(loginId);
+        Object obj = StpUtil.getExtra(token, SecurityConst.USER_ROLES);
+        List<String> roleList = new ArrayList<>();
+        if (obj instanceof List<?>) {
+            roleList = (List<String>) obj;
+        }
+        return roleList;
     }
 }

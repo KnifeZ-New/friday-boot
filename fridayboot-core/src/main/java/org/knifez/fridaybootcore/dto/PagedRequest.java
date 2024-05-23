@@ -15,8 +15,8 @@ import lombok.Setter;
 public class PagedRequest {
 
     @Schema(title = "当前页码")
-    private int page;
+    private int current;
 
     @Schema(title = "分页大小")
-    private int pageSize;
+    private int size;
 }

@@ -14,13 +14,14 @@ import java.time.LocalDateTime;
  */
 @Getter
 @Setter
+@Schema(title = "FridayResult")
 public class FridayResult<T> {
 
     @Schema(title = "状态码")
     private Integer code;
 
     @Schema(title = "操作消息")
-    private String message;
+    private String msg;
 
     @Schema(title = "返回结果")
     private T data;
@@ -34,14 +35,14 @@ public class FridayResult<T> {
 
     private FridayResult(ResultStatus resultStatus, T data) {
         this.code = resultStatus.getCode();
-        this.message = resultStatus.getMessage();
+        this.msg = resultStatus.getMessage();
         this.data = data;
         this.success = resultStatus == ResultStatus.SUCCESS;
     }
 
     public FridayResult(Integer code, String message) {
         this.code = code;
-        this.message = message;
+        this.msg = message;
         this.success = false;
 
     }
@@ -67,7 +68,7 @@ public class FridayResult<T> {
         return "{\n" +
                 "    \"success\": " + this.success + ",\n" +
                 "    \"code\": " + this.code + ",\n" +
-                "    \"message\": \"" + this.message + "\",\n" +
+                "    \"message\": \"" + this.msg + "\",\n" +
                 "    \"data\": " + this.data + ",\n" +
                 "    \"timestamp\": \"" + this.timestamp + "\"\n" +
                 "}";

@@ -44,7 +44,7 @@ public class GlobalExceptionHandler {
      * 一般异常处理
      *
      * @param e e
-     * @return {@link ResponseEntity}<{@link FridayResult}<{@link Void}>>
+     * @return {@link ResponseEntity}<{@link FridayResult}<{@link Void}>>KnifeZhang.com
      */
     @ExceptionHandler(value = Exception.class)
     public ResponseEntity<FridayResult<Void>> exceptionHandler(Exception e) {

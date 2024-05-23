@@ -35,8 +35,8 @@ public class AppDictionaryServiceImpl extends ServiceImpl<AppDictionaryMapper, A
         queryWrapper.eq(queryRequest.getEnabled() != null, AppDictionary::getEnabled, queryRequest.getEnabled());
         queryWrapper.like(StringUtils.hasText(queryRequest.getName()), AppDictionary::getName, queryRequest.getName());
         IPage<AppDictionary> page = new Page<>();
-        page.setCurrent(queryRequest.getPage());
-        page.setSize(queryRequest.getPageSize());
+        page.setCurrent(queryRequest.getCurrent());
+        page.setSize(queryRequest.getSize());
         page = getBaseMapper().selectPage(page, queryWrapper);
         return PagedResult.builder(page.getRecords(), page.getTotal());
     }

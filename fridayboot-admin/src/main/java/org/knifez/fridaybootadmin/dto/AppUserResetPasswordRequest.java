@@ -6,6 +6,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
+@Schema(title = "AppUserResetPasswordRequest")
 public class AppUserResetPasswordRequest {
 
     @Schema(title = "主键id")

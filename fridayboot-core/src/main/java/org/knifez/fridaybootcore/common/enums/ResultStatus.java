@@ -28,8 +28,6 @@ public enum ResultStatus {
     FORBIDDEN_002(403002, "登录失败次数过多，请稍后再试"),
     FORBIDDEN_003(403003, "该帐号已存在"),
     FORBIDDEN_004(403004, "授权校验失败"),
-    FORBIDDEN_005(403005, "授权站点数量已达上限"),
-    FORBIDDEN_006(403006, "授权已过期"),
 
 
     CHECK_PARAMS_FAILED(400001, "参数校验失败"),

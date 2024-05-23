@@ -116,6 +116,7 @@ public class AnnotationUtils {
             MetadataReader reader = metaReader.getMetadataReader(r);
             resolveClassWithOutAllowAnnotation(reader, authorityList, annotationClass);
         }
+        authorityList = authorityList.stream().distinct().toList();
         return authorityList;
     }
 
@@ -138,9 +139,11 @@ public class AnnotationUtils {
                 if (targetAttr == null || summary == null) {
                     continue;
                 }
-                var authority = targetAttr.get(VALUE).toString();
-                maps.add(TextValuePair.from(tag.get("name").toString() + "/" + summary.get("summary").toString(),
-                        authority));
+                var authority = (String[]) targetAttr.get(VALUE);
+                for (var auth : authority) {
+                    maps.add(TextValuePair.from(tag.get("name").toString() + "/" + summary.get("summary").toString(),
+                            auth));
+                }
             }
         }
 

@@ -83,8 +83,8 @@ public class AppRoleServiceImpl extends ServiceImpl<AppRoleMapper, AppRole> impl
         queryWrapper.like(StringUtils.hasText(queryRequest.getName()), "name", queryRequest.getName());
         queryWrapper.eq(queryRequest.getEnabled() != null, "is_enabled", queryRequest.getEnabled());
         IPage<AppRole> page = new Page<>();
-        page.setCurrent(queryRequest.getPage());
-        page.setSize(queryRequest.getPageSize());
+        page.setCurrent(queryRequest.getCurrent());
+        page.setSize(queryRequest.getSize());
         page = getBaseMapper().selectPage(page, queryWrapper);
         return PagedResult.builder(page.getRecords(), page.getTotal());
     }

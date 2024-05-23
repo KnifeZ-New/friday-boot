@@ -1,4 +1,4 @@
-package org.knifez.fridaybootcore.entity;
+package org.knifez.fridaybootadmin.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
@@ -8,9 +8,11 @@ import java.util.List;
 
 /**
 @author KnifeZ
+ todo 暂未使用
  */
 @Getter
 @Setter
+@Schema(title = "ApplicationCollocation")
 public class ApplicationCollocation {
     @Schema(title = "当前用户id")
     private String userId;

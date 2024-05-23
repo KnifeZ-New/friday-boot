@@ -13,6 +13,7 @@ import java.util.List;
  */
 @Getter
 @Setter
+@Schema(title = "PagedResult")
 public class PagedResult<T> {
 
     /**
@@ -25,13 +26,13 @@ public class PagedResult<T> {
      * 返回数据
      */
     @Schema(title = "返回数据")
-    private List<T> items;
+    private List<T> records;
 
-    public static <T> PagedResult<T> builder(List<T> items, long total) {
+    public static <T> PagedResult<T> builder(List<T> records, long total) {
 
         var result = new PagedResult<T>();
         result.setTotal(total);
-        result.setItems(items);
+        result.setRecords(records);
         return result;
     }
 }

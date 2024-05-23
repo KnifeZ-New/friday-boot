@@ -13,6 +13,7 @@ import java.time.LocalDateTime;
  */
 @Getter
 @Setter
+@Schema(title = "BaseAuditEntity")
 public class BaseAuditEntity {
 
     @Schema(title = "创建人")

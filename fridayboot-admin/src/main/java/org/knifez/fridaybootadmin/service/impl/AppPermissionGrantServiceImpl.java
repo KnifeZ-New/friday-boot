@@ -82,6 +82,6 @@ public class AppPermissionGrantServiceImpl extends ServiceImpl<AppPermissionGran
         var list = baseMapper.selectList(queryWrapper);
         var permissions = list.stream().filter(x -> Objects.equals(x.getProvideName(), "ROLE")).map(x -> Integer.parseInt(x.getName())).distinct().toList();
         var menus = menuService.getMenuByIds(permissions);
-        return menus.stream().map(AppMenu::getPermission).toList();
+        return menus.stream().map(AppMenu::getPermission).distinct().toList();
     }
 }

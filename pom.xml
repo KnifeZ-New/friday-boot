@@ -18,12 +18,12 @@
     <properties>
         <java.version>17</java.version>
         <jwt.version>0.11.5</jwt.version>
-        <satoken.version>1.37.0</satoken.version>
+        <satoken.version>1.38.0</satoken.version>
         <springboot.version>3.2.3</springboot.version>
         <springdoc.version>2.3.0</springdoc.version>
-        <mybatisplus.version>3.5.5</mybatisplus.version>
+        <mybatisplus.version>3.5.6</mybatisplus.version>
         <mysql.version>8.3.0</mysql.version>
-        <hutool.version>5.8.25</hutool.version>
+        <hutool.version>5.8.27</hutool.version>
         <jackson.version>2.13.4</jackson.version>
     </properties>
     <modules>
@@ -133,6 +133,12 @@
                 <groupId>cn.dev33</groupId>
                 <artifactId>sa-token-jwt</artifactId>
                 <version>${satoken.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>cn.hutool</groupId>
+                        <artifactId>hutool-jwt</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
 
             <dependency>

@@ -63,7 +63,7 @@ public class AppUserController {
     public PagedResult<AppUserDTO> pagedList(@RequestBody AppUserPagedRequest queryRequest) {
         //查询列表数据
         var ret = appUserService.listByPageQuery(queryRequest);
-        var responseList = BeanUtil.copyToList(ret.getItems(), AppUserDTO.class);
+        var responseList = BeanUtil.copyToList(ret.getRecords(), AppUserDTO.class);
         var organizationList = organizationUnitService.list();
         for (AppUserDTO user : responseList) {
             user.setRoles(roleService.listByUserId(user.getId()));
@@ -73,7 +73,7 @@ public class AppUserController {
         }
         var list = new PagedResult<AppUserDTO>();
         list.setTotal(ret.getTotal());
-        list.setItems(responseList);
+        list.setRecords(responseList);
         return list;
     }
 
@@ -85,7 +85,8 @@ public class AppUserController {
      * @return {@link AppUserDTO}
      */
     @GetMapping("{id}")
-    @SaCheckPermission("user.findById")
+//    @SaCheckPermission("user.findById")
+    @AllowAuthenticated
     @Operation(summary = "根据id获取用户", description = "user.findById")
     public AppUserDTO findById(@PathVariable Long id) {
         return appUserService.getUserDtoByAccountOrId("", id);
@@ -131,6 +132,13 @@ public class AppUserController {
     @Operation(summary = "删除用户", description = "user.delete")
     public Boolean delete(@PathVariable Long id) {
         return appUserService.removeById(id);
+    }
+
+    @DeleteMapping("batch-delete")
+    @SaCheckPermission("user.batchDelete")
+    @Operation(summary = "批量删除用户", description = "user.batchDelete")
+    public Boolean batchDelete(@RequestBody List<Long> ids) {
+        return appUserService.removeBatchByIds(ids);
     }
 
 

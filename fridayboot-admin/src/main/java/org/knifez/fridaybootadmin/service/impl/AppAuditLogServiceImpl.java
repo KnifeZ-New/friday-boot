@@ -33,8 +33,8 @@ public class AppAuditLogServiceImpl extends ServiceImpl<AppAuditLogMapper, AppAu
         LambdaQueryWrapper<AppAuditLog> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(StringUtils.hasText(queryRequest.getId()), AppAuditLog::getId, queryRequest.getId());
         IPage<AppAuditLog> page = new Page<>();
-        page.setCurrent(queryRequest.getPage());
-        page.setSize(queryRequest.getPageSize());
+        page.setCurrent(queryRequest.getCurrent());
+        page.setSize(queryRequest.getSize());
         page = getBaseMapper().selectPage(page, queryWrapper);
         return PagedResult.builder(page.getRecords(), page.getTotal());
     }

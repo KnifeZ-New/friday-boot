@@ -8,6 +8,7 @@ import java.util.List;
 
 @Getter
 @Setter
+@Schema(title = "AppPermissionDTO")
 public class AppPermissionDTO {
     @Schema(title = "接口权限列表")
     private List<String> ApiPermissions;

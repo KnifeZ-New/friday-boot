@@ -10,6 +10,7 @@ import java.util.List;
 
 @Getter
 @Setter
+@Schema(title = "AppUserModifyDTO")
 public class AppUserModifyDTO extends AppUser {
     @Schema(title = "角色")
     private List<Integer> roles = new ArrayList<>();

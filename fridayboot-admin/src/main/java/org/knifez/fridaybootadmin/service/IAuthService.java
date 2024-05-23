@@ -14,9 +14,4 @@ public interface IAuthService {
      * @return {@link Token}
      */
     Token createToken(LoginRequest loginRequest);
-
-    /**
-     * 删除令牌
-     */
-    void removeToken();
 }

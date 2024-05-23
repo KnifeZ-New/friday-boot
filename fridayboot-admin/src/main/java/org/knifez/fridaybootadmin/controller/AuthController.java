@@ -16,7 +16,7 @@ import org.knifez.fridaybootadmin.service.IAuthService;
 import org.knifez.fridaybootadmin.utils.JwtTokenUtils;
 import org.knifez.fridaybootcore.common.annotation.ApiRestController;
 import org.knifez.fridaybootcore.common.constants.AppConstants;
-import org.knifez.fridaybootcore.entity.ApplicationCollocation;
+import org.knifez.fridaybootadmin.dto.ApplicationCollocation;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -69,7 +69,7 @@ public class AuthController {
     @Operation(summary = "退出")
     @PostMapping("logout")
     public void logout() {
-        authService.removeToken();
+        StpUtil.logoutByTokenValue(JwtTokenUtils.getJWTToken());
     }
 
     @AllowAnonymous

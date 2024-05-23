@@ -155,7 +155,7 @@ public class AuditLogAspect {
         // （正常）
         if (result instanceof FridayResult<?> fridayResult) {
             logEntity.setResultCode(fridayResult.getCode());
-            logEntity.setResultMessage(fridayResult.getMessage());
+            logEntity.setResultMessage(fridayResult.getMsg());
         } else {
             logEntity.setResultCode(ResultStatus.SUCCESS.getCode());
             logEntity.setResultMessage(ResultStatus.SUCCESS.getMessage());

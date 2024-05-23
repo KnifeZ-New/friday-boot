@@ -13,12 +13,13 @@ public class SecurityConst {
     /**
      * 超级管理员
      */
-    public static final String ROLE_SUPER_ADMIN = "ROLE_SuperAdmin";
+    public static final String ROLE_SUPER_ADMIN = "SuperAdmin";
 
     public static final String ACCOUNT="Account";
 
     public static final String USER_NAME="Username";
     public static final String USER_ROLES="UserRoles";
+    public static final String USER_PERMISSIONS="Permissions";
     public static final String USER_DATA_PERMISSIONS="DataPermissions";
     public static final String ROLE_LIST="RoleList";
     public static final String ROLE_PERMISSION_LIST="PermissionList";

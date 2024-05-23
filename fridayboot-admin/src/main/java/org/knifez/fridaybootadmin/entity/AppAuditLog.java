@@ -22,7 +22,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @TableName("app_audit_log")
-@Schema(name = "AppAuditLog", description = "$!{table.comment}")
+@Schema(name = "AppAuditLog对象", description = "审核日志")
 public class AppAuditLog implements Serializable {
 
     @Serial

@@ -11,6 +11,7 @@ import lombok.Setter;
  */
 @Getter
 @Setter
+@Schema(title = "UploadFileResponse")
 public class UploadFileResponse {
 
     @Schema(title = "文件名")
