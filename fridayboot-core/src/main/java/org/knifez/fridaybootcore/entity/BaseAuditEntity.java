@@ -9,7 +9,7 @@ import lombok.Setter;
 import java.time.LocalDateTime;
 
 /**
-@author KnifeZ
+ * @author KnifeZ
  */
 @Getter
 @Setter
@@ -25,11 +25,11 @@ public class BaseAuditEntity {
     private LocalDateTime createTime;
 
     @Schema(title = "更新人")
-    @TableField(fill = FieldFill.UPDATE)
+    @TableField(fill = FieldFill.INSERT_UPDATE)
     private String updateBy;
 
     @Schema(title = "更新时间")
-    @TableField(fill = FieldFill.UPDATE)
+    @TableField(fill = FieldFill.INSERT_UPDATE)
     private LocalDateTime updateTime;
 
 }

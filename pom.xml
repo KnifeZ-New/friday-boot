@@ -6,7 +6,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.2.3</version>
+        <version>3.2.5</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>org.knifez</groupId>
@@ -19,7 +19,7 @@
         <java.version>17</java.version>
         <jwt.version>0.11.5</jwt.version>
         <satoken.version>1.38.0</satoken.version>
-        <springboot.version>3.2.3</springboot.version>
+        <springboot.version>3.2.5</springboot.version>
         <springdoc.version>2.3.0</springdoc.version>
         <mybatisplus.version>3.5.6</mybatisplus.version>
         <mysql.version>8.3.0</mysql.version>

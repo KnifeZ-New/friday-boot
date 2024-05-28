@@ -19,8 +19,8 @@ public class AutoFillMetaObjectHandler implements MetaObjectHandler {
         var userAccount = JwtTokenUtils.getCurrentUser();
         this.strictInsertFill(metaObject, "createBy", String.class, userAccount);
         this.strictInsertFill(metaObject, "createTime", LocalDateTime::now, LocalDateTime.class);
-//        this.strictInsertFill(metaObject, "updateBy", String.class, "");
-//        this.strictUpdateFill(metaObject, "updateTime", (Supplier<LocalDateTime>) null, LocalDateTime.class);
+        this.strictInsertFill(metaObject, "updateBy", String.class, userAccount);
+        this.strictUpdateFill(metaObject, "updateTime", (Supplier<LocalDateTime>) null, LocalDateTime.class);
     }
 
     @Override

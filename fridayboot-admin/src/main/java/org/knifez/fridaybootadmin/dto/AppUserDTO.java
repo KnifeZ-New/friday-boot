@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
-import org.knifez.fridaybootadmin.entity.AppRole;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,5 +47,5 @@ public class AppUserDTO {
     private String organizationName;
 
     @Schema(title = "角色")
-    private List<AppRole> roles = new ArrayList<>();
+    private List<SelectedRoleItem> roles = new ArrayList<>();
 }

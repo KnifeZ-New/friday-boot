@@ -51,8 +51,4 @@ public class AppRole extends BaseAuditEntity implements Serializable {
     @Schema(title = "状态")
     private Boolean enabled;
 
-    @TableField(exist = false)
-    @Schema(title = "角色权限")
-    private List<String> permissions;
-
 }

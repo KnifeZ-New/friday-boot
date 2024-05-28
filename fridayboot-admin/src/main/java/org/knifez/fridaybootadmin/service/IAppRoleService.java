@@ -1,7 +1,9 @@
 package org.knifez.fridaybootadmin.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import org.knifez.fridaybootadmin.dto.AppRoleDTO;
 import org.knifez.fridaybootadmin.dto.AppRolePagedRequest;
+import org.knifez.fridaybootadmin.dto.SelectedRoleItem;
 import org.knifez.fridaybootadmin.entity.AppRole;
 import org.knifez.fridaybootcore.dto.PagedResult;
 
@@ -32,7 +34,7 @@ public interface IAppRoleService extends IService<AppRole> {
      * @param userId 用户id
      * @return {@link List}<{@link AppRole}>
      */
-    List<AppRole> listByUserId(Integer userId);
+    List<SelectedRoleItem> listByUserId(Integer userId);
 
     /**
      * 列表页面查询

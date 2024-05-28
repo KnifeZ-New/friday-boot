@@ -1,11 +1,14 @@
 package org.knifez.fridaybootadmin.service.impl;
 
+import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.knifez.fridaybootadmin.dto.AppRoleDTO;
 import org.knifez.fridaybootadmin.dto.AppRolePagedRequest;
+import org.knifez.fridaybootadmin.dto.SelectedRoleItem;
 import org.knifez.fridaybootadmin.entity.AppPermissionGrant;
 import org.knifez.fridaybootadmin.entity.AppRole;
 import org.knifez.fridaybootadmin.mapper.AppRoleMapper;
@@ -62,12 +65,13 @@ public class AppRoleServiceImpl extends ServiceImpl<AppRoleMapper, AppRole> impl
      * @return {@link List}<{@link AppRole}>
      */
     @Override
-    public List<AppRole> listByUserId(Integer userId) {
+    public List<SelectedRoleItem> listByUserId(Integer userId) {
         var ids = userRoleService.listRolesByUserId(userId);
         if (ids.isEmpty()) {
             return Collections.emptyList();
         }
-        return baseMapper.selectBatchIds(ids);
+        var roles = baseMapper.selectBatchIds(ids);
+        return BeanUtil.copyToList(roles, SelectedRoleItem.class);
     }
 
     /**
@@ -103,6 +107,8 @@ public class AppRoleServiceImpl extends ServiceImpl<AppRoleMapper, AppRole> impl
             permissionGrant.setProvideFor(roleName);
             permissionGrants.add(permissionGrant);
         }
-        permissionGrantService.saveBatch(permissionGrants);
+        if (!permissionGrants.isEmpty()) {
+            permissionGrantService.saveBatch(permissionGrants);
+        }
     }
 }

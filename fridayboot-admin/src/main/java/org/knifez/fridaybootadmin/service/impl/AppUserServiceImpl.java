@@ -9,11 +9,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.knifez.fridaybootadmin.common.constants.SecurityConst;
-import org.knifez.fridaybootadmin.dto.AppUserDTO;
-import org.knifez.fridaybootadmin.dto.AppUserInfoDTO;
-import org.knifez.fridaybootadmin.dto.AppUserModifyDTO;
-import org.knifez.fridaybootadmin.dto.AppUserPagedRequest;
-import org.knifez.fridaybootadmin.entity.AppRole;
+import org.knifez.fridaybootadmin.dto.*;
 import org.knifez.fridaybootadmin.entity.AppUser;
 import org.knifez.fridaybootadmin.entity.AppUserRole;
 import org.knifez.fridaybootadmin.mapper.AppUserMapper;
@@ -84,7 +80,7 @@ public class AppUserServiceImpl extends ServiceImpl<AppUserMapper, AppUser> impl
         var user = getUserDtoByAccountOrId(account, 0);
         if (user != null) {
             BeanUtils.copyProperties(user, userDTO);
-            var roles = user.getRoles().stream().map(AppRole::getName).toList();
+            var roles = user.getRoles().stream().map(SelectedRoleItem::getName).toList();
             if (!roles.isEmpty()) {
                 userDTO.setUserRoles(roles);
                 var permission = permissionService.listByRoles(roles);
@@ -152,7 +148,7 @@ public class AppUserServiceImpl extends ServiceImpl<AppUserMapper, AppUser> impl
             user.setId(null);
             result = save(user);
         } else {
-            if (StringUtils.hasText(user.getPassword())) {
+            if (!StringUtils.hasText(user.getPassword())) {
                 var model = getById(user.getId());
                 user.setPassword(model.getPassword());
             }
@@ -222,6 +218,9 @@ public class AppUserServiceImpl extends ServiceImpl<AppUserMapper, AppUser> impl
             userRole.setUserId(userId);
             userRole.setRoleId(role);
             list.add(userRole);
+        }
+        if (roles.isEmpty()) {
+            return true;
         }
         return userRoleService.saveBatch(list);
     }

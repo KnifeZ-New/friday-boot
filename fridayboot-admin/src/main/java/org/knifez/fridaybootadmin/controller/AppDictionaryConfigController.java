@@ -6,7 +6,6 @@ import cn.hutool.core.lang.tree.TreeUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.knifez.fridaybootadmin.common.annotation.permission.AllowAuthenticated;
 import org.knifez.fridaybootadmin.dto.AppDictionaryConfigQueryRequest;
 import org.knifez.fridaybootadmin.dto.AppDictionaryConfigTreeSetQueryRequest;
 import org.knifez.fridaybootadmin.entity.AppDictionaryConfig;

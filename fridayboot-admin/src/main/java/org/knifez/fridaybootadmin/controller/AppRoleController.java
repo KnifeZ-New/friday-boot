@@ -1,9 +1,11 @@
 package org.knifez.fridaybootadmin.controller;
 
 
+import cn.hutool.core.bean.BeanUtil;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.knifez.fridaybootadmin.common.annotation.permission.AllowAuthenticated;
+import org.knifez.fridaybootadmin.dto.AppRoleDTO;
 import org.knifez.fridaybootadmin.dto.AppRolePagedRequest;
 import org.knifez.fridaybootadmin.dto.AppUserDTO;
 import org.knifez.fridaybootadmin.entity.AppRole;
@@ -67,10 +69,11 @@ public class AppRoleController {
     @GetMapping("{id}")
     @SaCheckPermission("role.findById")
     @Operation(summary = "根据id获取角色", description = "role.findById")
-    public AppRole findById(@PathVariable Long id) {
+    public AppRoleDTO findById(@PathVariable Long id) {
         var role = roleService.getById(id);
-        role.setPermissions(permissionService.getSelectedMenusByRoleName(role.getName()));
-        return role;
+        var result = BeanUtil.copyProperties(role, AppRoleDTO.class);
+        result.setPermissions(permissionService.getSelectedMenusByRoleName(role.getName()));
+        return result;
     }
 
     /**
@@ -82,10 +85,13 @@ public class AppRoleController {
     @PostMapping
     @SaCheckPermission("role.create")
     @Operation(summary = "新增角色", description = "role.create")
-    public Boolean create(@RequestBody AppRole role) {
-        roleService.savePermissionsByRole(role.getPermissions(), role.getName());
+    public Boolean create(@RequestBody AppRoleDTO role) {
         role.setId(null);
-        return roleService.save(role);
+        var isAdded = roleService.save(role);
+        if (isAdded) {
+            roleService.savePermissionsByRole(role.getPermissions(), role.getName());
+        }
+        return isAdded;
     }
 
     /**
@@ -97,7 +103,7 @@ public class AppRoleController {
     @PostMapping("{id}")
     @SaCheckPermission("role.update")
     @Operation(summary = "修改角色", description = "role.update")
-    public Boolean update(@RequestBody AppRole role) {
+    public Boolean update(@RequestBody AppRoleDTO role) {
         roleService.savePermissionsByRole(role.getPermissions(), role.getName());
         return roleService.updateById(role);
     }
