@@ -37,7 +37,7 @@ public class GlobalExceptionHandler {
             String errorMessage = error.getDefaultMessage();
             errors.put(fieldName, errorMessage);
         });
-        return ResponseEntity.status(HttpStatus.OK).body(FridayResult.fail(ResultStatus.CHECK_PARAMS_FAILED, errors));
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(FridayResult.fail(ResultStatus.CHECK_PARAMS_FAILED, errors));
     }
 
     /**
@@ -60,7 +60,10 @@ public class GlobalExceptionHandler {
         } else {
             errorResponse = FridayResult.fail(HttpStatus.BAD_REQUEST.value(), e.getMessage());
         }
-        // 拦截所有错误码并返回200
-        return ResponseEntity.status(HttpStatus.OK).body(errorResponse);
+        if(errorResponse.getMsg()==null){
+            errorResponse.setMsg(e.getCause().getLocalizedMessage());
+        }
+        // 拦截所有错误码并返回400
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
     }
 }

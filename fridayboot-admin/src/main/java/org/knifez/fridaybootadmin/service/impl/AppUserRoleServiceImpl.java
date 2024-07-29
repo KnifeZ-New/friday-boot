@@ -5,6 +5,8 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.knifez.fridaybootadmin.entity.AppUserRole;
 import org.knifez.fridaybootadmin.mapper.AppUserRoleMapper;
 import org.knifez.fridaybootadmin.service.IAppUserRoleService;
+import org.knifez.fridaybootadmin.utils.JwtTokenUtils;
+import org.knifez.fridaybootcore.common.constants.AppConstants;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -34,5 +36,28 @@ public class AppUserRoleServiceImpl extends ServiceImpl<AppUserRoleMapper, AppUs
         return baseMapper.selectList(wrapper).stream().map(AppUserRole::getRoleId).toList();
     }
 
+    /**
+     * 保存用户角色
+     *
+     * @param userId 用户id
+     * @param roles  角色列表
+     * @return 操作结果
+     */
+    @Override
+    public boolean saveRolesByUserId(Integer userId, List<Integer> roles) {
+        var wrapper = new LambdaQueryWrapper<AppUserRole>();
+        wrapper.eq(AppUserRole::getUserId, userId);
+        baseMapper.delete(wrapper);
+        List<AppUserRole> list = new ArrayList<>();
+        for (Integer role : roles) {
+            AppUserRole userRole = new AppUserRole();
+            userRole.setUserId(userId);
+            userRole.setRoleId(role);
+            userRole.setCreateBy(JwtTokenUtils.getCurrentUser());
+            userRole.setUpdateBy(JwtTokenUtils.getCurrentUser());
+            list.add(userRole);
+        }
+        return saveBatch(list);
+    }
 
 }

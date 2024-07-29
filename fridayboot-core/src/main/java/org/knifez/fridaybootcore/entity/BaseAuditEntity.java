@@ -32,4 +32,10 @@ public class BaseAuditEntity {
     @TableField(fill = FieldFill.INSERT_UPDATE)
     private LocalDateTime updateTime;
 
+    public BaseAuditEntity(){
+        this.setUpdateBy("");
+        this.setCreateBy("");
+        this.setCreateTime(LocalDateTime.now());
+        this.setUpdateTime(LocalDateTime.now());
+    }
 }

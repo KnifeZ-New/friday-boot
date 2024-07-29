@@ -43,6 +43,7 @@ public class AppUserServiceImpl extends ServiceImpl<AppUserMapper, AppUser> impl
     private final IAppPermissionGrantService permissionService;
 
     private final IAppUserRoleService userRoleService;
+
     private final ResourcePatternResolver resourcePatternResolver;
 
     public AppUserServiceImpl(IAppRoleService roleService, IAppOrganizationUnitService organizationUnitService, IAppPermissionGrantService permissionService, IAppUserRoleService userRoleService, ResourcePatternResolver resourcePatternResolver) {
@@ -155,7 +156,7 @@ public class AppUserServiceImpl extends ServiceImpl<AppUserMapper, AppUser> impl
             result = updateById(user);
         }
         if (result) {
-            result = saveRolesByUserId(user.getId(), user.getRoles());
+            result = userRoleService.saveRolesByUserId(user.getId(), user.getRoles());
         }
         return result;
     }
@@ -198,30 +199,5 @@ public class AppUserServiceImpl extends ServiceImpl<AppUserMapper, AppUser> impl
             return Math.toIntExact(user.getOrganizationId());
         }
         return 0;
-    }
-
-    /**
-     * 保存用户角色
-     *
-     * @param userId 用户id
-     * @param roles  角色列表
-     * @return 操作结果
-     */
-    @Override
-    public boolean saveRolesByUserId(Integer userId, List<Integer> roles) {
-        var wrapper = new LambdaQueryWrapper<AppUserRole>();
-        wrapper.eq(AppUserRole::getUserId, userId);
-        userRoleService.remove(wrapper);
-        List<AppUserRole> list = new ArrayList<>();
-        for (var role : roles) {
-            AppUserRole userRole = new AppUserRole();
-            userRole.setUserId(userId);
-            userRole.setRoleId(role);
-            list.add(userRole);
-        }
-        if (roles.isEmpty()) {
-            return true;
-        }
-        return userRoleService.saveBatch(list);
     }
 }

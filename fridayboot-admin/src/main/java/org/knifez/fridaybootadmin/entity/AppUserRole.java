@@ -10,6 +10,7 @@ import org.knifez.fridaybootcore.entity.BaseAuditEntity;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 /**
  * <p>
@@ -37,5 +38,11 @@ public class AppUserRole extends BaseAuditEntity implements Serializable {
     @Schema(title = "角色id")
     private Integer roleId;
 
+//    public AppUserRole(){
+//        this.setUpdateBy("");
+//        this.setCreateBy("");
+//        this.setCreateTime(LocalDateTime.now());
+//        this.setUpdateTime(LocalDateTime.now());
+//    }
 
 }

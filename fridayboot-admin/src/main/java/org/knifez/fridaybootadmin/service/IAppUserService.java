@@ -83,13 +83,4 @@ public interface IAppUserService extends IService<AppUser> {
      */
     Integer getUserOrgId(String account);
 
-
-    /**
-     * 保存用户角色
-     *
-     * @param userId 用户id
-     * @param roles  角色列表
-     * @return 操作结果
-     */
-    boolean saveRolesByUserId(Integer userId, List<Integer> roles);
 }
