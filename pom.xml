@@ -23,7 +23,7 @@
         <springdoc.version>2.3.0</springdoc.version>
         <mybatisplus.version>3.5.6</mybatisplus.version>
         <mysql.version>8.3.0</mysql.version>
-        <hutool.version>5.8.27</hutool.version>
+        <hutool.version>5.8.29</hutool.version>
         <jackson.version>2.13.4</jackson.version>
     </properties>
     <modules>
