@@ -15,6 +15,10 @@
         <java.version>17</java.version>
     </properties>
     <dependencies>
-
+        <!--常用工具集-->
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-all</artifactId>
+        </dependency>
     </dependencies>
 </project>

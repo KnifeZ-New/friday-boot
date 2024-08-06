@@ -6,7 +6,6 @@ import org.knifez.fridaybootadmin.entity.AppUserRole;
 import org.knifez.fridaybootadmin.mapper.AppUserRoleMapper;
 import org.knifez.fridaybootadmin.service.IAppUserRoleService;
 import org.knifez.fridaybootadmin.utils.JwtTokenUtils;
-import org.knifez.fridaybootcore.common.constants.AppConstants;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;

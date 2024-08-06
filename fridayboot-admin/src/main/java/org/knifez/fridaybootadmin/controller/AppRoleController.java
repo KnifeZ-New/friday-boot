@@ -1,7 +1,5 @@
 package org.knifez.fridaybootadmin.controller;
 
-
-import cn.hutool.core.bean.BeanUtil;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.knifez.fridaybootadmin.common.annotation.permission.AllowAuthenticated;
@@ -14,6 +12,7 @@ import org.knifez.fridaybootadmin.service.IAppRoleService;
 import org.knifez.fridaybootcore.common.annotation.ApiRestController;
 import org.knifez.fridaybootcore.dto.PagedResult;
 import org.knifez.fridaybootcore.dto.TextValuePair;
+import org.knifez.fridaybootcore.utils.FridayUtil;
 import org.knifez.fridaybootcore.utils.AnnotationUtils;
 import org.springframework.core.io.support.ResourcePatternResolver;
 import cn.dev33.satoken.annotation.SaCheckPermission;
@@ -71,7 +70,7 @@ public class AppRoleController {
     @Operation(summary = "根据id获取角色", description = "role.findById")
     public AppRoleDTO findById(@PathVariable Long id) {
         var role = roleService.getById(id);
-        var result = BeanUtil.copyProperties(role, AppRoleDTO.class);
+        var result = FridayUtil.beanConvert(role, AppRoleDTO.class);
         result.setPermissions(permissionService.getSelectedMenusByRoleName(role.getName()));
         return result;
     }

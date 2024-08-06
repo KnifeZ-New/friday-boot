@@ -1,6 +1,5 @@
 package org.knifez.fridaybootapi.controller;
 
-import cn.hutool.core.io.FileUtil;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
@@ -9,6 +8,7 @@ import org.knifez.fridaybootcore.common.annotation.ApiRestController;
 import org.knifez.fridaybootcore.dto.FridayResult;
 import org.knifez.fridaybootcore.dto.UploadFileResponse;
 import org.knifez.fridaybootcore.common.enums.ResultStatus;
+import org.knifez.fridaybootcore.tools.FileUtil;
 import org.knifez.fridaybootcore.utils.ServletRequestUtils;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -36,7 +36,7 @@ public class AttachmentController {
         String uploadPath = "/uploads";
         try {
             if (!FileUtil.exist(projectPath + uploadPath)) {
-                FileUtil.mkParentDirs(projectPath + uploadPath + "/" + uploadFileName);
+               FileUtil.mkParentDirs(projectPath + uploadPath + "/" + uploadFileName);
             }
             uploadPath = uploadPath + "/" + uploadFileName;
             var uploadFile = FileUtil.newFile(projectPath + uploadPath);

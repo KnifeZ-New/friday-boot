@@ -1,6 +1,6 @@
 package org.knifez.fridaybootadmin.controller;
 
-import cn.hutool.core.bean.BeanUtil;
+
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.knifez.fridaybootadmin.common.annotation.permission.AllowAuthenticated;
@@ -20,6 +20,7 @@ import org.knifez.fridaybootcore.dto.PagedResult;
 import org.knifez.fridaybootcore.common.enums.ResultStatus;
 import org.knifez.fridaybootcore.common.exception.FridayResultException;
 import cn.dev33.satoken.annotation.SaCheckPermission;
+import org.knifez.fridaybootcore.utils.FridayUtil;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -63,7 +64,7 @@ public class AppUserController {
     public PagedResult<AppUserDTO> pagedList(@RequestBody AppUserPagedRequest queryRequest) {
         //查询列表数据
         var ret = appUserService.listByPageQuery(queryRequest);
-        var responseList = BeanUtil.copyToList(ret.getRecords(), AppUserDTO.class);
+        var responseList = FridayUtil.beansConvert(ret.getRecords(), AppUserDTO.class);
         var organizationList = organizationUnitService.list();
         for (AppUserDTO user : responseList) {
             user.setRoles(roleService.listByUserId(user.getId()));

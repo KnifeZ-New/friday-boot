@@ -2,7 +2,6 @@ package org.knifez.fridaybootadmin.controller;
 
 import cn.hutool.core.lang.tree.Tree;
 import cn.hutool.core.lang.tree.TreeNodeConfig;
-import cn.hutool.core.lang.tree.TreeUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -12,6 +11,7 @@ import org.knifez.fridaybootadmin.entity.AppDictionaryConfig;
 import org.knifez.fridaybootadmin.service.IAppDictionaryConfigService;
 import org.knifez.fridaybootcore.common.annotation.ApiRestController;
 import cn.dev33.satoken.annotation.SaCheckPermission;
+import org.knifez.fridaybootcore.utils.FridayUtil;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
@@ -77,7 +77,7 @@ public class AppDictionaryConfigController {
         var list = appDictionaryConfigService.list(queryWrapper);
         TreeNodeConfig treeConfig = new TreeNodeConfig();
         treeConfig.setWeightKey("sort");
-        return TreeUtil.build(list, null, treeConfig, (node, tree) -> {
+        return FridayUtil.buildTree(list, null, treeConfig, (node, tree) -> {
             tree.setId(Long.valueOf(node.getId()));
             tree.setName(node.getName());
             tree.setParentId(Long.valueOf(node.getParentId()));
@@ -104,7 +104,7 @@ public class AppDictionaryConfigController {
         var list = appDictionaryConfigService.list(queryWrapper);
         TreeNodeConfig treeConfig = new TreeNodeConfig();
         treeConfig.setWeightKey("sort");
-        return TreeUtil.build(list, null, treeConfig, (node, tree) -> {
+        return FridayUtil.buildTree(list, null, treeConfig, (node, tree) -> {
             tree.setId(Long.valueOf(node.getId()));
             tree.setName(node.getName());
             tree.setParentId(Long.valueOf(node.getParentId()));

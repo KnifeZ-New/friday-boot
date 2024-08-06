@@ -4,13 +4,13 @@ package org.knifez.fridaybootadmin.controller;
 import cn.dev33.satoken.annotation.SaCheckPermission;
 import cn.hutool.core.lang.tree.Tree;
 import cn.hutool.core.lang.tree.TreeNodeConfig;
-import cn.hutool.core.lang.tree.TreeUtil;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.knifez.fridaybootadmin.dto.AppOrganizationUnitQueryRequest;
 import org.knifez.fridaybootadmin.entity.AppOrganizationUnit;
 import org.knifez.fridaybootadmin.service.IAppOrganizationUnitService;
 import org.knifez.fridaybootcore.common.annotation.ApiRestController;
+import org.knifez.fridaybootcore.utils.FridayUtil;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -43,7 +43,7 @@ public class AppOrganizationUnitController {
     public List<Tree<Long>> treeList(@RequestBody AppOrganizationUnitQueryRequest queryRequest) {
         var list = appOrganizationUnitService.listWithParentNodes(queryRequest);
         TreeNodeConfig treeConfig = new TreeNodeConfig();
-        return TreeUtil.build(list, null, treeConfig, (node, tree) -> {
+        return FridayUtil.buildTree(list, null, treeConfig, (node, tree) -> {
             tree.setId(Long.valueOf(node.getId()));
             tree.setName(node.getName());
             tree.setParentId(Long.valueOf(node.getParentId()));

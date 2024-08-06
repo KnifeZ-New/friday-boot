@@ -1,9 +1,8 @@
 package org.knifez.fridaybootadmin.service.impl;
 
-import cn.hutool.core.bean.BeanUtil;
+
 import cn.hutool.core.lang.tree.Tree;
 import cn.hutool.core.lang.tree.TreeNodeConfig;
-import cn.hutool.core.lang.tree.TreeUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -17,6 +16,7 @@ import org.knifez.fridaybootadmin.common.enums.MenuTypeEnum;
 import org.knifez.fridaybootadmin.mapper.AppMenuMapper;
 import org.knifez.fridaybootadmin.service.IAppDictionaryConfigService;
 import org.knifez.fridaybootadmin.service.IAppMenuService;
+import org.knifez.fridaybootcore.utils.FridayUtil;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -53,7 +53,7 @@ public class AppMenuServiceImpl extends ServiceImpl<AppMenuMapper, AppMenu> impl
         queryWrapper.like(StringUtils.hasText(queryRequest.getName()), AppMenu::getName, queryRequest.getName());
         queryWrapper.eq(queryRequest.getEnabled() != null, AppMenu::getEnabled, queryRequest.getEnabled());
         var list = baseMapper.selectList(queryWrapper);
-        var result = BeanUtil.copyToList(list, AppMenuDTO.class);
+        var result = FridayUtil.beansConvert(list, AppMenuDTO.class);
         return bindButtonTageColor(result);
     }
 
@@ -85,7 +85,7 @@ public class AppMenuServiceImpl extends ServiceImpl<AppMenuMapper, AppMenu> impl
         queryWrapper.eq(queryRequest.getEnabled() != null, "is_enabled", queryRequest.getEnabled());
         queryWrapper.like(StringUtils.hasText(queryRequest.getName()), "name", queryRequest.getName());
         List<AppMenu> list = list(queryWrapper);
-        var result = BeanUtil.copyToList(list, AppMenuDTO.class);
+        var result = FridayUtil.beansConvert(list, AppMenuDTO.class);
         if (StringUtils.hasText(queryRequest.getName())) {
             result = mixWithParentNodes(result);
         }
@@ -96,9 +96,9 @@ public class AppMenuServiceImpl extends ServiceImpl<AppMenuMapper, AppMenu> impl
             buttonWrapper.in("parent_id", ids);
             buttonWrapper.eq("type", MenuTypeEnum.MENU_BUTTON.getValue());
             List<AppMenu> buttons = list(buttonWrapper);
-            var buttonList = bindButtonTageColor(BeanUtil.copyToList(buttons, AppMenuDTO.class));
+            var buttonList = bindButtonTageColor(FridayUtil.beansConvert(buttons, AppMenuDTO.class));
             List<AppMenuDTO> mixdList = new ArrayList<>();
-            mixdList.addAll(BeanUtil.copyToList(list, AppMenuDTO.class));
+            mixdList.addAll(FridayUtil.beansConvert(list, AppMenuDTO.class));
             mixdList.addAll(buttonList);
             result = mixdList;
         }
@@ -115,7 +115,7 @@ public class AppMenuServiceImpl extends ServiceImpl<AppMenuMapper, AppMenu> impl
                     var tmpItem = getById(item.getParentId());
                     parentNodes.add(tmpItem);
                 }
-                mixdList.addAll(BeanUtil.copyToList(parentNodes, AppMenuDTO.class));
+                mixdList.addAll(FridayUtil.beansConvert(parentNodes, AppMenuDTO.class));
             } else {
                 mixdList.add(item);
             }
@@ -135,7 +135,7 @@ public class AppMenuServiceImpl extends ServiceImpl<AppMenuMapper, AppMenu> impl
     private List<Tree<Integer>> menuListToTree(List<AppMenuDTO> list) {
         TreeNodeConfig treeConfig = new TreeNodeConfig();
         treeConfig.setWeightKey("sort");
-        return TreeUtil.build(list, null, treeConfig, (node, tree) -> {
+        return FridayUtil.buildTree(list, null, treeConfig, (node, tree) -> {
             tree.setId(node.getId());
             tree.setName(node.getName());
             tree.setParentId(node.getParentId());
@@ -196,6 +196,6 @@ public class AppMenuServiceImpl extends ServiceImpl<AppMenuMapper, AppMenu> impl
             }
         }
 
-        return BeanUtil.copyToList(list, AppMenuDTO.class);
+        return FridayUtil.beansConvert(list, AppMenuDTO.class);
     }
 }

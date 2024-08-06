@@ -1,7 +1,6 @@
 package org.knifez.fridaybootadmin.controller;
 
 import cn.dev33.satoken.stp.StpUtil;
-import cn.hutool.system.SystemUtil;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
@@ -17,6 +16,7 @@ import org.knifez.fridaybootadmin.utils.JwtTokenUtils;
 import org.knifez.fridaybootcore.common.annotation.ApiRestController;
 import org.knifez.fridaybootcore.common.constants.AppConstants;
 import org.knifez.fridaybootadmin.dto.ApplicationCollocation;
+import org.knifez.fridaybootcore.utils.FridayUtil;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -80,10 +80,10 @@ public class AuthController {
         // 执行重启shell脚本
         String projectPath = System.getProperty("user.dir");
         var file = new File(projectPath);
-        if (SystemUtil.getOsInfo().isLinux()) {
+        if (FridayUtil.osInfo().isLinux()) {
             Runtime.getRuntime().exec("sh restart.sh", new String[]{}, file);
         }
-        if (SystemUtil.getOsInfo().isWindows()) {
+        if (FridayUtil.osInfo().isWindows()) {
             Runtime.getRuntime().exec(".\\restart.bat", new String[]{}, file);
         }
     }

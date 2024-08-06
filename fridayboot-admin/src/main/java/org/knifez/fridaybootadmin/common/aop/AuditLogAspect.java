@@ -1,9 +1,6 @@
 package org.knifez.fridaybootadmin.common.aop;
 
-import cn.hutool.core.date.LocalDateTimeUtil;
 import cn.hutool.core.exceptions.ExceptionUtil;
-import cn.hutool.core.util.ArrayUtil;
-import cn.hutool.json.JSONUtil;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -18,6 +15,7 @@ import org.knifez.fridaybootadmin.utils.JwtTokenUtils;
 import org.knifez.fridaybootcore.common.annotation.AuditLog;
 import org.knifez.fridaybootcore.dto.FridayResult;
 import org.knifez.fridaybootcore.common.enums.ResultStatus;
+import org.knifez.fridaybootcore.utils.FridayUtil;
 import org.knifez.fridaybootcore.utils.ServletRequestUtils;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.stereotype.Component;
@@ -151,7 +149,7 @@ public class AuditLogAspect {
         if (auditLog == null || auditLog.logArgs()) {
             logEntity.setParameters(obtainMethodArgs(joinPoint));
         }
-        logEntity.setDuration(LocalDateTimeUtil.between(startTime, LocalDateTime.now()).toMillis());
+        logEntity.setDuration(FridayUtil.betweenTimes(startTime, LocalDateTime.now()).toMillis());
         // （正常）
         if (result instanceof FridayResult<?> fridayResult) {
             logEntity.setResultCode(fridayResult.getCode());
@@ -179,7 +177,7 @@ public class AuditLogAspect {
             // 被忽略时，标记为 ignore 字符串，避免和 null 混在一起
             args.put(argName, !isIgnoreArgs(argValue) ? argValue : "[ignore]");
         }
-        var parameters = JSONUtil.toJsonStr(args);
+        var parameters = FridayUtil.toJsonStr(args);
         if (parameters.length() > 2000) {
             parameters = parameters.substring(0, 2000);
         }
@@ -196,7 +194,7 @@ public class AuditLogAspect {
     }
 
     private static RequestMethod obtainFirstLogRequestMethod(RequestMethod[] requestMethods) {
-        if (ArrayUtil.isEmpty(requestMethods)) {
+        if (FridayUtil.isEmpty(requestMethods)) {
             return null;
         }
         return Arrays.stream(requestMethods).filter(requestMethod ->
