@@ -17,7 +17,6 @@
         <java.version>17</java.version>
         <mybatisplus.version>3.5.5</mybatisplus.version>
         <mysql.version>8.3.0</mysql.version>
-        <hutool.version>5.8.29</hutool.version>
     </properties>
     <dependencies>
         <!--数据库驱动-->
@@ -40,13 +39,6 @@
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus-spring-boot3-starter</artifactId>
             <version>${mybatisplus.version}</version>
-        </dependency>
-
-        <!--常用工具集-->
-        <dependency>
-            <groupId>cn.hutool</groupId>
-            <artifactId>hutool-all</artifactId>
-            <version>${hutool.version}</version>
         </dependency>
 
         <!--lombok-->
